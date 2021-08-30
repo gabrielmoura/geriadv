@@ -1,0 +1,6 @@
+*.sqlite
+data
+debugbar
+*.json
+bin
+

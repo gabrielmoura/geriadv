@@ -1,0 +1,179 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+
+/**
+ * App\Models\Clients
+ *
+ * @property-read string $full_name
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients query()
+ * @mixin \Eloquent
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $slug
+ * @property int|null $recommendation_id Recomendações
+ * @property int|null $benefit_id Benefícios
+ * @property string|null $name
+ * @property string|null $last_name
+ * @property mixed $doc
+ * @property int|null $tel0 telefone
+ * @property string $tel1
+ * @property string|null $sex Sexo
+ * @property string|null $birth_date Data de nascimento
+ * @property int|null $cep
+ * @property string|null $address Endereço
+ * @property int $number Numero
+ * @property string|null $complement Complemento
+ * @property string $district Bairro
+ * @property string $city Cidade
+ * @property string $state Estado
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereBenefitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereComplement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereDistrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereDoc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereRecommendationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel0($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereUpdatedAt($value)
+ */
+class Clients extends Model implements HasMedia
+{
+    use HasFactory;
+    use InteractsWithMedia;
+    use HasSlug;
+    use SoftDeletes;
+
+    protected $fillable = [
+        'user_id'
+        /**
+         * Dados Pessoais
+         */
+        , 'name'
+        , 'last_name'
+        , 'tel'
+        , 'cpf'
+        , 'rg'
+        , 'sex'
+        , 'birth_date'
+
+        /**
+         * Dados do Endereço
+         */
+        , 'cep'
+        , 'address'
+        , 'number'
+        , 'complement'
+        , 'district'
+        , 'city'
+        , 'state'
+        , 'country'
+        , 'newsletter'
+
+    ];
+    protected $casts = [
+        'cpf' => 'encrypted',
+        'rg' => 'encrypted',
+        'newsletter' => 'boolean',
+    ];
+
+    /*
+    |------------------------------------------------------------------------------------
+    | Relations
+    |------------------------------------------------------------------------------------
+    */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->first();
+    }
+
+    public function avatar()
+    {
+        return "https://ui-avatars.com/api/?rounded=true&size=128&name=" . $this->name . ' ' . $this->last_name;
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(ClientStatus::class);
+    }
+
+    public function note()
+    {
+        return $this->belongsTo(Note::class, 'id');
+    }
+
+
+    public function getDownCPFAttribute()
+    {
+        //return $this->photos()->first()->full;
+        return $this->getMedia('product')->first()->getUrl('full');
+    }
+
+    public function getDownRGAttribute()
+    {
+        //return $this->photos()->first()->full;
+        return $this->getMedia('product')->first()->getUrl('full');
+    }
+
+    public function getBirth_certificateAttribute()
+    {
+        //return $this->photos()->first()->full;
+        return $this->getMedia('product')->first()->getUrl('full');
+    }
+
+    public function getProof_of_addressAttribute()
+    {
+        //return $this->photos()->first()->full;
+        return $this->getMedia('product')->first()->getUrl('full');
+    }
+
+    /*
+        |------------------------------------------------------------------------------------
+        | Scopes
+        |------------------------------------------------------------------------------------
+        */
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('last_name')
+            ->saveSlugsTo('slug');
+    }
+
+    /*
+    |------------------------------------------------------------------------------------
+    | Attributes
+    |------------------------------------------------------------------------------------
+    */
+    public function getFullNameAttribute(): string
+    {
+        return $this->name . ' ' . $this->last_name;
+    }
+}

@@ -1,0 +1,4 @@
+/**
+ * PagSeguro API
+ */
+import './pagseguro';
