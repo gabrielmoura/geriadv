@@ -90,10 +90,17 @@ class ClientController extends Controller
                 //, 'country' => $input['country']
                 // , 'newsletter' => $input['newsletter']
             ]);
-            Note::create(['user_id' => $client->id, 'body' => $request['note']]);
+            if ($request->has('note') && isset($request->note)) {
+                Note::create(['user_id' => $client->id, 'body' => $request['note']]);
+            }
             LogMovement::create([
                 'body' => 'Adicionou o cliente ' . $client->name . ' ' . $client->last_name,
                 'user_id' => auth()->id()]);
+
+            if (!$client) {
+                throw new \Exception('User not created for account', 400);
+            }
+
             return $client;
         });
 

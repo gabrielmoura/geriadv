@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\Client\BirthdayCustomerJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,11 +20,23 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
+//        $schedule->command('queue:restart')->hourly();
+        //       $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low')->runInBackground()->withoutOverlapping()->everyMinute();
+
+
+        $schedule->command('backup:run --only-db')->daily()->at('18:00')
+            ->onFailure(function () {
+
+            })
+            ->onSuccess(function () {
+            });
+        $schedule->job(new BirthdayCustomerJob())->dailyAt('19:00');
+
         // $schedule->command('inspire')->hourly();
     }
 
@@ -34,7 +47,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

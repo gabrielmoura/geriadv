@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\ClientStatusObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,19 +25,29 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ClientStatus whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ClientStatus whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $user_id Funcionário
+ * @method static \Illuminate\Database\Eloquent\Builder|ClientStatus whereUserId($value)
  */
 class ClientStatus extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id','note_id','status'];
+    protected $fillable = ['client_id', 'note_id', 'status'];
+    private $status = ['analysis', //Analise
+        'rejected', //Indeferido
+        'deferred', //Deferido
+        'called_off', //Cancelado
+        'cancellation', //Cancelamento
+        'deceased' //Falecido
+    ];
+
 
     /*
     |------------------------------------------------------------------------------------
     | Validations
     |------------------------------------------------------------------------------------
     */
-    public static function rules($update = false, $id=null)
+    public static function rules($update = false, $id = null)
     {
         return [
             'name' => 'required',
@@ -60,4 +71,10 @@ class ClientStatus extends Model
     | Attributes
     |------------------------------------------------------------------------------------
     */
+
+    public static function boot()
+    {
+        parent::boot();
+        ClientStatus::observe(ClientStatusObserver::class);
+    }
 }

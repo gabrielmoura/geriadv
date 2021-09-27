@@ -44,5 +44,6 @@ class Pendencies extends Model
         'birth_certificate',
         'proof_of_address',
         'impossibility_to_sign',
-        'note_id'];
+        'note_id'
+    ];
 }

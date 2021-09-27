@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
-use App\Models\Clients;
+
+use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use RichardStyles\EloquentEncryption\EloquentEncryption;
-use RichardStyles\EloquentEncryption\Casts\Encrypted;
-use Clockwork\Support\Laravel\ClockworkServiceProvider;
+use Laravel\Horizon\Horizon;
 use Laravel\Telescope\TelescopeServiceProvider;
+use RichardStyles\EloquentEncryption\Casts\Encrypted;
+use RichardStyles\EloquentEncryption\EloquentEncryption;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,10 +24,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //Clients::encryptUsing(new EloquentEncryption); //Não funciona com o PostgreSQL
+        //require_once base_path('resources/macros/form.php');
+
+        parent::register();
+
+
         if ($this->app->environment('local')) {
             $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(ClockworkServiceProvider::class);
         }
+
 
     }
 
@@ -36,7 +45,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        require_once base_path('resources/macros/form.php');
+        //include_once base_path('resources/macros/form.php');
+
 
         Queue::before(function (JobProcessing $event) {
             // $event->connectionName
@@ -49,5 +59,20 @@ class AppServiceProvider extends ServiceProvider
             // $event->job
             // $event->job->payload()
         });
+
+        Blade::component('form-input', \App\View\Components\Form\Input::class);
+        Blade::component('form-select', \App\View\Components\Form\Select::class);
+        Blade::component('form-textarea', \App\View\Components\Form\TextArea::class);
+        Blade::component('form-tinymce', \App\View\Components\Form\Tinymce::class);
+        Blade::component('form-file', \App\View\Components\Form\File::class);
+        Blade::component('form-date', \App\View\Components\Form\Date::class);
+        Blade::component('bootstrap-modal', \App\View\Components\Bootstrap\Modal::class);
+
+        // Autenticação Horizon
+        Horizon::auth(function ($request) {
+            return auth()->check();
+        });
+
+
     }
 }

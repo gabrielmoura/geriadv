@@ -26,5 +26,5 @@ use Illuminate\Database\Eloquent\Model;
 class Benefits extends Model
 {
     use HasFactory;
-    protected $fillable=['name','description'];
+    protected $fillable=['name','description','client_id'];
 }

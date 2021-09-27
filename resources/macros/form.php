@@ -1,5 +1,6 @@
 <?php
 
+
 Form::macro('myInput', function ($type="text", $name, $label="", $options=[], $default = null) {
     $label = ($label =='') ? '' : html_entity_decode(Form::label($name, $label));
     return "

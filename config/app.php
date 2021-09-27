@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -188,16 +188,16 @@ return [
         //Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         //ViaCep
-        //Canducci\ZipCode\Providers\ZipCodeServiceProvider::class,
-        //Canducci\ZipCode\Providers\ZipCodeAddressServiceProvider::class,
+        Canducci\ZipCode\Providers\ZipCodeServiceProvider::class,
+        Canducci\ZipCode\Providers\ZipCodeAddressServiceProvider::class,
 
         //LaravelDaily\Invoices\InvoiceServiceProvider::class,
 
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\Datatables\ButtonsServiceProvider::class,
 
-        Yoeunes\Toastr\ToastrServiceProvider::class
-
+        Yoeunes\Toastr\ToastrServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
 
     ],
 
@@ -264,12 +264,15 @@ return [
         //'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 
         //https://github.com/netdragoon/zipcode
-        //'ZipCode' => Canducci\ZipCode\Facades\ZipCode::class,
-        //'Address' => Canducci\ZipCode\Facades\ZipCodeAddress::class,
+        'ZipCode' => Canducci\ZipCode\Facades\ZipCode::class,
+        'Address' => Canducci\ZipCode\Facades\ZipCodeAddress::class,
 
         //'Invoice' => LaravelDaily\Invoices\Facades\Invoice::class,
 
-        'Datatables' => Yajra\DataTables\Facades\DataTables::class
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+        'Form'=> \Collective\Html\FormFacade::class,
+        'Html'=>\Collective\Html\HtmlFacade::class,
+
     ],
 
 ];

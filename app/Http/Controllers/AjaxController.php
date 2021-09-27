@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clients;
+use App\Models\ClientStatus;
+use App\Models\LogMovement;
+use App\Models\Note;
 use App\Models\UserOrder;
 use Cagartner\CorreiosConsulta\Facade as Correios;
 use Canducci\ZipCode\Facades\ZipCode;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -62,34 +66,61 @@ class AjaxController extends Controller
         return response()->json($tracking);
     }
 
-    public function addFrete()
+
+    /**
+     * Deverá Buscar o ultimo status do cliente
+     * @param $id
+     * @return mixed
+     */
+    public function getStatus($id)
     {
-        $cart = Cart::session(session()->get('cartID'));
-        $cart->add([
-            'id' => 'Frete',
-            'name' => 'Frete: ' . \request('logradouro'),
-            'price' => \request('price'),
-            'quantity' => 1,
-            'attributes' => array(),
-            //'associatedModel' => $Product
-        ]);
-        return response()->json();
+        return Clients::find($id)->status()->last();
     }
 
-    public function quantityCart(Request $request)
+    public function getByStatus($status)
     {
-
-        return Cart::session(session()->get('cartID'))->update($request->id, [
-            'quantity' => [
-                'relative' => false,
-                'value' => $request->quantity
-            ],
-        ]);
+        return ClientStatus::whereStatus($status)->get();
     }
 
-    public function dispatche(Request $request)
+    public function setStatus(Request $request)
     {
-        return UserOrder::whereReference($request->id)->update(['dispatched' => 'true']);
+        //return Clients::find($id)->status()->create(['status' => $status]);
+        $request->validate(['status' => 'unique:client_statuses']);
+        $status = DB::transaction(function () use ($request) {
+            $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID, 'employee' => $request->functionaryID]);
+
+            LogMovement::create([
+                'body' => 'Atualizou o Status ' . __('view.' . $request->status) . ' ao cliente ' . Clients::find($request->clientID)->fullname,
+                'user_id' => auth()->id()]);
+            if (!$status) {
+                throw new \Exception('Não foi possivel atualizar cliente', 400);
+            }
+            return $status;
+        });
+        return $status;
+    }
+
+
+    public function getNote($id)
+    {
+        return Clients::find($id)->status()->last();
+    }
+
+    public function setNote(Request $request)
+    {
+        //
+        //return Clients::find($id)->status()->create(['status' => $status]);
+        $status = DB::transaction(function () use ($request) {
+            $note = Note::create(['client_id' => $request->id, 'body' => $request->body]);
+            LogMovement::create([
+                'body' => 'Adicionou observação ao cliente ' . Clients::find($request->clientID)->fullname,
+                'user_id' => auth()->id()]);
+            if (!$note) {
+                throw new \Exception('Não adicionar Observação ao cliente', 400);
+            }
+            return $note;
+
+        });
     }
 
 }

@@ -21,3 +21,4 @@
 @stack('css')
 <!-- End of specific css content placeholder -->
 </head>
+

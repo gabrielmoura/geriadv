@@ -1,17 +1,18 @@
 {
     "/js/manifest.js": "/js/manifest.js?id=d91051ea7d0c9bd1981e",
     "/js/manifest.js.map": "/js/manifest.js.map?id=a07956f82042cc418451",
-    "/js/vendor.js": "/js/vendor.js?id=e66f54f647d2b434110f",
+    "/js/vendor.js": "/js/vendor.js?id=9b03b74b022088150ae2",
     "/js/vendor.js.map": "/js/vendor.js.map?id=f00c5d85413c972651fd",
-    "/js/app.js": "/js/app.js?id=662c5c3735d2712d9b90",
+    "/js/app.js": "/js/app.js?id=463cf3647c58cefd7442",
     "/css/app.css": "/css/app.css?id=7157b14eec2a07fd46f6",
     "/css/front.css": "/css/front.css?id=38fba90db4919d2f8bf2",
     "/css/rtl.css": "/css/rtl.css?id=6211d1ef36e5b0b05a01",
-    "/js/app.js.map": "/js/app.js.map?id=87420ce56296cc58f200",
+    "/js/app.js.map": "/js/app.js.map?id=f2446b428371e761e694",
     "/css/app.css.map": "/css/app.css.map?id=ce750e412efc9a790516",
     "/css/front.css.map": "/css/front.css.map?id=dd891fb64226f61026af",
     "/css/rtl.css.map": "/css/rtl.css.map?id=39b6f9ed5d73bf611da5",
-    "/js/front.js": "/js/front.js?id=0e7b70e5b9aed5c663ac",
-    "/js/front.js.map": "/js/front.js.map?id=2cbbe4844def08a2ff81",
-    "/css/front_theme.css": "/css/front_theme.css?id=72fc72e4f3924b3fda97"
+    "/js/front.js": "/js/front.js?id=5be5d2d7381b8d009753",
+    "/js/front.js.map": "/js/front.js.map?id=8ff89a4f43dfac5d0a32",
+    "/css/front_theme.css": "/css/front_theme.css?id=72fc72e4f3924b3fda97",
+    "/css/client.css": "/css/client.css?id=38e31489d046b4de21af"
 }

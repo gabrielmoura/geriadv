@@ -6,59 +6,19 @@
             <div class="bgc-white p-20 bd">
                 {!! Form::open($form) !!}
 
+
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <div class="form-group string optional  col-md-3"><label
-                                class="control-label  optional" for="pessoa_cpf">CPF</label><input
-                                class="form-control cpf" type="text" name="cpf"
-                                id="pessoa_cpf"
-                                placeholder="só números"
-                                value="{{old('cpf')}}">
-                        </div>
-
-                        <div class="form-group string   pessoa_nome col-md-2"><label
-                                class="control-label string  " for="pessoa_nome"><abbr
-                                    title=" ">*</abbr> Nome</label><input
-                                class="form-control string  " type="text" name="name" value="{{old('name')}}"
-                            >
-                        </div>
-                        <div class="form-group string required   pessoa_nome col-md-4"><label
-                                class="control-label string  " for="pessoa_nome"><abbr
-                                    title=" ">*</abbr> Sobrenome</label><input
-                                class="form-control string  " type="text" name="last_name" value="{{old('last_name')}}"
-                            >
-                        </div>
-
-                        <div class="form-group select optional pessoa_sexo col-md-3"><label
-                                class="control-label select optional" for="pessoa_sexo">Sexo</label><select
-                                class="form-control select optional" name="sex" id="pessoa_sexo">
-                                <option value=""></option>
-                                <option value="m">Masculino</option>
-                                <option value="f">Feminino</option>
-                            </select></div>
-
-                        <div class="form-group datepicker optional pessoa_data_aniversario col-md-3"><label
-                                class="control-label datepicker optional" for="pessoa_data_aniversario">Data de
-                                Nascimento</label>
-                            <input class="datepicker optional form-control date"
-                                   data-date-language="pt_BR" type="text"
-                                   name="birth_date"
-                                   id="pessoa_data_aniversario"
-                                   value="{{old('birth_date')}}">
-                        </div>
-                        <div class="form-group email optional pessoa_email col-md-5"><label
-                                class="control-label email optional" for="pessoa_email">E-mail</label><input
-                                class="form-control string email optional" type="email" name="email"
-                                id="pessoa_email"
-                                value="{{old('email')}}">
-                        </div>
-                        <div class="form-group string optional pessoa_telefone col-md-3"><label
-                                class="control-label string optional" for="pessoa_telefone">Telefone</label><input
-                                class="form-control string optional tel" type="text" name="tel0"
-                                id="pessoa_telefone"
-                                value="{{old('tel0')}}">
-                        </div>
+                        <x-form-input name="cpf" title="CPF" class="optional col-md-3"
+                                      placeholder="só numeros"></x-form-input>
+                        <x-form-input name="name" title="Nome" class="col-md-2" required></x-form-input>
+                        <x-form-input name="last_name" title="Sobrenome" class="col-md-4" required></x-form-input>
+                        @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
+                        <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
+                        <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"></x-form-date>
+                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail"></x-form-input>
+                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"></x-form-input>
 
                     </div>
                 </fieldset>
@@ -68,20 +28,16 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <div class="form-group string optional pessoa_cep col-md-3"><label
-                                class="control-label string optional" for="pessoa_cep">Cep</label><input
-                                class="form-control string optional cep" placeholder="Digite o CEP" type="text"
-                                name="cep" id="pessoa_cep"
-                                value="{{old('cep')}}"
-                            >
-                        </div>
+                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
+                                      inputClass="cep"></x-form-input>
+
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
                                 class="control-label string optional"
                                 for="pessoa_logradouro">Logradouro</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="address"
                                 value="{{old('address')}}"
-                                id="pessoa_logradouro">
+                                id="Street">
                         </div>
                         <div class="form-group integer optional pessoa_numero col-md-2"><label
                                 class="control-label integer optional" for="pessoa_numero">Número</label><input
@@ -96,26 +52,27 @@
                                 class="form-control string optional" type="text" name="complement"
                                 value="{{old('complement')}}"
                                 id="pessoa_complemento"></div>
+
                         <div class="form-group string optional pessoa_bairro col-md-3"><label
                                 class="control-label string optional" for="pessoa_bairro">Bairro</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="district"
                                 value="{{old('district')}}"
-                                id="pessoa_bairro">
+                                id="District">
                         </div>
                         <div class="form-group string optional pessoa_cidade col-md-3"><label
                                 class="control-label string optional" for="pessoa_cidade">Cidade</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="city"
                                 value="{{old('city')}}"
-                                id="pessoa_cidade">
+                                id="City">
                         </div>
                         <div class="form-group string optional pessoa_uf col-md-2"><label
                                 class="control-label string optional" for="pessoa_uf">UF</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="state"
                                 value="{{old('state')}}"
-                                id="pessoa_uf">
+                                id="State">
                         </div>
                     </div>
                 </fieldset>
@@ -150,3 +107,10 @@
 
     </div>
 @endsection
+@push('js')
+    <script>
+        document.getElementById('Cep').onmouseout = function () {
+            mclients.getCep(document.getElementById('Cep').value);
+        };
+    </script>
+@endpush
