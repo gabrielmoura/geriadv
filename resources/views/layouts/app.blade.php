@@ -27,7 +27,26 @@
 <!-- Specific js content placeholder -->
 @stack('js')
 <!-- End of specific js content placeholder -->
+<script>
+    const public_channel = '{{config('app.name')}}.Public';
 
+    Echo.channel(public_channel)
+        .listen('OrderShipmentStatusUpdated', (data) => {
+            console.log(data)
+        });
+</script>
+
+@auth()
+<script>
+    const private_channel = '{{config('app.name')}}.{{auth()->id()}}';
+
+    Echo.private(private_channel)
+        .notification((notification) => {
+            console.log(notification);
+        });
+
+</script>
+@endauth
 </body>
 
 </html>

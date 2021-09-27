@@ -45,6 +45,6 @@ Route::group(['middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'dash'], function () {
         //Route::get('/dash', [HomeController::class, 'index'])->name('dash.index');
-        Route::get('/', [OrderController::class, 'index'])->name('client.index');
+      //  Route::get('/', [OrderController::class, 'index'])->name('client.index');
     });
 });

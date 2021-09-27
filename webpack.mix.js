@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-
+//const path = require('path');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -55,10 +55,16 @@ mix.webpackConfig(webpack => {
         resolve: {
             alias: {
                 'jquery': path.join(__dirname, 'node_modules/jquery/dist/jquery'),
+               // ziggy: path.resolve('vendor/tightenco/ziggy/dist'),
             }
         }
     };
 });
+
+
+
+
+
 
 
 mix.js('resources/js/app.js', 'public/js')
@@ -79,6 +85,7 @@ mix.js('resources/js/app.js', 'public/js')
     'resources/css/front/slicknav.css',
     'resources/css/front/style.css',
     'resources/css/front/swiper.min.css'],'public/css/front_theme.css')
+    .styles(['resources/css/client.css'],'public/css/client.css')
     .sass('resources/sass/rtl.scss', 'public/css')
     //.purgeCss()
     .copyDirectory('resources/static/images', 'public/images')
@@ -90,3 +97,4 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['jquery','toastr','tinymce','datatables.net','jquery-datetimepicker','bootstrap-v4-rtl'])
    // .ziggy()
     .sourceMaps();
+

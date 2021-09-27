@@ -22,6 +22,9 @@ class CreateClientStatusesTable extends Migration
             $table->unsignedBigInteger('note_id')->nullable()->comment('Observações');
             $table->foreign('note_id')->references('id')->on('notes');
 
+            $table->unsignedBigInteger('user_id')->nullable()->comment('Funcionário');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->enum('status', [
                 'analysis', //Analise
                 'rejected', //Indeferido
@@ -30,6 +33,7 @@ class CreateClientStatusesTable extends Migration
                 'cancellation', //Cancelamento
                 'deceased' //Falecido
             ])->comment('Status do Cliente')->index();
+
         });
     }
 

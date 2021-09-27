@@ -47,12 +47,10 @@ try {
     });
     $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 
-    
+
 }catch (e) {
 }
-import route from 'ziggy-js';
-import { Ziggy } from './ziggy';
-console.log(route('home', undefined, undefined, Ziggy));
+
 
 
 ///import route from 'ziggy-js';
@@ -97,6 +95,41 @@ console.log(route('home', undefined, undefined, Ziggy));
 //     encrypted: true
 // });
 
+import Echo from "laravel-echo"
+
+window.Pusher = require('pusher-js');
+/*
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '63eb73d334ef36fd16f052b7da254c05',
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    forceTLS: false,
+    disableStats: true,
+});
+*/
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    wsHost: window.location.hostname, // Your domain
+    encrypted: true,
+    wsPort: 80, // Yor http port
+    disableStats: true, // Change this to your liking this disables statistics
+    forceTLS: false,
+    enabledTransports: ['ws', 'wss'],
+    disabledTransports: ['sockjs', 'xhr_polling', 'xhr_streaming'] // Can be removed
+});
+
+if (process.env.NODE_ENV !== 'production') {
+    Pusher.logToConsole = true;
+}
+
+window.Echo.channel('MManhaes.1')
+    .listen('.myevent', function(location) {
+        console.log(location);
+    });
 
 
 

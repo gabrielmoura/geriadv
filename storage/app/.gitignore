@@ -1,3 +1,10 @@
 *
 !public/
 !.gitignore
+eloquent_encryption
+eloquent_encryption.pub
+*.csv
+*.xml
+*.json
+*.xlsx
+

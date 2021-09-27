@@ -58,6 +58,7 @@ import './select2';
 
 import './tynimce';
 import './toastr';
+require('./0custom/client');
 //import 'toastr/toastr';
 //import('./maskmoney');
 

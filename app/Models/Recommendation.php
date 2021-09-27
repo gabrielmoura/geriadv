@@ -18,6 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $user_id Usuário
+ * @property string $name Nome
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereUserId($value)
  */
 class Recommendation extends Model
 {

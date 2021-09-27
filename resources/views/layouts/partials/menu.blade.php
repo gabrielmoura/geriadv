@@ -1,5 +1,5 @@
 <li class="nav-item mT-30">
-    <a class="sidebar-link {{(url()->current()==route('admin.index')or url()->current()==route('client.index'))?"active":null}}"
+    <a class="sidebar-link {{(url()->current()==route('admin.index'))?"active":null}}"
        href="{{route('redirDASH')}}">
         <span class=" icon-holder">
     <i class="c-blue-500 ti-home"></i>
@@ -10,12 +10,8 @@
 <li class="nav-item">
 
 
-
-
-
-
     @can('edit_user')
-        <a class="sidebar-link {{ (strpos(Route::currentRouteName(), 'admin.users') == 0) ? 'active' : '' }}"
+        <a class="sidebar-link {{ routeActive('admin.users') }}"
            href="{{route('admin.users.index')}}">
         <span class="icon-holder">
             <i class="c-brown-500 ti-user"></i>
@@ -23,8 +19,17 @@
             <span class="title">Usuários</span>
         </a>
     @endcan
+    @can('edit_client')
+        <a class="sidebar-link {{ routeActive('admin.clients') }}"
+           href="{{route('admin.clients.index')}}">
+        <span class="icon-holder">
+            <i class="c-brown-500 ti-user"></i>
+        </span>
+            <span class="title">Clientes</span>
+        </a>
+    @endcan
     @can('view_analytic')
-        <a class="sidebar-link {{(url()->current()==route('admin.analytic.index'))?"active":null}}"
+        <a class="sidebar-link {{ routeActive('admin.analytic.index')}}"
            href="{{route('admin.analytic.index')}}">
         <span class="icon-holder">
             <i class="c-brown-500 ti-user"></i>

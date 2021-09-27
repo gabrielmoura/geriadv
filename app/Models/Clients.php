@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\ClientObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -60,6 +61,26 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel0($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel1($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereUpdatedAt($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property mixed $cpf
+ * @property mixed|null $rg
+ * @property string|null $email
+ * @property-read \App\Models\Benefits $benefits
+ * @property-read mixed $birth_certificate
+ * @property-read mixed $down_c_p_f
+ * @property-read mixed $down_r_g
+ * @property-read mixed $proof_of_address
+ * @property-read \App\Models\LogMovement $log
+ * @property-read \App\Models\Note $note
+ * @property-read \App\Models\Recommendation $recommendation
+ * @property-read \App\Models\ClientStatus $status
+ * @method static \Illuminate\Database\Query\Builder|Clients onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCpf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereRg($value)
+ * @method static \Illuminate\Database\Query\Builder|Clients withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Clients withoutTrashed()
  */
 class Clients extends Model implements HasMedia
 {
@@ -80,6 +101,7 @@ class Clients extends Model implements HasMedia
         , 'rg'
         , 'sex'
         , 'birth_date'
+        , 'email'
 
         /**
          * Dados do Endereço
@@ -117,14 +139,45 @@ class Clients extends Model implements HasMedia
         return "https://ui-avatars.com/api/?rounded=true&size=128&name=" . $this->name . ' ' . $this->last_name;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function status()
     {
-        return $this->belongsTo(ClientStatus::class);
+        return $this->belongsTo(ClientStatus::class, 'id', 'client_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function note()
     {
-        return $this->belongsTo(Note::class, 'id');
+        return $this->belongsTo(Note::class, 'id', 'client_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function log()
+    {
+        return $this->belongsTo(LogMovement::class, 'id', 'client_id');
+    }
+
+    /**
+     * Retorna Benefio Requerido
+     */
+    public function benefits()
+    {
+        return $this->belongsTo(Benefits::class,'client_id', 'id');
+
+    }
+
+    /**
+     * Retorna Indicação do Cliente
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function recommendation(){
+        return $this->belongsTo(Recommendation::class,'client_id', 'id');
     }
 
 
@@ -175,5 +228,11 @@ class Clients extends Model implements HasMedia
     public function getFullNameAttribute(): string
     {
         return $this->name . ' ' . $this->last_name;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Clients::observe(ClientObserver::class);
     }
 }
