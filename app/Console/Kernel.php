@@ -37,6 +37,8 @@ class Kernel extends ConsoleKernel
             });
         $schedule->job(new BirthdayCustomerJob())->dailyAt('19:00');
 
+        $schedule->command('activitylog:clean')->sundays();
+
         // $schedule->command('inspire')->hourly();
     }
 

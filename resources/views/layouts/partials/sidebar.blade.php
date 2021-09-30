@@ -1,7 +1,7 @@
 @php
 
     @endphp
-<div class="sidebar">
+<div class="sidebar noPrint">
     <div class="sidebar-inner">
         <!-- ### $Sidebar Header ### -->
         <div class="sidebar-logo">

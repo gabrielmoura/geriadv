@@ -24,6 +24,9 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('recommendation_id')->nullable()->comment('Recomendações');
             $table->foreign('recommendation_id')->references('id')->on('recommendations');
 
+            $table->unsignedBigInteger('pendency_id')->nullable()->comment('Pendencias');
+            $table->foreign('pendency_id')->references('id')->on('pendencies');
+
             //$table->unsignedBigInteger('benefit_id')->nullable()->comment('Benefícios');
             //$table->foreign('benefit_id')->references('id')->on('benefits');
 

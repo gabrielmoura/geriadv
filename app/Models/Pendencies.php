@@ -4,6 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * App\Models\Pendencies
@@ -33,9 +39,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Pendencies whereRg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Pendencies whereUpdatedAt($value)
  */
-class Pendencies extends Model
+class Pendencies extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
+    use LogsActivity;
+
 
     protected $fillable = [
         'cras',
@@ -46,4 +56,12 @@ class Pendencies extends Model
         'impossibility_to_sign',
         'note_id'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+        //->logOnly(['name', 'text']);
+        // Chain fluent methods for configuration options
+    }
 }

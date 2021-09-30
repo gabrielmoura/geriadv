@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\ClientStatus;
-use App\Models\LogMovement;
 use App\Models\Note;
 use App\Models\UserOrder;
 use Cagartner\CorreiosConsulta\Facade as Correios;
@@ -32,6 +32,11 @@ class AjaxController extends Controller
         return Route::getRoutes();
     }
 
+    /**
+     * @param Request $request
+     * @return mixed|void
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function getCep(Request $request)
     {
         $this->validate($request, ['cep' => 'min:8|max:9']);
@@ -42,6 +47,9 @@ class AjaxController extends Controller
         });
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getFrete()
     {
         $dados = [
@@ -77,50 +85,109 @@ class AjaxController extends Controller
         return Clients::find($id)->status()->last();
     }
 
+    /**
+     * @param $status
+     * @return ClientStatus[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getByStatus($status)
     {
         return ClientStatus::whereStatus($status)->get();
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Throwable
+     */
     public function setStatus(Request $request)
     {
         //return Clients::find($id)->status()->create(['status' => $status]);
-        $request->validate(['status' => 'unique:client_statuses']);
-        $status = DB::transaction(function () use ($request) {
-            $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID, 'employee' => $request->functionaryID]);
-
-            LogMovement::create([
-                'body' => 'Atualizou o Status ' . __('view.' . $request->status) . ' ao cliente ' . Clients::find($request->clientID)->fullname,
-                'user_id' => auth()->id()]);
+        //$request->validate(['status' => 'unique:client_statuses']);
+        if (ClientStatus::whereClientId($request->clientID)->where('status', $request->status)->get()->first()) return abort(400);
+        DB::transaction(function () use ($request) {
+            $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
+            /*  activity()->performedOn($status)
+                  ->causedBy(auth()->user())
+                  //    ->withProperties(['customProperty' => 'customValue'])
+                  ->log('Atualizou o Status ' . __('view.' . $request->status) . ' ao cliente ' . Clients::find($request->clientID)->fullname);
+  */
             if (!$status) {
                 throw new \Exception('Não foi possivel atualizar cliente', 400);
             }
             return $status;
         });
-        return $status;
+        return abort(400, 'Não foi possivel atualizar cliente');
     }
 
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getNote($id)
     {
         return Clients::find($id)->status()->last();
     }
 
+    /**
+     * @param Request $request
+     * @throws \Throwable
+     */
     public function setNote(Request $request)
     {
         //
         //return Clients::find($id)->status()->create(['status' => $status]);
-        $status = DB::transaction(function () use ($request) {
+        $note = DB::transaction(function () use ($request) {
             $note = Note::create(['client_id' => $request->id, 'body' => $request->body]);
-            LogMovement::create([
-                'body' => 'Adicionou observação ao cliente ' . Clients::find($request->clientID)->fullname,
-                'user_id' => auth()->id()]);
+            /*activity()->performedOn($note)
+                ->causedBy(auth()->user())
+                //    ->withProperties(['customProperty' => 'customValue'])
+                ->log('Adicionou observação ao cliente ' . Clients::find($request->clientID)->fullname); */
             if (!$note) {
-                throw new \Exception('Não adicionar Observação ao cliente', 400);
+                throw new \Exception('Não foi possivel adicionar Observação ao cliente', 400);
             }
             return $note;
 
         });
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function setBenefit(Request $request)
+    {
+        $benefits = DB::transaction(function () use ($request) {
+            $benefits = Benefits::create(['name' => $request->name, 'description' => $request->description, 'client_id' => $request->clientID]);
+            if (!$benefits) {
+                throw new \Exception('Não foi possivel associar beneficio ao cliente', 400);
+            }
+            return $benefits;
+        });
+        return $benefits;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function setRecommendation(Request $request)
+    {
+        $recommendation = DB::transaction(function () use ($request) {
+            $client = Clients::find($request->clientID);
+            $recommendation = $client->recommendation()->create(['name' => $request->name]);
+            $client->recommendation_id = $recommendation->id;
+            $client->save();;
+            //Recommendation::create(['client_id' => $request->id, 'body' => $request->body]);
+            if (!$recommendation) {
+                throw new \Exception('Não foi possivel associar indicação ao cliente', 400);
+            }
+            return $recommendation;
+
+        });
+        return $recommendation;
     }
 
 }

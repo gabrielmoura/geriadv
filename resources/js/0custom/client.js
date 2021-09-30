@@ -1,19 +1,22 @@
 window.mclients = {
-    get status(){
+    get status() {
         return this.status
     },
-    status:false,
+    status: false,
     /**
      * Define Nota a cliente
      */
     setNote: function (note, clientID) {
         axios.post(location.protocol + '//' + location.host + '/ajax/setNote', {body: note, id: clientID})
             .then(response => {
-                this.status=response.data;
+                this.status = response.data;
 
             })
             .catch(err => {
-                this.status=false;
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -26,7 +29,10 @@ window.mclients = {
                 return response.data;
             })
             .catch(err => {
-                console.log(err);
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -39,7 +45,10 @@ window.mclients = {
                 return response.data;
             })
             .catch(err => {
-                console.log(err);
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -52,7 +61,10 @@ window.mclients = {
                 return response.data;
             })
             .catch(err => {
-                console.log(err);
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -68,10 +80,10 @@ window.mclients = {
             functionaryID: functionaryID
         })
             .then(response => {
-                this.status=response.data;
+                this.status = response.data;
             })
             .catch(err => {
-                this.status=false;
+                this.status = false;
             });
     },
     /**
@@ -84,7 +96,9 @@ window.mclients = {
                 return response.data;
             })
             .catch(err => {
-                console.log(err);
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -97,7 +111,9 @@ window.mclients = {
                 return response.data;
             })
             .catch(err => {
-                console.log(err);
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
             });
     },
     /**
@@ -115,6 +131,50 @@ window.mclients = {
                 document.getElementById('City').value = r.data.localidade;
                 document.getElementById('District').value = r.data.bairro;
                 document.getElementById('State').value = r.data.uf;
+            });
+    },
+    /**
+     * Define Beneficio
+     * @param name
+     * @param description
+     * @param clientID
+     */
+    setBenefit: function (name, description, clientID) {
+        axios.post(location.protocol + '//' + location.host + '/ajax/setBenefit', {
+            name: name,
+            description: description,
+            clientID: clientID
+        })
+            .then(response => {
+                this.status = response.data;
+
             })
-    }
+            .catch(err => {
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
+            });
+    },
+    /**
+     * Define Recomendações
+     * @param name
+     * @param clientID
+     */
+    setRecommendation: function (name, clientID) {
+        axios.post(location.protocol + '//' + location.host + '/ajax/setRecommendation', {
+            name: name,
+            clientID: clientID
+        })
+            .then(response => {
+                this.status = response.data;
+
+            })
+            .catch(err => {
+                this.status = false;
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
+            });
+    },
 }

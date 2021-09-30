@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 class Select extends Component
 {
     public $name;
+    public $title;
     public array $selects;
 
     /**
@@ -14,9 +15,10 @@ class Select extends Component
      * @param $name
      * @param $selects
      */
-    public function __construct($name, $selects)
+    public function __construct($name, $selects, $title = null)
     {
         $this->name = $name;
+        $this->title = $title;
         $this->selects = arrayToObject($selects);
     }
 

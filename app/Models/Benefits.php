@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Benefits
@@ -26,5 +28,13 @@ use Illuminate\Database\Eloquent\Model;
 class Benefits extends Model
 {
     use HasFactory;
+    use LogsActivity;
     protected $fillable=['name','description','client_id'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
+        //->logOnly(['name', 'text']);
+        // Chain fluent methods for configuration options
+    }
 }

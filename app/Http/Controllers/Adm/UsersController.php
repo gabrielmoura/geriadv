@@ -46,6 +46,11 @@ class UsersController extends Controller
         $user = User::create($data);
         $user->assignRole($data['role']);
         //syncRoles
+      /*  activity()->performedOn($user)
+            ->causedBy(auth()->user())
+            //    ->withProperties(['customProperty' => 'customValue'])
+            ->log('Criou o usuário ' . $user->name);
+      */
         toastr()->success('Usuário:' . $user->name . ' criado com sucesso');
         return redirect()->route('admin.users.index');
         //return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' criado com sucesso');
@@ -87,6 +92,12 @@ class UsersController extends Controller
         }
 
         $user->update($data);
+      /*  activity()->performedOn($user)
+            ->causedBy(auth()->user())
+            //    ->withProperties(['customProperty' => 'customValue'])
+            ->log('Atualizou o usuário ' . $user->name);
+      */
+        toastr()->success('Usuário:' . $user->name . ' atualizado com sucesso');
         return redirect()->route('admin.users.index')->with('success', $user);
     }
 
@@ -94,6 +105,11 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::destroy($id);
+       /* activity()->performedOn($user)
+            ->causedBy(auth()->user())
+            //    ->withProperties(['customProperty' => 'customValue'])
+            ->log('Deletou o usuário ' . $user->name);
+       */
         return redirect()->route('admin.users.index')->with('success', $user);
     }
 }

@@ -6,7 +6,7 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
+    'disk_name' => env('MEDIA_DISK', 'minio'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -52,12 +52,12 @@ return [
     /*
      * This is the class that is responsible for naming generated files.
      */
-    'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
+    'file_namer' => \App\Actions\MediaLibrary\FileNamer::class, //Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
+    'path_generator' => \App\Actions\MediaLibrary\PathGenerator::class,//Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
     /*
      * When urls to files get generated, this class will be called. Use the default
@@ -126,7 +126,7 @@ return [
      * The path where to store temporary files while performing image conversions.
      * If set to null, storage_path('media-library/temp') will be used.
      */
-    'temporary_directory_path' => null,
+    'temporary_directory_path' => storage_path('media-library/temp'),
 
     /*
      * The engine that should perform the image conversions.

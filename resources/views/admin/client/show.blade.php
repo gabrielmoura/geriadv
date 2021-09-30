@@ -59,6 +59,7 @@
                         <h4 class="blue d-inline p-2">
                             <span class="middle">{{$client->fullname}}</span>
                         </h4>
+                        <span class="d-inline p-2">{{Carbon\Carbon::parse($client->birth_date)->diffForHumans()}}</span>
 
                         <div class="profile-user-info">
 
@@ -125,7 +126,7 @@
 
                                 <div class="profile-info-value">
                                     <button type="button"
-                                            class="btn btn-">{{$client->benefits()->get()}}</button>
+                                            class="btn btn-">{{($client->benefits()->get()->isEmpty())?'':$client->benefits()->first()->name}}</button>
                                 </div>
                             </div>
 
@@ -134,7 +135,7 @@
 
                                 <div class="profile-info-value">
                                     <button type="button"
-                                            class="btn btn-">{{$client->recommendation()->get()}}</button>
+                                            class="btn btn-">{{($client->recommendation()->get()->isEmpty())?'':$client->recommendation()->first()->name}}</button>
                                 </div>
                             </div>
 
@@ -283,8 +284,42 @@
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">
-                    <input type="file">
+                    {!! Form::open(['route'=>'admin.clients.pendency','files'=>true]) !!}
+                    <input type="hidden" name="slug" value="{{$client->slug}}">
 
+
+                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cras))
+                        <x-form-file name="cras" title="cras">
+                            <button>Apagar</button>
+                        </x-form-file>
+                    @endif
+
+                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cpf))
+                        <x-form-file name="cpf" title="cpf">
+                            <button>Apagar</button>
+                        </x-form-file>
+                    @endif
+
+                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->rg))
+                        <x-form-file name="rg" title="rg">
+                            <button>Apagar</button>
+                        </x-form-file>
+                    @endif
+
+                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->birth_certificate))
+                        <x-form-file name="birth_certificate" title="Certidão de Nascimento">
+                            <button>Apagar</button>
+                        </x-form-file>
+                    @endif
+
+                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->proof_of_address))
+                        <x-form-file name="proof_of_address" title="Comprovante de Residencia">
+                            <button>Apagar</button>
+                        </x-form-file>
+                    @endif
+
+                    <button type="submit">Enviar</button>
+                    {!! Form::close() !!}
                 </div>
 
                 <div class="hr hr10 hr-double"></div>
@@ -532,25 +567,43 @@
 @endsection
 @push('js')
     <script>
+
         $('#NoteModal-submit').click(function () {
             mclients.setNote(tinymce.activeEditor.getContent(),{{$client->id}});
-            setTimeout(function () {
-                if (!!mclients.status) {
+            var times = 0;
+            setInterval(function () {
+                if (mclients.status !== false) {
                     location.reload(true);
                 } else {
                     $('#NoteModal').modal('hide')
-                    toastr.error('Erro ao criar Observação', 'Erro');
+
+                    times++
+                    if (times >= 2 < 4) {
+                        //toastr.error('Erro ao criar Observação', 'Erro');
+                        setTimeout(function () {
+                            location.reload(true);
+                        });
+                    }
                 }
             }, 1500);
+
         });
         $('#StatusModal-submit').click(function () {
             mclients.setStatus({{$client->id}}, document.getElementById('Status').value,{{auth()->id()}});
-            setTimeout(function () {
-                if (!!mclients.status) {
+            var times = 0;
+            setInterval(function () {
+                if (mclients.status !== false) {
                     location.reload(true);
                 } else {
                     $('#StatusModal').modal('hide')
-                    toastr.error('Erro ao atualizar Status', 'Erro');
+
+                    times++
+                    if (times >= 2 < 4) {
+                        //toastr.error('Erro ao atualizar Status', 'Erro');
+                        setTimeout(function () {
+                            location.reload(true);
+                        });
+                    }
                 }
             }, 1500);
         });

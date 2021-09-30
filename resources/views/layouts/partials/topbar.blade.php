@@ -1,4 +1,4 @@
-<div class="header navbar">
+<div class="header navbar noPrint">
     <div class="header-container">
         <ul class="nav-left">
             <li>

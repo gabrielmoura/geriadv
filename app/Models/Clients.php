@@ -6,6 +6,8 @@ use App\Observers\ClientObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -88,6 +90,7 @@ class Clients extends Model implements HasMedia
     use InteractsWithMedia;
     use HasSlug;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $fillable = [
         'user_id'
@@ -115,6 +118,8 @@ class Clients extends Model implements HasMedia
         , 'state'
         , 'country'
         , 'newsletter'
+
+        ,'recommendation_id'
 
     ];
     protected $casts = [
@@ -163,12 +168,17 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(LogMovement::class, 'id', 'client_id');
     }
 
+    public function pendency()
+    {
+        return $this->belongsTo(Pendencies::class, 'pendency_id', 'id');
+    }
+
     /**
      * Retorna Benefio Requerido
      */
     public function benefits()
     {
-        return $this->belongsTo(Benefits::class,'client_id', 'id');
+        return $this->belongsTo(Benefits::class, 'id', 'client_id');
 
     }
 
@@ -176,8 +186,9 @@ class Clients extends Model implements HasMedia
      * Retorna Indicação do Cliente
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function recommendation(){
-        return $this->belongsTo(Recommendation::class,'client_id', 'id');
+    public function recommendation()
+    {
+        return $this->belongsTo(Recommendation::class, 'recommendation_id', 'id');
     }
 
 
@@ -228,6 +239,14 @@ class Clients extends Model implements HasMedia
     public function getFullNameAttribute(): string
     {
         return $this->name . ' ' . $this->last_name;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
+        //->logOnly(['name', 'text']);
+        // Chain fluent methods for configuration options
     }
 
     public static function boot()

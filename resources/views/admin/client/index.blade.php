@@ -2,7 +2,7 @@
 @section('page-header') Clientes @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <table id="dataTable" class="table table-striped table-bordered " cellspacing="0">
+        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0" >
             <thead>
             <tr>
                 <th>Nome</th>

@@ -21,6 +21,9 @@ Route::middleware(['auth'])->prefix('ajax')->name('ajax.')->group(function () {
 
     Route::post('getPendency', [AjaxController::class, 'getPendency'])->name('getPendency');
     Route::post('getSheduled', [AjaxController::class, 'getSheduled'])->name('getSheduled');
+
+    Route::post('setBenefit', [AjaxController::class, 'setBenefit'])->name('setBenefit');
+    Route::post('setRecommendation', [AjaxController::class, 'setRecommendation'])->name('setRecommendation');
     /**
      * Busca Funcionários
      */

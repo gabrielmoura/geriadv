@@ -19,7 +19,7 @@ class FileNamer extends \Spatie\MediaLibrary\Support\FileNamer\FileNamer
      */
     public function conversionFileName(string $fileName, Conversion $conversion): string
     {
-        $strippedFileName = sha1(pathinfo($fileName, PATHINFO_FILENAME));
+        $strippedFileName = md5(pathinfo($fileName, PATHINFO_FILENAME));
 
         return "{$strippedFileName}-{$conversion->getName()}";
     }
@@ -31,6 +31,6 @@ class FileNamer extends \Spatie\MediaLibrary\Support\FileNamer\FileNamer
     public function responsiveFileName(string $fileName): string
     {
         //return pathinfo($fileName, PATHINFO_FILENAME);
-        return sha1(pathinfo($fileName, PATHINFO_FILENAME));
+        return md5(pathinfo($fileName, PATHINFO_FILENAME));
     }
 }

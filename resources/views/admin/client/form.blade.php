@@ -22,6 +22,14 @@
 
                     </div>
                 </fieldset>
+                <fieldset class="col-md-12">
+                    <legend>Dados</legend>
+                    <div class="row">
+                        @php($benefits=config('core.benefits'))
+                        <x-form-select name="benefit" title="Beneficio" :selects="$benefits" ></x-form-select>
+                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2"></x-form-input>
+                    </div>
+                </fieldset>
 
                 <fieldset class="col-md-12">
                     <legend>Endereço</legend>

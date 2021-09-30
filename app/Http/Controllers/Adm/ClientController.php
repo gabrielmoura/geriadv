@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Benefits;
 use App\Models\Clients;
-use App\Models\LogMovement;
 use App\Models\Note;
+use App\Models\Recommendation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,16 +65,15 @@ class ClientController extends Controller
         ]);
 
         $client = DB::transaction(function () use ($request) {
-
-            $client = Clients::create([
-
+            $recommendation = Recommendation::create(['name' => $request->recommendation]);
+            $clientData = [
                 /**
                  * Dados Pessoais
                  */
                 'name' => $request['name']
                 , 'last_name' => $request['last_name']
                 , 'tel0' => preg_replace('/[^0-9]/', '', $request['tel0'])
-                , 'cpf' => $request['cpf']
+                , 'cpf' => preg_replace('/[^0-9]/', '', $request['cpf'])
                 , 'sex' => $request['sex']
                 , 'birth_date' => Carbon::make($request['birth_date'])
 
@@ -89,14 +89,25 @@ class ClientController extends Controller
                 , 'state' => $request['state']
                 //, 'country' => $input['country']
                 // , 'newsletter' => $input['newsletter']
-            ]);
+
+
+            ];
+            if (isset($recommendation->id)) {
+                $clientData['recommendation_id'] = $recommendation->id;
+            }
+
+            $client = Clients::create($clientData);
+            if ($request->has('benefit') && isset($request->benefit)) {
+                Benefits::create(['name' => $request['benefit'], 'client_id' => $client->id]);
+            }
             if ($request->has('note') && isset($request->note)) {
                 Note::create(['user_id' => $client->id, 'body' => $request['note']]);
             }
-            LogMovement::create([
-                'body' => 'Adicionou o cliente ' . $client->name . ' ' . $client->last_name,
-                'user_id' => auth()->id()]);
-
+            /* activity()->performedOn($client)
+                 ->causedBy(auth()->user())
+                 //    ->withProperties(['customProperty' => 'customValue'])
+                 ->log('Adicionou o cliente ' . $client->name . ' ' . $client->last_name);
+            */
             if (!$client) {
                 throw new \Exception('User not created for account', 400);
             }
@@ -122,9 +133,10 @@ class ClientController extends Controller
         $client = DB::transaction(function () use ($data, $slug) {
             $client = Clients::whereSlug($slug)->first();
             $client->update($data);
-            LogMovement::create([
-                'body' => 'Atualizou o cliente ' . $client->name . ' ' . $client->last_name,
-                'user_id' => auth()->id]);
+            activity()->performedOn($client)
+                ->causedBy(auth()->user())
+                //    ->withProperties(['customProperty' => 'customValue'])
+                ->log('Atualizou o cliente ' . $client->name . ' ' . $client->last_name);
             return $client;
         });
         return redirect()->route('admin.client.index')->with('success', 'Cliente:' . $client->name . ' atualizado com sucesso');
@@ -132,6 +144,11 @@ class ClientController extends Controller
 
     public function delete($slug)
     {
-        Clients::whereSlug($slug)->delete();
+        $client = Clients::whereSlug($slug)->delete();
+        activity()->performedOn($client)
+            ->causedBy(auth()->user())
+            //    ->withProperties(['customProperty' => 'customValue'])
+            ->log('Deletou o cliente ' . $client->name . ' ' . $client->last_name);
+
     }
 }

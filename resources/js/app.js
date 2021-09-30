@@ -58,7 +58,19 @@ import './select2';
 
 import './tynimce';
 import './toastr';
+
 require('./0custom/client');
 //import 'toastr/toastr';
 //import('./maskmoney');
+
+window.printDiv = function (divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+}
 

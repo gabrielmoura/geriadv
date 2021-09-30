@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Adm\AnalyticsController;
+use App\Http\Controllers\Adm\ClientController;
+use App\Http\Controllers\Adm\LogActivityController;
+use App\Http\Controllers\Adm\PendencyController;
 use App\Http\Controllers\Adm\UsersController;
 use App\Http\Controllers\Auth\DashController;
-use App\Http\Controllers\Adm\ClientController;
-use App\Http\Controllers\Adm\AnalyticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,7 @@ Route::get('/kkk', function () {
     echo "Painel Funcioários";
 })->name('employee.index');
 
-Route::group(['prefix' => 'admin','middleware'=>'auth:web'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     /*
     |------------------------------------------------------------------------------------
     | Admin
@@ -29,8 +31,11 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:web'], function () {
         ->names('admin.users');
     Route::resource('/client', ClientController::class)
         ->names('admin.clients');
+    Route::post('/client/pendency', [PendencyController::class, 'store'])->name('admin.clients.pendency');
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytic.index');
+
+    Route::get('/logActivity', [LogActivityController::class, 'index'])->name('admin.log.activity');
 });
 
 
@@ -45,6 +50,6 @@ Route::group(['middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'dash'], function () {
         //Route::get('/dash', [HomeController::class, 'index'])->name('dash.index');
-      //  Route::get('/', [OrderController::class, 'index'])->name('client.index');
+        //  Route::get('/', [OrderController::class, 'index'])->name('client.index');
     });
 });
