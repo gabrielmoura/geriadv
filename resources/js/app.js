@@ -4,16 +4,28 @@ window._ = require('lodash');
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
-require('./bootstrap');
-
-
 window.axios = require('axios');
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// window.Vue = require('vue');
+require('./bootstrap');
+require('./web-push0/main.js');
 
+window.toUint8Array = require('base64-to-uint8array')
+// window.Vue = require('vue');
+import Vue from 'vue'
+
+import NotificationsDemo from './components/NotificationsDemo.vue'
+import NotificationsDropdown from './components/NotificationsDropdown.vue'
+
+/* eslint-disable-next-line no-new */
+new Vue({
+    el: '#app',
+
+    components: {
+        NotificationsDemo,
+        NotificationsDropdown
+    }
+})
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

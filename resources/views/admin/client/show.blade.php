@@ -44,14 +44,15 @@
 
                         <div class="space space-4"></div>
 
-                        <a href="#" class="btn btn-sm btn-block btn-success">
-                            <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                            <span class="bigger-110">Add as a friend</span>
-                        </a>
+                        <!--   <a href="#" class="btn btn-sm btn-block btn-success">
+                               <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                               <span class="bigger-110">Add as a friend</span>
+                           </a> -->
 
-                        <a href="#" class="btn btn-sm btn-block btn-primary">
+                        <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal"
+                           data-target="#MailModal">
                             <i class="ace-icon fa fa-envelope-o bigger-110"></i>
-                            <span class="bigger-110">Send a message</span>
+                            <span class="bigger-110">Enviar Email</span>
                         </a>
                     </div><!-- /.col -->
 
@@ -560,6 +561,9 @@
     <x-bootstrap-modal title="Observação" name="noteModal">
         <x-form-tinymce name="note" title="Observação"></x-form-tinymce>
     </x-bootstrap-modal>
+    <x-bootstrap-modal title="E-Mail" name="mailModal">
+        <x-form-tinymce name="mail" title="E-Mail"></x-form-tinymce>
+    </x-bootstrap-modal>
     <x-bootstrap-modal title="Status" name="statusModal">
         @php($selects=[['value'=>'deferred','name'=>'Deferido'],['value'=>'rejected','name'=>'Indeferido'],['value'=>'analysis','name'=>'Analise'],['value'=>'called_off','name'=>'Cancelado'],['value'=>'deceased','name'=>'Falecido'],['value'=>'cancellation','name'=>'Solicitou Cancelamento']])
         <x-form-select :selects="$selects" name="status" title="Status"></x-form-select>
@@ -582,11 +586,10 @@
                         //toastr.error('Erro ao criar Observação', 'Erro');
                         setTimeout(function () {
                             location.reload(true);
-                        });
+                        }, 500);
                     }
                 }
-            }, 1500);
-
+            }, 1000);
         });
         $('#StatusModal-submit').click(function () {
             mclients.setStatus({{$client->id}}, document.getElementById('Status').value,{{auth()->id()}});
@@ -602,10 +605,29 @@
                         //toastr.error('Erro ao atualizar Status', 'Erro');
                         setTimeout(function () {
                             location.reload(true);
-                        });
+                        }, 500);
                     }
                 }
-            }, 1500);
+            }, 1000);
+        });
+        $('#MailModal-submit').click(function () {
+            mclients.sendMail(tinymce.activeEditor.getContent(),{{$client->id}});
+            var times = 0;
+            setInterval(function () {
+                if (mclients.status !== false) {
+                    toastr.success('Email encaminhado');
+                } else {
+                    $('#MailModal').modal('hide')
+
+                    times++
+                    if (times >= 2 < 4) {
+                        //toastr.error('Erro ao criar Observação', 'Erro');
+                        setTimeout(function () {
+                            toastr.success('Email encaminhado');
+                        }, 500);
+                    }
+                }
+            }, 1000);
         });
     </script>
 @endpush

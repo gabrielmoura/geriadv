@@ -7,7 +7,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="manifest" href="{{url('manifest.json')}}">
     <!-- Styles -->
+
 
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
@@ -20,5 +22,16 @@
     <!-- Specific css content placeholder -->
 @stack('css')
 <!-- End of specific css content placeholder -->
+    <script>
+        window.Laravel = {!! json_encode([
+          'user' => Auth::user(),
+          'csrfToken' => csrf_token(),
+          'vapidPublicKey' => config('webpush.vapid.public_key'),
+          'pusher' => [
+              'key' => config('broadcasting.connections.pusher.key'),
+              'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+          ],
+      ]) !!};
+    </script>
 </head>
 

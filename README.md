@@ -21,5 +21,6 @@ composer require maatwebsite/excel
 * PHP extension php_simplexml enabled
 * PHP extension php_xmlreader enabled
 * PHP extension php_zlib enabled
+* PHP extension php_gmp enabled
 * https://roadrunner.dev/ optional
 

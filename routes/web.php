@@ -1,8 +1,11 @@
 <?php
 
+use App\Events\TestEvent;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PushController;
 use Illuminate\Support\Facades\Route;
-use Pusher\Pusher;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +18,12 @@ use Pusher\Pusher;
 |
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-use App\Events\TestEvent;
 Route::get('/notificate', function () {
-    return event(new TestEvent('Monique é gostosa'));
+    return event(new TestEvent('Teste Pusher em fucionamento'));
 });
 
-//Route::get('/auth/{slug}/callback', [SocialiteController::class, 'callback']);
-//Route::get('/auth/{slug}/redirect', [SocialiteController::class, 'redirect']);
+Route::get('/auth/{slug}/callback', [SocialiteController::class, 'callback']);
+Route::get('/auth/{slug}/redirect', [SocialiteController::class, 'redirect']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
@@ -46,13 +48,58 @@ Route::middleware(['auth'])->group(function () {
         return view('profile');
     })->name('profile');
 });
-use Maatwebsite\Excel\Facades\Excel;
-use App\Actions\Excel\Import\ImportContratosAssinadosExcel as Import;
 
-Route::get('/exxx',function(){
-    //$file=storage_path('app/contratos_assinados.xlsx');
-    ini_set('memory_limit', '-1');
 
-    Excel::import(new Import(),storage_path('app/contratos_assinados.csv'));
+//make a push notification.
+Route::get('/push', [PushController::class, 'push'])->name('push');
+
+//store a push subscriber.
+Route::post('/push', [PushController::class, 'store']);
+
+// Notifications
+Route::post('notifications', [NotificationController::class, 'store']);
+Route::get('notifications', [NotificationController::class, 'index']);
+Route::patch('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+Route::post('notifications/{id}/dismiss', [NotificationController::class, 'dismiss']);
+
+// Push Subscriptions
+Route::post('subscriptions', [PushController::class, 'update']);
+Route::post('subscriptions/delete', [PushController::class, 'destroy']);
+
+
+Route::get('manifest.json', function () {
+
+
+    $manifest = [
+        'name' => config('app.name'),
+        'short_name' => config('app.name'),
+        'start_url' => '.',
+        'display' => 'standalone',
+        'background_color' => '#060606',
+        'description' => config('app.name'),
+        'icons' => [
+            [
+                'src' => url('images/logo.png'),
+                'sizes' => '256x256',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => url('images/logo.png'),
+                'sizes' => '500x500',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => url('images/logo.png'),
+                'sizes' => '791x305',
+                'type' => 'image/png',
+            ],
+        ],
+    ];
+    if (config('webpush.gcm.sender_id')) {
+        return array_merge($manifest, ['gcm_sender_id' => config('webpush.gcm.sender_id')],);
+    } else {
+        return $manifest;
+    }
+
 });
-

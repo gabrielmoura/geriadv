@@ -24,6 +24,9 @@ Route::middleware(['auth'])->prefix('ajax')->name('ajax.')->group(function () {
 
     Route::post('setBenefit', [AjaxController::class, 'setBenefit'])->name('setBenefit');
     Route::post('setRecommendation', [AjaxController::class, 'setRecommendation'])->name('setRecommendation');
+
+    Route::post('sendMail', [AjaxController::class, 'sendMail'])->name('sendMail');
+
     /**
      * Busca Funcionários
      */

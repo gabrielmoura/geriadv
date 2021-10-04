@@ -46,6 +46,8 @@
         "webpack-cli": "^4.7.0"
     },
     "dependencies": {
+        "base64-to-uint8array": "^1.0.0",
+        "body-parser": "^1.19.0",
         "bootstrap-v4-rtl": "^4.3.1-6",
         "datatables.net": "^1.10.24",
         "datatables.net-bs4": "^1.10.24",
@@ -53,6 +55,8 @@
         "datatables.net-buttons-bs4": "^1.7.0",
         "datatables.net-colreorder-bs4": "^1.5.3",
         "datatables.net-responsive-bs4": "^2.2.7",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
         "inputmask": "^5.0.5",
         "jquery-datetimepicker": "^2.5.21",
         "jquery-mask-plugin": "^1.14.16",
@@ -60,6 +64,7 @@
         "rfs": "^9.0.3",
         "select2": "^4.0.11",
         "tinymce": "^5.8.1",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "web-push": "^3.4.5"
     }
 }

@@ -18,9 +18,10 @@
         </ul>
 
         <ul class="nav-right">
+
             <!-- Avisos -->
             <li class="notifications dropdown">
-                <span class="counter bgc-red">{{\App\Actions\Message\GetAlert::getNotice()->count()}}</span>
+                <span class="counter bgc-red">{{Auth::user()->unreadNotifications()->get()->count()}}</span>
                 <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">
                     <i class="ti-bell"></i>
                 </a>
@@ -32,20 +33,25 @@
                     </li>
                     <li>
                         <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
-                            @foreach(\App\Actions\Message\GetAlert::getNotice() as $notice)
+
+
+                            @foreach(Auth::user()->unreadNotifications()->get() as $notice)
                                 <li>
-                                    <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                                    <a href="{{$notice->data['action_url']}}"
+                                       class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'
+                                       >
+                                        <input type="hidden" name="notification" id="notification_id" value="{{$notice->id}}" onclick="">
                                         <div class="peer mR-15">
                                             <img class="w-3r bdrs-50p" src="/images/1.jpg" alt="">
                                         </div>
                                         <div class="peer peer-greed">
                                         <span>
-                                            <span class="fw-500">John Doe</span>
-                                            <span class="c-grey-600">liked your <span class="text-dark">post</span>
+                                            <span class="fw-500">{{$notice->data['title']}}</span>
+                                            <span class="c-grey-600">{{$notice->data['body']}}
                                             </span>
                                         </span>
                                             <p class="m-0">
-                                                <small class="fsz-xs">5 mins ago</small>
+                                                <small class="fsz-xs">{{$notice->data['created']}}</small>
                                             </p>
                                         </div>
                                     </a>
@@ -155,3 +161,4 @@
         </ul>
     </div>
 </div>
+

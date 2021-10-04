@@ -9,6 +9,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
 
+
 } catch (e) {
 }
 try {
@@ -108,7 +109,10 @@ window.Echo = new Echo({
     disableStats: true,
 });
 */
-
+/**
+ * Notificação Especial por websocket
+ * @type {Echo}
+ */
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
@@ -116,7 +120,7 @@ window.Echo = new Echo({
     wsHost: window.location.hostname, // Your domain
     encrypted: true,
     wsPort: 80, // Yor http port
-    disableStats: true, // Change this to your liking this disables statistics
+    disableStats: false, // Change this to your liking this disables statistics
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
     disabledTransports: ['sockjs', 'xhr_polling', 'xhr_streaming'] // Can be removed
@@ -132,5 +136,36 @@ window.Echo.channel('MManhaes.1')
     });
 
 
+/**
+ * Notificação Push
+ * https://github.com/albirrkarim/Laravel-Push-Notification
+
+const { key, cluster } = window.Laravel.pusher
+if (key) {
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+        wsHost: window.location.hostname, // Your domain
+        encrypted: true,
+        wsPort: 80, // Yor http port
+        disableStats: true, // Change this to your liking this disables statistics
+        forceTLS: false,
+        enabledTransports: ['ws'],
+        disabledTransports: ['sockjs', 'xhr_polling', 'xhr_streaming'] // Can be removed
+    })
+
+    axios.interceptors.request.use(
+        config => {
+            config.headers['X-Socket-ID'] = window.Echo.socketId()
+            return config
+        },
+        error => Promise.reject(error)
+    )
+}
+
+window.axios = axios
+
+ */
 
 

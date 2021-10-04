@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Client\GenericMail;
 use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\ClientStatus;
@@ -12,6 +13,7 @@ use Canducci\ZipCode\Facades\ZipCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -188,6 +190,31 @@ class AjaxController extends Controller
 
         });
         return $recommendation;
+    }
+
+    /**
+     * Envia Email para Cliente
+     * @param Request $request
+     * @return mixed
+     */
+    public function sendMail(Request $request)
+    {
+        try {
+            $message = (new GenericMail($request->body, $request->title))
+                ->onConnection('redis')
+                ->onQueue('emailqueue');
+            $client = Clients::find($request->clientID);
+            $mail = Mail::to($client)
+                ->queue($message);
+
+            activity()->performedOn($client)
+                ->causedBy(auth()->user())
+                ->withProperties([$request->body, $request->title])
+                ->log('Enviou um email ao cliente ' . $client->fullname);
+        } catch (\Exception $e) {
+
+        }
+        return response('',201);
     }
 
 }

@@ -15,6 +15,7 @@
         "greatsami/fortify-bootstrap": "^1.7",
         "guzzlehttp/guzzle": "^7.0.1",
         "jenssegers/agent": "^2.6",
+        "laravel-notification-channels/webpush": "^5.1",
         "laravel/fortify": "^1.8",
         "laravel/framework": "^8.54",
         "laravel/horizon": "^5.7",

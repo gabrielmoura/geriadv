@@ -10,4 +10,10 @@ return [
         'm' => 'Masculino',
         'f' => 'Feminino'
     ],
+    'Pendencies'=>'Pendencias',
+    'Clients'=>'Clientes',
+    'Benefits'=>'Beneficios',
+    'Note'=>'Observação',
+    'created'=>'criado',
+    'updated'=>'atualizado',
 ];

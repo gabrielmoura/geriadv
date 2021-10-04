@@ -28,11 +28,8 @@ class GetAlert
      */
     public static function getNotice()
     {
-
-        /* return NoticeBoard::where('read', false)
-             ->where('condominio_id', Auth::user()->condominio()->get()->first()->id)
-             ->get();
- */
-        return collect();
+        $limit=5;
+        return Auth::user()->unreadNotifications()->limit($limit)->get();
+        //return collect($notifications);
     }
 }

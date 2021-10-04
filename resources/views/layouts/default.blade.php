@@ -41,6 +41,7 @@
 <script src="{{ mix('/js/manifest.js') }}"></script>
 <script src="{{ mix('/js/vendor.js') }}"></script>
 <script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{mix('js/webPush.js')}}"></script>
 
 
 <!-- Global js content -->
@@ -61,15 +62,15 @@
 </script>
 
 @auth()
-<script>
-    const private_channel = '{{config('app.name')}}.{{auth()->id()}}';
+    <script>
+        const private_channel = '{{config('app.name')}}.{{auth()->id()}}';
 
-    Echo.private(private_channel)
-        .notification((notification) => {
-            console.log(notification);
-        });
+        Echo.private(private_channel)
+            .notification((notification) => {
+                console.log(notification);
+            });
 
-</script>
+    </script>
 @endauth
 
 </body>

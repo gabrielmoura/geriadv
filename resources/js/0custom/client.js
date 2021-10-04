@@ -177,4 +177,16 @@ window.mclients = {
                 }
             });
     },
+    sendMail: function (mail, clientID) {
+        axios.post(location.protocol + '//' + location.host + '/ajax/sendMail', {mail: mail, id: clientID})
+            .then(response => {
+                this.status = response.data;
+            })
+            .catch(err => {
+                this.status = 'err';
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log(err);
+                }
+            });
+    },
 }

@@ -22,11 +22,13 @@
 
 <!-- Global js content -->
 <script src="{{mix('js/app.js')}}"></script>
+<script src="{{mix('js/webPush.js')}}"></script>
 <!-- End of global js content-->
 
 <!-- Specific js content placeholder -->
 @stack('js')
 <!-- End of specific js content placeholder -->
+{{--
 <script>
     const public_channel = '{{config('app.name')}}.Public';
 
@@ -46,7 +48,7 @@
         });
 
 </script>
-@endauth
+@endauth --}}
 </body>
 
 </html>

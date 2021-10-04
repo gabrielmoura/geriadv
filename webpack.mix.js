@@ -74,6 +74,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/front.scss', 'public/css')
     .copy('node_modules/tinymce/skins', 'public/js/skins')
+    .copy('resources/js/web-push1/sw.js','public/sw.js')
+    .copy('resources/js/web-push1/main.js','public/js/webPush.js')
     .styles(['resources/css/front/aos.css',
     'resources/css/front/font-vandella.css',
     'resources/css/front/animate.css',

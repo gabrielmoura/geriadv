@@ -26,8 +26,25 @@
                 <tr>
                     <td>{{$activity->created_at}}</td>
                     <td>{{\App\Models\User::find($activity->causer_id)->name}}</td>
-                    <td>{{$activity->description}} </td>
-                    <td>{{($activity->properties->has('old')) ?json_encode( collect($activity->properties['attributes'])->diffAssoc($activity->properties['old'])):''}}</td>
+                    <td>{{ __('view.'.explode("\\",$activity->subject_type)[2])}}::{{__('view.'.$activity->description)}} </td>
+                    <td>{{($activity->properties->has('old')) ?json_encode( collect($activity->properties['attributes'])->diffAssoc($activity->properties['old'])):''}}
+                        @if($activity->properties->has('old'))
+                            <ul>
+                                <span>Antigo</span>
+                                @foreach($activity->properties['old'] as $attribute=>$value)
+                                    <li>{{$attribute}}: {{$value}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        @if($activity->properties->has('attributes'))
+                            <ul>
+                                <span>Novo</span>
+                                @foreach($activity->properties['attributes'] as $attribute=>$value)
+                                    <li>{{$attribute}}: {{$value}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>
