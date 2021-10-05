@@ -103,16 +103,10 @@ class AjaxController extends Controller
      */
     public function setStatus(Request $request)
     {
-        //return Clients::find($id)->status()->create(['status' => $status]);
-        //$request->validate(['status' => 'unique:client_statuses']);
-        if (ClientStatus::whereClientId($request->clientID)->where('status', $request->status)->get()->first()) return abort(400);
+        
+        if (ClientStatus::whereClientId($request->clientID)->where('status', $request->status)->count()>2) return abort(400,'Limite excedido');
         DB::transaction(function () use ($request) {
             $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
-            /*  activity()->performedOn($status)
-                  ->causedBy(auth()->user())
-                  //    ->withProperties(['customProperty' => 'customValue'])
-                  ->log('Atualizou o Status ' . __('view.' . $request->status) . ' ao cliente ' . Clients::find($request->clientID)->fullname);
-  */
             if (!$status) {
                 throw new \Exception('Não foi possivel atualizar cliente', 400);
             }
@@ -212,7 +206,7 @@ class AjaxController extends Controller
                 ->withProperties([$request->body, $request->title])
                 ->log('Enviou um email ao cliente ' . $client->fullname);
         } catch (\Exception $e) {
-
+        
         }
         return response('',201);
     }
