@@ -35,7 +35,7 @@
                         <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
 
 
-                            @foreach(Auth::user()->unreadNotifications()->get() as $notice)
+                            @foreach(Auth::user()->unreadNotifications()->take(5)->get() as $notice)
                                 <li>
                                     <a href="{{$notice->data['action_url']}}"
                                        class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'
@@ -61,7 +61,7 @@
                     </li>
                     <li class="pX-20 pY-15 ta-c bdT">
                         <span>
-                            <a href="" class="c-grey-600 cH-blue fsz-sm td-n">Ver todos os Avisos
+                            <a href="{{route('notifications.index')}}" class="c-grey-600 cH-blue fsz-sm td-n">Ver todos os Avisos
                                 <i class="ti-angle-right fsz-xs mL-10"></i>
                             </a>
                         </span>

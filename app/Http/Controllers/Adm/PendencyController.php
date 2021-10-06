@@ -64,4 +64,20 @@ class PendencyController extends Controller
         toastr()->success('Enviado com sucesso');
         return redirect()->route('admin.clients.show', ['client' => $request->slug]);
     }
+
+    /**
+     * Remover Media
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Request $request){
+        //Buscar Pendencias pelo Cliente
+        $model = Clients::whereSlug($request->slug)->pendency()->first()
+        //Remover apenas a pendencia desejada
+        $model[$request->doc]->getMedia('docs')->delete();
+        //Remover atualizações de pendencias
+        Pendencies::find($model->id)->delete();
+        if($model) return toastr()->success('Removido com sucesso.');
+        return abort(400);
+    }   
 }

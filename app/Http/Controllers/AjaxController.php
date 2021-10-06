@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Actions\Rule\ClientsRule;
 
 /**
  * Class AjaxController
@@ -103,8 +104,8 @@ class AjaxController extends Controller
      */
     public function setStatus(Request $request)
     {
+        $request=ClientsRule::Status($request);
         
-        if (ClientStatus::whereClientId($request->clientID)->where('status', $request->status)->count()>2) return abort(400,'Limite excedido');
         DB::transaction(function () use ($request) {
             $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
             if (!$status) {

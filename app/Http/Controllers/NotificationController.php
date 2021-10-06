@@ -20,12 +20,18 @@ class NotificationController extends Controller
         $this->middleware('auth')->except('last', 'dismiss');
     }
 
+    public function index(){
+        $notifications=Auth::user()->unreadNotifications()->get();
+        return view('admin.notification.index',compact('notifications'))
+
+    }
+
     /**
      *  Get user's notifications.
      * @param Request $request
      * @return array
      */
-    public function index(Request $request)
+    public function getNotifications(Request $request)
     {
         $user = $request->user();
 
