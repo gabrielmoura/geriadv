@@ -56,16 +56,21 @@ Route::get('/push', [PushController::class, 'push'])->name('push');
 //store a push subscriber.
 Route::post('/push', [PushController::class, 'store']);
 
-// Notifications
-Route::post('notifications', [NotificationController::class, 'store']);
-Route::get('notifications', [NotificationController::class, 'index']);
-Route::patch('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
-Route::post('notifications/{id}/dismiss', [NotificationController::class, 'dismiss']);
-
 // Push Subscriptions
 Route::post('subscriptions', [PushController::class, 'update']);
 Route::post('subscriptions/delete', [PushController::class, 'destroy']);
+
+
+// Notifications
+Route::middleware(['auth'])->group(['name'=>'notifications.','prefix'=>'notifications'],fuction(){
+    Route::get('All', [NotificationController::class, 'index'])->name('index');
+
+    Route::post('notifications', [NotificationController::class, 'store'])->name('store');
+    Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');
+    Route::patch('/{id}/read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('markAllRead');
+    Route::post('/{id}/dismiss', [NotificationController::class, 'dismiss'])->name('dismiss');
+});
 
 
 Route::get('manifest.json', function () {

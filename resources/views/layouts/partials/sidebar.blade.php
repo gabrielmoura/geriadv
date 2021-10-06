@@ -1,6 +1,3 @@
-@php
-
-    @endphp
 <div class="sidebar noPrint">
     <div class="sidebar-inner">
         <!-- ### $Sidebar Header ### -->
