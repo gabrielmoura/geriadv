@@ -96,7 +96,7 @@ mix.js('resources/js/app.js', 'public/js')
     .copy('resources/static/fonts/icons/front', 'public/fonts')
     .browserSync(process.env.APP_URL)
     .version()
-    .extract(['jquery','toastr','tinymce','datatables.net','jquery-datetimepicker','bootstrap-v4-rtl'])
+    .extract(['jquery','toastr','tinymce','datatables.net','jquery-datetimepicker','bootstrap-v4-rtl','bootstrap-toggle'])
    // .ziggy()
     .sourceMaps();
 

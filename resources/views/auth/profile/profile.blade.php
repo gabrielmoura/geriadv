@@ -20,4 +20,11 @@
     @endif
     @endhasanyrole
 
+    <!-- npm require bootstrap-toggle -S -->
+    <!-- https://www.bootstraptoggle.com/ -->
+    <div>
+    <label>Enable Push Messages</label>
+    <input type="checkbox" checked data-toggle="toggle" class="js-push-button">
+    </div>
+
 @endsection
