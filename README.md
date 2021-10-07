@@ -24,3 +24,8 @@ composer require maatwebsite/excel
 * PHP extension php_gmp enabled
 * https://roadrunner.dev/ optional
 
+## Configurações
+Há modelos de configurações em Resources/LAMP-CONF:
+
+* Configuração do SupervisorD
+* Configuração do Nginx
