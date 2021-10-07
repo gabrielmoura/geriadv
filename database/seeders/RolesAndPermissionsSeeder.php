@@ -48,8 +48,16 @@ class RolesAndPermissionsSeeder extends Seeder
         }
         $admin->givePermissionTo($dataAdmin);
 
+        // Responsável por Gerir o sistema: Gerente
+        $manager = Role::create(['name' => 'manager']);
+        $dataManager = [];
+        foreach (Permission::all() as $item) {
+            $dataManager[] = $item->name;
+        }
+        $manager->givePermissionTo($dataAdmin);
 
-        $editor = Role::create(['name' => 'funcionarios']);
+        //Responsável por gerir clientes: Funcionários
+        $editor = Role::create(['name' => 'employees']);
         $dataEditor = [];
         foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user','audit_user'])->get() as $item) {
             $dataEditor[] = $item->name;
