@@ -62,7 +62,7 @@ Route::post('subscriptions/delete', [PushController::class, 'destroy']);
 
 
 // Notifications
-Route::middleware(['auth'])->group(['name'=>'notifications.','prefix'=>'notifications'],fuction(){
+Route::middleware(['auth'])->group(['name'=>'notifications.','prefix'=>'notifications'],function(){
     Route::get('All', [NotificationController::class, 'index'])->name('index');
 
     Route::post('notifications', [NotificationController::class, 'store'])->name('store');
