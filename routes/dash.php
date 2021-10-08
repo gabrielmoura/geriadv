@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/client', ClientController::class)
         ->names('admin.clients');
     Route::post('/client/pendency', [PendencyController::class, 'store'])->name('admin.clients.pendency');
+    Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('admin.clients.pendency.delee');
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytic.index');
 
