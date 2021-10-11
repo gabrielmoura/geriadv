@@ -5,6 +5,8 @@ use App\Http\Controllers\Adm\ClientController;
 use App\Http\Controllers\Adm\LogActivityController;
 use App\Http\Controllers\Adm\PendencyController;
 use App\Http\Controllers\Adm\UsersController;
+use App\Http\Controllers\Adm\CompanyController;
+use App\Http\Controllers\Adm\EmployeeController;
 use App\Http\Controllers\Auth\DashController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
 
     Route::resource('/usuario', UsersController::class)
         ->names('admin.users');
+    Route::resource('/company', CompanyController::class)
+        ->names('admin.company');
+        Route::resource('/company/iframe', [CompanyController::class,'iframe'])
+        ->names('admin.company.iframe');
+    Route::resource('/employee', EmployeeController::class)
+        ->names('admin.employee');
     Route::resource('/client', ClientController::class)
         ->names('admin.clients');
     Route::post('/client/pendency', [PendencyController::class, 'store'])->name('admin.clients.pendency');

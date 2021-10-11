@@ -20,7 +20,7 @@ class CompanyController extends Controller
     public function index(){
         $this->middleware('role:admin');
         $companies=Company::all();
-        return view(null,compact('companies'))
+        return view('admin.company.index',compact('companies'));
     }    
     /**
      * Deverá ser possivel ver informações da empresa em meia tele e listar os clientes na outra parte.
@@ -29,12 +29,12 @@ class CompanyController extends Controller
      * @return void
      */
     public function show($id){
-        $company=Company::find($id)
-        return view(null,compact('company'));
+        $company=Company::find($id);
+        return view('admin.company.show',compact('company'));
     }
     public function showIframe($id){
-        $company=Company::find($id)
-        return view(null,compact('company'));
+        $company=Company::find($id);
+        return view('admin.company.iframe',compact('company'));
     }
     public function store(Request $request){
         $request->validade();
@@ -43,7 +43,7 @@ class CompanyController extends Controller
 
         ]);
         if($company){
-            toastr()->success('Companhia criada com sucesso.')
+            toastr()->success('Companhia criada com sucesso.');
         }
     }
     public function update(Request $request){
@@ -53,7 +53,7 @@ class CompanyController extends Controller
 
         ]);
         if($company){
-            toastr()->success('Companhia atualizada com sucesso.')
+            toastr()->success('Companhia atualizada com sucesso.');
         }
     }
     public function delete(Request $request){

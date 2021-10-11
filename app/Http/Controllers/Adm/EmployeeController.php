@@ -22,7 +22,7 @@ class EmployeeController extends Controller
         $employees=Employee::find(Auth::user()->company()->id)
         ->employees()->get();
 
-        return view('',compact('employees'))
+        return view('admin.employee.index',compact('employees'));
     }    
     /**
      * O admin e o gerente podem acessar
@@ -31,8 +31,8 @@ class EmployeeController extends Controller
      * @return void
      */
     public function show($id){
-        $employee=Employee::find($id)
-        return view(null,compact('company'));
+        $employee=Employee::find($id);
+        return view('admin.employee.show',compact('company'));
     }
      
     public function store(Request $request){
@@ -42,8 +42,9 @@ class EmployeeController extends Controller
 
         ]);
         if($employee){
-            toastr()->success('Funcionário criado com sucesso.')
+            toastr()->success('Funcionário criado com sucesso.');
         }
+        return redirect()->route('admin.employee.index');
     }
     public function update(Request $request){
         $request->validade();
@@ -52,10 +53,23 @@ class EmployeeController extends Controller
 
         ]);
         if($employee){
-            toastr()->success('Funcionário atualizado com sucesso.')
+            toastr()->success('Funcionário atualizado com sucesso.');
         }
+        return redirect()->route('admin.employee.index');
     }
-    public function delete(Request $request){}
-    public function edit(){}
+    public function delete(Request $request){
+        $employee=Employee::findOrFail($id)->delete();
+        if($employee){
+            toastr()->success('Funcionário deletado com sucesso.');
+        }
+        return redirect()->route('admin.employee.index');
+    }
+    
+    public function edit(){
+        $form = ['route' => ['admin.users.update', $id], 'method' => 'put'];
+        //$user = User::find($id);
+        $employee=Employee::find($id);
+        return view('admin.employee.form',compact('form','employee'));
+    }
 
 }

@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         parent::register();
 
 
-        if ($this->app->environment('local')) {
+        if (!$this->app->environment('production')) {
             $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(ClockworkServiceProvider::class);
         }
@@ -70,7 +70,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Autenticação Horizon
         Horizon::auth(function ($request) {
-            return auth()->check();
+            //Este deverá estar logado e ser o Admin
+            return auth()->check() && auth()->hasrole('admin'); 
         });
 
 

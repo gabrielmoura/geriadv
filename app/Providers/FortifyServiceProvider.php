@@ -82,6 +82,15 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->email . $request->ip());
         });
 
+        /*  Notificar quando alcançar 5 logins por minuto.
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)->by($request->email.$request->ip())->response(function(){
+                Log::channel('api')->info('locked!!');
+				// more logic here
+                abort(429);
+            });
+        });*/
+
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });

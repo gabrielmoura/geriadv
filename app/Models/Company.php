@@ -12,8 +12,9 @@ class Company extends Model
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','cnpj','cep','address','number','complement','district','city','state','email','tel0'];
     protected $table='companies';
+
  /*
     |------------------------------------------------------------------------------------
     | Validations

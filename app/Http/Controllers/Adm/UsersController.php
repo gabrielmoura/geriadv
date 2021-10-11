@@ -17,10 +17,9 @@ class UsersController extends Controller
 
     public function index()
     {
-        //Como apenas o Super-admin tem acesso, ele sempre pegará o ID do super Admin logado.
+        //Deverá retornar todos os usuários rejeitando o que for admin
         $usuarios = User::all()->reject(function ($user) {
-            //return $user->id == auth()->id();
-            return $user->hasRole('client');
+            return $user->hasRole('admin');
         });
         return view('admin.users.index', compact('usuarios'));
     }
@@ -45,12 +44,7 @@ class UsersController extends Controller
         $data['password'] = Hash::make(request('password'));
         $user = User::create($data);
         $user->assignRole($data['role']);
-        //syncRoles
-      /*  activity()->performedOn($user)
-            ->causedBy(auth()->user())
-            //    ->withProperties(['customProperty' => 'customValue'])
-            ->log('Criou o usuário ' . $user->name);
-      */
+        
         toastr()->success('Usuário:' . $user->name . ' criado com sucesso');
         return redirect()->route('admin.users.index');
         //return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' criado com sucesso');
@@ -58,7 +52,8 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        //
+        $user=User::findOrFail($id);
+        return view(null,compact('user'));
     }
 
     public function edit($id)
@@ -111,5 +106,16 @@ class UsersController extends Controller
             ->log('Deletou o usuário ' . $user->name);
        */
         return redirect()->route('admin.users.index')->with('success', $user);
+    }    
+    /**
+     * Loga no usuário pela ID, sem autenticação
+     * !Perigoso!
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    protected function logInUser($id){
+        Auth:loginUsingId($id);
+        return redirect()->route('redirDASH');
     }
 }

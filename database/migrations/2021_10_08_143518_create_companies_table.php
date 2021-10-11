@@ -20,6 +20,9 @@ class CreateCompaniesTable extends Migration
              /**
              * Dados Pessoais
              */
+
+            $table->string('email')->nullable();
+            $table->string('tel0')->comment('telefone')->nullable();
             $table->string('name')->nullable();
             $table->string('cnpj')->nullable();
             
