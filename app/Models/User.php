@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
-use NotificationChannels\WebPush\HasPushSubscriptions;
+
 /**
  * App\Models\User
  *
@@ -57,7 +57,7 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-    use LogsActivity,HasPushSubscriptions;
+    use LogsActivity, HasPushSubscriptions;
 
     /**
      * The attributes that are mass assignable.
@@ -88,6 +88,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     /**
      * @return string
      */
@@ -103,13 +104,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserSocial::class);
     }
-    
-    public function company(){
+
+    public function company()
+    {
         //return $this->belongsTo(Company::class, 'company_id', 'id');
-        $user=$this->belongsTo(Employee::class,'id','user_id')->first();
+        $user = $this->belongsTo(Employee::class, 'id', 'user_id')->first();
         return $user->company()->get();
     }
-
 
 
     public function getActivitylogOptions(): LogOptions

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-//use Spatie\Activitylog\Contracts\Activity;
-use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\Models\Activity;
+
+//use Spatie\Activitylog\Contracts\Activity;
 
 class LogActivityController extends Controller
 {

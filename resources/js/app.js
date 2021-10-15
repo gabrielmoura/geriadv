@@ -8,9 +8,9 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 require('./bootstrap');
-require('./web-push0/main.js');
+require('./web-push1/main.js');
 
-window.toUint8Array = require('base64-to-uint8array')
+//window.toUint8Array = require('base64-to-uint8array');
 // window.Vue = require('vue');
 import Vue from 'vue'
 
@@ -18,6 +18,7 @@ import NotificationsDemo from './components/NotificationsDemo.vue'
 import NotificationsDropdown from './components/NotificationsDropdown.vue'
 
 /* eslint-disable-next-line no-new */
+/*
 new Vue({
     el: '#app',
 
@@ -26,6 +27,7 @@ new Vue({
         NotificationsDropdown
     }
 })
+*/
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

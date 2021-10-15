@@ -169,4 +169,4 @@ window.axios = axios
  */
 
 //Utilizado apenas no Profile, seção de Notificações
-require('bootstrap-toggle'); 
+//require('bootstrap-toggle');

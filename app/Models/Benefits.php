@@ -29,7 +29,9 @@ class Benefits extends Model
 {
     use HasFactory;
     use LogsActivity;
-    protected $fillable=['name','description','client_id'];
+
+    protected $fillable = ['name', 'description', 'client_id'];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

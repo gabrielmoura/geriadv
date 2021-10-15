@@ -3,7 +3,6 @@
 
 namespace App\Actions\MediaLibrary;
 
-use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 
 /**

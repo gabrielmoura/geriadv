@@ -18,12 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/notificate', function () {
-    return event(new TestEvent('Teste Pusher em fucionamento'));
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
+    Route::get('/{slug}/callback', [SocialiteController::class, 'callback'])->name('callback');
+    Route::get('/{slug}/redirect', [SocialiteController::class, 'redirect'])->name('redirect');
 });
 
-Route::get('/auth/{slug}/callback', [SocialiteController::class, 'callback']);
-Route::get('/auth/{slug}/redirect', [SocialiteController::class, 'redirect']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
@@ -37,7 +38,6 @@ Route::middleware(['auth'])->group(function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
@@ -56,13 +56,18 @@ Route::get('/push', [PushController::class, 'push'])->name('push');
 //store a push subscriber.
 Route::post('/push', [PushController::class, 'store']);
 
+Route::get('/notificate', function () {
+    return event(new TestEvent('Teste Pusher em fucionamento'));
+});
 // Push Subscriptions
-Route::post('subscriptions', [PushController::class, 'update']);
-Route::post('subscriptions/delete', [PushController::class, 'destroy']);
 
+Route::group(['prefix' => 'subscriptions'], function () {
+    Route::post('/', [PushController::class, 'update']);
+    Route::post('/delete', [PushController::class, 'destroy']);
+});
 
 // Notifications
-Route::group(['prefix'=>'notifications'],function(){
+Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
     Route::get('All', [NotificationController::class, 'index'])->name('index');
 
     Route::post('notifications', [NotificationController::class, 'store'])->name('store');

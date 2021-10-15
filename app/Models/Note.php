@@ -29,7 +29,9 @@ class Note extends Model
 {
     use HasFactory;
     use LogsActivity;
-    protected $fillable =['client_id', 'body'];
+
+    protected $fillable = ['client_id', 'body'];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

@@ -1,13 +1,13 @@
 {
-    "/js/app.js": "/js/app.js?id=5acf58f3780a26d74963",
+    "/js/app.js": "/js/app.js?id=5f4187fea679f968eaec",
     "/css/app.css": "/css/app.css?id=ad86c0344805a2b5b84a",
     "/css/front.css": "/css/front.css?id=8d543e60da02c37e2620",
     "/css/rtl.css": "/css/rtl.css?id=33b0438ca3119d2a1aed",
-    "/js/front.js": "/js/front.js?id=0b46595dd588371cbac8",
+    "/js/front.js": "/js/front.js?id=b28a635d3e14b9e8c9c2",
     "/js/manifest.js": "/js/manifest.js?id=41f053ba9a94d81b39f8",
-    "/js/vendor.js": "/js/vendor.js?id=02edd7203460ace53959",
-    "/sw.js": "/sw.js?id=cc9a07ef3afc088610b5",
-    "/js/webPush.js": "/js/webPush.js?id=eafb89f63d87770650ea",
-    "/css/front_theme.css": "/css/front_theme.css?id=72fc72e4f3924b3fda97",
+    "/js/vendor.js": "/js/vendor.js?id=9f00d3a4ae9746648fc5",
+    "/sw.js": "/sw.js?id=6ada4c03bf6b4eafe1f7",
+    "/js/webPush.js": "/js/webPush.js?id=68fcf0fd747d270c8053",
+    "/css/front_theme.css": "/css/front_theme.css?id=e398364eb0eaaba9e4f0",
     "/css/client.css": "/css/client.css?id=38e31489d046b4de21af"
 }

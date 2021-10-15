@@ -12,8 +12,8 @@ class PusherTestController extends Controller
             'cluster' => env('PUSHER_APP_CLUSTER'),
             'encrypted' => true,
             'host' => 'workspace',
-            'port'=>6001,
-            'scheme'=>'http'
+            'port' => 6001,
+            'scheme' => 'http'
         );
         $pusher = new Pusher(
             env('PUSHER_APP_KEY'),

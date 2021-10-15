@@ -13,6 +13,7 @@ class ExportExcel
     {
         return $excel->download($clients, 'clients');
     }
+
     public function exportView(Excel $excel, ClientV $ClientView)
     {
         return $excel->download($ClientView, 'clients');

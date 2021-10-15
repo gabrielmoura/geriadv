@@ -6,6 +6,7 @@ use App\Events\NotificationRead;
 use App\Events\NotificationReadAll;
 use App\Notifications\PushDemo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use NotificationChannels\WebPush\PushSubscription;
 
 /**
@@ -20,9 +21,11 @@ class NotificationController extends Controller
         $this->middleware('auth')->except('last', 'dismiss');
     }
 
-    public function index(){
-        $notifications=Auth::user()->unreadNotifications()->get();
-        return view('admin.notification.index',compact('notifications'))
+    public function index()
+    {
+
+        $notifications = Auth::user()->unreadNotifications()->get();
+        return view('admin.notification.index', compact('notifications'));
 
     }
 

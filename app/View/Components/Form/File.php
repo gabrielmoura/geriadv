@@ -6,14 +6,14 @@ use Illuminate\View\Component;
 
 class File extends Component
 {
-    public $name,$title;
+    public $name, $title;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name,$title=null)
+    public function __construct($name, $title = null)
     {
         $this->name = $name;
         $this->title = $title;

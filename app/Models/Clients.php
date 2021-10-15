@@ -119,7 +119,7 @@ class Clients extends Model implements HasMedia
         , 'country'
         , 'newsletter'
 
-        ,'recommendation_id'
+        , 'recommendation_id'
 
     ];
     protected $casts = [

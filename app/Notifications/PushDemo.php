@@ -13,7 +13,6 @@ class PushDemo extends Notification
     use Queueable;
 
 
-
     /**
      * Create a new notification instance.
      *
@@ -32,7 +31,7 @@ class PushDemo extends Notification
      */
     public function via($notifiable)
     {
-       // return [WebPushChannel::class];
+        // return [WebPushChannel::class];
         return ['database', 'broadcast', WebPushChannel::class];
     }
 

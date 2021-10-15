@@ -12,15 +12,15 @@ class Company extends Model
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable = ['name','cnpj','cep','address','number','complement','district','city','state','email','tel0'];
-    protected $table='companies';
+    protected $fillable = ['name', 'cnpj', 'cep', 'address', 'number', 'complement', 'district', 'city', 'state', 'email', 'tel0'];
+    protected $table = 'companies';
 
- /*
-    |------------------------------------------------------------------------------------
-    | Validations
-    |------------------------------------------------------------------------------------
-    */
-    public static function rules($update = false, $id=null)
+    /*
+       |------------------------------------------------------------------------------------
+       | Validations
+       |------------------------------------------------------------------------------------
+       */
+    public static function rules($update = false, $id = null)
     {
         return [
             'name' => 'required',
@@ -32,7 +32,8 @@ class Company extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
-    public function employees(){
+    public function employees()
+    {
         return $this->belongsTo(Employee::class, 'id', 'company_id');
     }
     /*

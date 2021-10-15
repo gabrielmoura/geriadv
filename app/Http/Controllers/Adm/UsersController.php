@@ -44,7 +44,7 @@ class UsersController extends Controller
         $data['password'] = Hash::make(request('password'));
         $user = User::create($data);
         $user->assignRole($data['role']);
-        
+
         toastr()->success('Usuário:' . $user->name . ' criado com sucesso');
         return redirect()->route('admin.users.index');
         //return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' criado com sucesso');
@@ -52,8 +52,8 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        $user=User::findOrFail($id);
-        return view(null,compact('user'));
+        $user = User::findOrFail($id);
+        return view(null, compact('user'));
     }
 
     public function edit($id)
@@ -87,11 +87,11 @@ class UsersController extends Controller
         }
 
         $user->update($data);
-      /*  activity()->performedOn($user)
-            ->causedBy(auth()->user())
-            //    ->withProperties(['customProperty' => 'customValue'])
-            ->log('Atualizou o usuário ' . $user->name);
-      */
+        /*  activity()->performedOn($user)
+              ->causedBy(auth()->user())
+              //    ->withProperties(['customProperty' => 'customValue'])
+              ->log('Atualizou o usuário ' . $user->name);
+        */
         toastr()->success('Usuário:' . $user->name . ' atualizado com sucesso');
         return redirect()->route('admin.users.index')->with('success', $user);
     }
@@ -100,22 +100,25 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::destroy($id);
-       /* activity()->performedOn($user)
-            ->causedBy(auth()->user())
-            //    ->withProperties(['customProperty' => 'customValue'])
-            ->log('Deletou o usuário ' . $user->name);
-       */
+        /* activity()->performedOn($user)
+             ->causedBy(auth()->user())
+             //    ->withProperties(['customProperty' => 'customValue'])
+             ->log('Deletou o usuário ' . $user->name);
+        */
         return redirect()->route('admin.users.index')->with('success', $user);
-    }    
+    }
+
     /**
      * Loga no usuário pela ID, sem autenticação
      * !Perigoso!
      *
-     * @param  mixed $id
+     * @param mixed $id
      * @return void
      */
-    protected function logInUser($id){
-        Auth:loginUsingId($id);
+    protected function logInUser($id)
+    {
+        Auth:
+        loginUsingId($id);
         return redirect()->route('redirDASH');
     }
 }

@@ -71,7 +71,7 @@ class AppServiceProvider extends ServiceProvider
         // Autenticação Horizon
         Horizon::auth(function ($request) {
             //Este deverá estar logado e ser o Admin
-            return auth()->check() && auth()->hasrole('admin'); 
+            return auth()->check() && auth()->hasrole('admin');
         });
 
 

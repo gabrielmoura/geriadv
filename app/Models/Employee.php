@@ -16,27 +16,48 @@ class Employee extends Model
         'cpf' => 'encrypted',
     ];
 
-    protected $fillable = ['name'];
-    protected $table='employees';
- /*
-    |------------------------------------------------------------------------------------
-    | Validations
-    |------------------------------------------------------------------------------------
-    */
-    public static function rules($update = false, $id=null)
+    protected $fillable = [
+        'name',
+        'last_name',
+        'company_id',
+        'user_id',
+        'cpf',
+        'rg',
+        'email',
+        'tel0',
+        'tel1',
+        'sex',
+        'birth_date',
+        'cep',
+        'address',
+        'number',
+        'complement',
+        'district',
+        'city',
+        'state',];
+    protected $table = 'employees';
+
+
+    /*
+       |------------------------------------------------------------------------------------
+       | Validations
+       |------------------------------------------------------------------------------------
+       */
+    public static function rules($update = false, $id = null)
     {
         return [
             'name' => 'required',
         ];
     }
 
-    
+
     /*
     |------------------------------------------------------------------------------------
     | Relations
     |------------------------------------------------------------------------------------
     */
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
     /*

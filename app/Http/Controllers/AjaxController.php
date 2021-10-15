@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Rule\ClientsRule;
 use App\Mail\Client\GenericMail;
 use App\Models\Benefits;
 use App\Models\Clients;
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Actions\Rule\ClientsRule;
 
 /**
  * Class AjaxController
@@ -104,8 +104,8 @@ class AjaxController extends Controller
      */
     public function setStatus(Request $request)
     {
-        $request=ClientsRule::Status($request);
-        
+        $request = ClientsRule::Status($request);
+
         DB::transaction(function () use ($request) {
             $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
             if (!$status) {
@@ -207,9 +207,9 @@ class AjaxController extends Controller
                 ->withProperties([$request->body, $request->title])
                 ->log('Enviou um email ao cliente ' . $client->fullname);
         } catch (\Exception $e) {
-        
+
         }
-        return response('',201);
+        return response('', 201);
     }
 
 }

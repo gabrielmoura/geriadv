@@ -5,11 +5,9 @@ namespace App\Listeners\Client;
 use App\Models\User;
 use App\Notifications\Client\BirthdayCustomerNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
-use Pusher\Pusher;
 
-class BirthdayCustomerListener  implements ShouldQueue
+class BirthdayCustomerListener implements ShouldQueue
 {
 
     /**
@@ -34,12 +32,12 @@ class BirthdayCustomerListener  implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle($event)
     {
-        $admins =User::role('manager')->get();
+        $admins = User::role('manager')->get();
         Notification::send($admins, new BirthdayCustomerNotification($event));
     }
 }

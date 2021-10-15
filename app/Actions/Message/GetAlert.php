@@ -28,7 +28,7 @@ class GetAlert
      */
     public static function getNotice()
     {
-        $limit=5;
+        $limit = 5;
         return Auth::user()->unreadNotifications()->limit($limit)->get();
         //return collect($notifications);
     }

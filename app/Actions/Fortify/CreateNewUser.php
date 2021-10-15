@@ -4,7 +4,6 @@ namespace App\Actions\Fortify;
 
 use App\Models\Client;
 use App\Models\User;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
