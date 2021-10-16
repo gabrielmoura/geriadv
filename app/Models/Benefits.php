@@ -24,6 +24,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereUpdatedAt($value)
+ * @property int $client_id Cliente
+ * @property int|null $user_id Funcionário
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereUserId($value)
  */
 class Benefits extends Model
 {

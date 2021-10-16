@@ -1,6 +1,17 @@
 <?php
 return [
     /**
+     * Funcionará no fim de semana?
+     */
+    'Weekend' => env('WEEKEND', false),
+
+    /**
+     * Horarios de funcionamento
+     */
+    'Opening' => env('OPENING', '07:00:00'),
+    'Closing' => env('CLOSING', '18:00:00'),
+
+    /**
      * Informações para aposentadoria
      */
     'minimum' => [

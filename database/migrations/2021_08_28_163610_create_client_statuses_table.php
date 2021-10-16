@@ -31,7 +31,8 @@ class CreateClientStatusesTable extends Migration
                 'deferred', //Deferido
                 'called_off', //Cancelado
                 'cancellation', //Cancelamento
-                'deceased' //Falecido
+                'deceased', //Falecido
+                'requirement'//Exigência
             ])->comment('Status do Cliente')->index();
 
         });

@@ -46,16 +46,11 @@
             <span class="title" title="Registro de Atividades">Registro</span>
         </a>
     @endcan
-    @role('admin')
-    ADMMM
-    @endrole
-    @role('client')
-    KKKKK
-    @endrole
+
 
 
 </li>
-<li class="nav-item dropdown open"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i
+{{--<li class="nav-item dropdown open"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i
                 class="c-teal-500 ti-view-list-alt"></i> </span><span class="title">Multiple Levels</span> <span
             class="arrow"><i class="ti-angle-right"></i></span></a>
     <ul class="dropdown-menu" style="display: block;">
@@ -68,4 +63,4 @@
             </ul>
         </li>
     </ul>
-</li>
+</li> --}}

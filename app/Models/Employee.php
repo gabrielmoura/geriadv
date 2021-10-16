@@ -7,6 +7,59 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Employee
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $user_id Usuário
+ * @property int $company_id Empresa
+ * @property string|null $name
+ * @property string|null $last_name
+ * @property mixed|null $cpf
+ * @property string|null $rg
+ * @property string|null $email
+ * @property string|null $tel0 telefone
+ * @property string|null $tel1
+ * @property string|null $sex Sexo
+ * @property string|null $birth_date Data de nascimento
+ * @property int|null $cep
+ * @property string|null $address Endereço
+ * @property int|null $number Numero
+ * @property string|null $complement Complemento
+ * @property string|null $district Bairro
+ * @property string|null $city Cidade
+ * @property string|null $state Estado
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Company $company
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereComplement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCpf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereDistrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereRg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereTel0($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereTel1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Employee extends Model
 {
     use HasFactory;

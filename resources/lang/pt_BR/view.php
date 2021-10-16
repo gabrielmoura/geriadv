@@ -10,10 +10,13 @@ return [
         'm' => 'Masculino',
         'f' => 'Feminino'
     ],
-    'Pendencies'=>'Pendencias',
-    'Clients'=>'Clientes',
-    'Benefits'=>'Beneficios',
-    'Note'=>'Observação',
-    'created'=>'criado',
-    'updated'=>'atualizado',
+    'Pendencies' => 'Pendencias',
+    'Clients' => 'Clientes',
+    'Benefits' => 'Beneficios',
+    'Note' => 'Observação',
+    'created' => 'criado',
+    'updated' => 'atualizado',
+    'hour' => [
+        'outside' => 'Acesso fora da hora ou data permitida.',
+    ],
 ];

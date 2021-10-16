@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Observers\ClientStatusObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\ClientStatus
@@ -27,10 +28,13 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property int|null $user_id Funcionário
  * @method static \Illuminate\Database\Eloquent\Builder|ClientStatus whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class ClientStatus extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = ['client_id', 'note_id', 'status'];
     private $status = ['analysis', //Analise
@@ -38,7 +42,8 @@ class ClientStatus extends Model
         'deferred', //Deferido
         'called_off', //Cancelado
         'cancellation', //Cancelamento
-        'deceased' //Falecido
+        'deceased', //Falecido
+        'requirement' //Exigência
     ];
 
 
@@ -59,7 +64,11 @@ class ClientStatus extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
+    public function client()
+    {
 
+        $this->belongsTo(Clients::class);
+    }
     /*
     |------------------------------------------------------------------------------------
     | Scopes
@@ -75,6 +84,14 @@ class ClientStatus extends Model
     public static function boot()
     {
         parent::boot();
-        ClientStatus::observe(ClientStatusObserver::class);
+
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
+        //->logOnly(['name', 'text']);
+        // Chain fluent methods for configuration options
     }
 }

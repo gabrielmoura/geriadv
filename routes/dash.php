@@ -7,6 +7,7 @@ use App\Http\Controllers\Adm\EmployeeController;
 use App\Http\Controllers\Adm\LogActivityController;
 use App\Http\Controllers\Adm\PendencyController;
 use App\Http\Controllers\Adm\UsersController;
+use App\Http\Controllers\Auth\ActivityControlController;
 use App\Http\Controllers\Auth\DashController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,13 +34,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web'], function () {
     Route::resource('/company', CompanyController::class)->names('admin.company');
     Route::get('/company/iframe', [CompanyController::class, 'iframe'])->name('admin.company.iframe');
     Route::resource('/employee', EmployeeController::class)->names('admin.employee');
-    Route::resource('/client', ClientController::class)->names('admin.clients');
-    Route::post('/client/pendency', [PendencyController::class, 'store'])->name('admin.clients.pendency');
-    Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('admin.clients.pendency.delee');
-
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytic.index');
-
     Route::get('/logActivity', [LogActivityController::class, 'index'])->name('admin.log.activity');
+    Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('admin.ActivityControl');
+    Route::post('/ActivityControl', [ActivityControlController::class, 'store'])->name('admin.ActivityControl.store');
+
+    Route::group(['middleware' => 'restrictedToDayLight'], function () {
+        Route::resource('/client', ClientController::class)->names('admin.clients');
+        Route::post('/client/pendency', [PendencyController::class, 'store'])->name('admin.clients.pendency');
+        Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('admin.clients.pendency.delee');
+    });
 });
 
 

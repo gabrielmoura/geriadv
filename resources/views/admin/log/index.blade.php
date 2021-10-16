@@ -25,7 +25,7 @@
             @foreach($activities->all() as $activity)
                 <tr>
                     <td>{{$activity->created_at}}</td>
-                    <td>{{\App\Models\User::find($activity->causer_id)->name}}</td>
+                    <td>{{\App\Models\User::find($activity->causer_id)->name??null}}</td>
                     <td>{{ __('view.'.explode("\\",$activity->subject_type)[2])}}::{{__('view.'.$activity->description)}} </td>
                     <td>{{($activity->properties->has('old')) ?json_encode( collect($activity->properties['attributes'])->diffAssoc($activity->properties['old'])):''}}
                         @if($activity->properties->has('old'))

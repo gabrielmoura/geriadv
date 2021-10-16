@@ -37,6 +37,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Pendencies whereProofOfAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Pendencies whereRg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Pendencies whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  */
 class Pendencies extends Model implements HasMedia
 {

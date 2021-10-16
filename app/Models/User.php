@@ -53,6 +53,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\NotificationChannels\WebPush\PushSubscription[] $pushSubscriptions
+ * @property-read int|null $push_subscriptions_count
  */
 class User extends Authenticatable
 {
@@ -108,8 +112,8 @@ class User extends Authenticatable
     public function company()
     {
         //return $this->belongsTo(Company::class, 'company_id', 'id');
-        $user = $this->belongsTo(Employee::class, 'id', 'user_id')->first();
-        return $user->company()->get();
+        return $this->belongsTo(Employee::class, 'id', 'user_id')->first();
+
     }
 
 

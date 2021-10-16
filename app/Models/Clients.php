@@ -83,6 +83,11 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereRg($value)
  * @method static \Illuminate\Database\Query\Builder|Clients withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Clients withoutTrashed()
+ * @property int|null $pendency_id Pendencias
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Pendencies|null $pendency
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePendencyId($value)
  */
 class Clients extends Model implements HasMedia
 {

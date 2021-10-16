@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Client;
-use App\Models\ContactRequest;
-use App\Models\Product;
-use App\Models\UserOrder;
+use App\Models\Benefits;
+use App\Models\Clients;
+use App\Models\ClientStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -14,28 +13,22 @@ class AnalyticsController extends Controller
 {
     public function index()
     {
-        $order = UserOrder::whereMonth(
+
+        $clients = Clients::whereMonth(
             'created_at', '=', Carbon::now()->subMonth()->month
         );
-        $order->count(); //Quantidade de vendas no mes
-        $order->sum('price'); //Ganhos no mes
+        //$clients->count(); //Quantidade de clientes no mes
 
-        $clients = Client::whereMonth(
-            'created_at', '=', Carbon::now()->subMonth()->month
-        );
-        $clients->count(); //Quantidade de novos clientes no mes
+        $status = ClientStatus::whereStatus('analysis')
+            ->whereStatus('requirement')
+            ->whereMonth('created_at', '=', Carbon::now()->subMonth()->month);
+        //$status->count(); //Quantidade de Analises e Exigências
 
-        $crequest = ContactRequest::whereMonth(
-            'created_at', '=', Carbon::now()->subMonth()->month
-        );
-        $crequest->count(); //Quantidade de Pedidos de contatos no mes
+        $benefits = Benefits::whereMonth('created_at', '=', Carbon::now()->subMonth()->month);
+        //$benefitsTotal = $benefits->count(); //Quantidade total de Beneficios
 
-        $products = Product::whereMonth(
-            'created_at', '=', Carbon::now()->subMonth()->month
-        );
-        $products->count(); //Quantidade de Produtos cadastrados no mes
 
-        return view('admin.index');
+        return view('admin.index', compact('clients', 'status', 'benefits'));
     }
 
 
@@ -62,24 +55,13 @@ class AnalyticsController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
