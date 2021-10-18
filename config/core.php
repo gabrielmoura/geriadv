@@ -8,8 +8,8 @@ return [
     /**
      * Horarios de funcionamento
      */
-    'Opening' => env('OPENING', '07:00:00'),
-    'Closing' => env('CLOSING', '18:00:00'),
+    'Opening' => env('OPENING', '07:00'),
+    'Closing' => env('CLOSING', '18:00'),
 
     /**
      * Informações para aposentadoria

@@ -28,7 +28,7 @@ class GenericMail extends Mailable implements ShouldQueue
         $body = $this->body;
         $title = $this->title;
         return $this->subject($this->title)
-            ->view('mail.genericMail', compact('body', 'title'));
+            ->view('mail.client.genericMail', compact('body', 'title'));
 
     }
 }

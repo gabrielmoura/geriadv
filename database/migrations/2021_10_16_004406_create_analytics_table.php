@@ -18,7 +18,7 @@ class CreateAnalyticsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string('log_name')->nullable()->comment('Identificação do Log');
-            $table->nullableMorphs('subject', 'subject');
+            $table->nullableMorphs('analyticsTable', 'analyticsTable');
             $table->decimal('total')->comment('Total da Contagem');
 
             $table->index('log_name');

@@ -2,7 +2,8 @@
 @section('page-header') Clientes @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0" >
+        <a class="btn btn-lg btn-success" href="{{route('admin.clients.create')}}">Registrar Cliente</a>
+        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0">
             <thead>
             <tr>
                 <th>Nome</th>
@@ -37,7 +38,8 @@
                     <td>{{$client->address}}</td>
                     <td>{{$client->birth_date}}</td>
                     <td>{{$client->doc}}</td>
-                    <td><a href="{{route('admin.clients.show',['client'=>$client->slug])}}"><i class="fa fa-eye"></i></a>
+                    <td><a href="{{route('admin.clients.show',['client'=>$client->slug])}}"><i
+                                class="fa fa-eye"></i></a>
                     </td>
                 </tr>
             @endforeach

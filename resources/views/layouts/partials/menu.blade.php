@@ -19,6 +19,8 @@
             <span class="title">Usuários</span>
         </a>
     @endcan
+</li>
+<li class="nav-item">
     @can('edit_client')
         <a class="sidebar-link {{ routeActive('admin.clients') }}"
            href="{{route('admin.clients.index')}}">
@@ -28,6 +30,23 @@
             <span class="title">Clientes</span>
         </a>
     @endcan
+</li>
+@can('edit_client')
+    <li class="nav-item dropdown {{ routeActive('admin.calendar','open') }}">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+            <span class="icon-holder">
+                <i class="c-teal-500 ti-view-list-alt"></i>
+            </span>
+            <span class="title">Agendamentos</span>
+            <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item "><a href="{{route('admin.calendar.index')}}" class="{{routeActive('admin.calendar.index')}}"><span>Listar Agendamento</span></a></li>
+            <li class="nav-item "><a href="{{route('admin.calendar.systemCalendar')}}" class="{{routeActive('admin.calendar.systemCalendar')}}"><span>Ver Agendamentos</span></a></li>
+        </ul>
+    </li>
+@endcan
+<li class="nav-item">
     @can('view_analytic')
         <a class="sidebar-link {{ routeActive('admin.analytic.index')}}"
            href="{{route('admin.analytic.index')}}">
@@ -37,6 +56,8 @@
             <span class="title">Estatisticas</span>
         </a>
     @endcan
+</li>
+<li class="nav-item">
     @can('view_analytic')
         <a class="sidebar-link {{ routeActive('admin.log.activity')}}"
            href="{{route('admin.log.activity')}}">
@@ -47,9 +68,8 @@
         </a>
     @endcan
 
-
-
 </li>
+
 {{--<li class="nav-item dropdown open"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i
                 class="c-teal-500 ti-view-list-alt"></i> </span><span class="title">Multiple Levels</span> <span
             class="arrow"><i class="ti-angle-right"></i></span></a>

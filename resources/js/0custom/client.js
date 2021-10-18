@@ -177,8 +177,18 @@ window.mclients = {
                 }
             });
     },
-    sendMail: function (mail, clientID) {
-        axios.post(location.protocol + '//' + location.host + '/ajax/sendMail', {mail: mail, id: clientID})
+    /**
+     * Enviar email
+     * @param title
+     * @param body
+     * @param clientID
+     */
+    sendMail: function (title, body, clientID) {
+        axios.post(location.protocol + '//' + location.host + '/ajax/sendMail', {
+            title: title,
+            body: body,
+            clientID: clientID
+        })
             .then(response => {
                 this.status = response.data;
             })
@@ -189,4 +199,4 @@ window.mclients = {
                 }
             });
     },
-}
+};

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Rule\ClientsRule;
+
 use App\Mail\Client\GenericMail;
 use App\Models\Benefits;
 use App\Models\Clients;
@@ -104,16 +104,14 @@ class AjaxController extends Controller
      */
     public function setStatus(Request $request)
     {
-        $request = ClientsRule::Status($request);
+        //$request = ClientsRule::Status($request);
+        if (ClientStatus::whereClientId($request->clientID)->whereStatus($request->status)->count() >= 2) return abort(406, 'Limite Exedido');
 
-        DB::transaction(function () use ($request) {
-            $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
-            if (!$status) {
-                throw new \Exception('Não foi possivel atualizar cliente', 400);
-            }
-            return $status;
-        });
-        return abort(400, 'Não foi possivel atualizar cliente');
+        $status = ClientStatus::create(['status' => $request->status, 'client_id' => $request->clientID]);
+        if ($status) {
+            return abort(201);
+        }
+        return abort(400);
     }
 
 
@@ -176,9 +174,9 @@ class AjaxController extends Controller
             $client = Clients::find($request->clientID);
             $recommendation = $client->recommendation()->create(['name' => $request->name]);
             $client->recommendation_id = $recommendation->id;
-            $client->save();;
+            $ok = $client->save();;
             //Recommendation::create(['client_id' => $request->id, 'body' => $request->body]);
-            if (!$recommendation) {
+            if (!$ok) {
                 throw new \Exception('Não foi possivel associar indicação ao cliente', 400);
             }
             return $recommendation;

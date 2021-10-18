@@ -3,13 +3,14 @@
 namespace App\Providers;
 
 
+use App\Models\Calendar;
+use App\Observers\CalendarRecurrenceObserver;
 use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Horizon\Horizon;
 use Laravel\Telescope\TelescopeServiceProvider;
 use RichardStyles\EloquentEncryption\Casts\Encrypted;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
@@ -68,11 +69,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('form-date', \App\View\Components\Form\Date::class);
         Blade::component('bootstrap-modal', \App\View\Components\Bootstrap\Modal::class);
 
-        // Autenticação Horizon
-        Horizon::auth(function ($request) {
-            //Este deverá estar logado e ser o Admin
-            return auth()->check() && auth()->hasrole('admin');
-        });
+        Calendar::observe(CalendarRecurrenceObserver::class);
 
 
     }

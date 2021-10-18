@@ -292,35 +292,40 @@
                     @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cras))
                         <x-form-file name="cras" title="cras"></x-form-file>
                     @else
-                        <a href="{{$client->pendency()->first()->cras->getMedia('docs')->getUrl()}}" target="_new">Acessar CRAS</a>
+                        <a href="{{$client->pendency()->first()->cras->getMedia('docs')->getUrl()}}" target="_new">Acessar
+                            CRAS</a>
                     @endif
 
                     @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cpf))
                         <x-form-file name="cpf" title="cpf"></x-form-file>
                     @else
-                        <a href="{{$client->pendency()->first()->cpf->getMedia('docs')->getUrl()}}" target="_new">Acessar CPF</a>
+                        <a href="{{$client->pendency()->first()->cpf->getMedia('docs')->getUrl()}}" target="_new">Acessar
+                            CPF</a>
                     @endif
 
                     @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->rg))
                         <x-form-file name="rg" title="rg"></x-form-file>
                     @else
-                        <a href="{{$client->pendency()->first()->rg->getMedia('docs')->getUrl()}}" target="_new">Acessar RG</a>
+                        <a href="{{$client->pendency()->first()->rg->getMedia('docs')->getUrl()}}" target="_new">Acessar
+                            RG</a>
                     @endif
 
                     @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->birth_certificate))
                         <x-form-file name="birth_certificate" title="Certidão de Nascimento"></x-form-file>
                     @else
-                        <a href="{{$client->pendency()->first()->birth_certificate->getMedia('docs')->getUrl()}}" target="_new">Acessar Certidão de Nascimento</a>
+                        <a href="{{$client->pendency()->first()->birth_certificate->getMedia('docs')->getUrl()}}"
+                           target="_new">Acessar Certidão de Nascimento</a>
                     @endif
 
                     @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->proof_of_address))
                         <x-form-file name="proof_of_address" title="Comprovante de Residencia"></x-form-file>
                     @else
-                        <a href="{{$client->pendency()->first()->proof_of_address->getMedia('docs')->getUrl()}}" target="_new">Acessar Comprovante de Residencia</a>
+                        <a href="{{$client->pendency()->first()->proof_of_address->getMedia('docs')->getUrl()}}"
+                           target="_new">Acessar Comprovante de Residencia</a>
                         <button onclick="remDocs('proof_of_address');">Limpar</button>
                     @endif
 
-                    <button type=reset >Apagar</button>
+                    <button type=reset>Apagar</button>
                     <button type="submit">Enviar</button>
                     {!! Form::close() !!}
                 </div>
@@ -564,6 +569,7 @@
         <x-form-tinymce name="note" title="Observação"></x-form-tinymce>
     </x-bootstrap-modal>
     <x-bootstrap-modal title="E-Mail" name="mailModal">
+        <x-form-input name="title" title="Titulo" id="mailTitle"></x-form-input>
         <x-form-tinymce name="mail" title="E-Mail"></x-form-tinymce>
     </x-bootstrap-modal>
     <x-bootstrap-modal title="Status" name="statusModal">
@@ -613,7 +619,7 @@
             }, 1000);
         });
         $('#MailModal-submit').click(function () {
-            mclients.sendMail(tinymce.activeEditor.getContent(),{{$client->id}});
+            mclients.sendMail(document.getElementById('Title').value, tinymce.activeEditor.getContent(),{{$client->id}});
             var times = 0;
             setInterval(function () {
                 if (mclients.status !== false) {
@@ -632,18 +638,13 @@
             }, 1000);
         });
 
-        const remDocs=(id,slug)=>{
-            axios
-        .delete('/ajax/remDoc',{doc:id,slug:slug})
-        .then(function(res){
-            console.log(res.data);
-        }); 
-        };
-    }
     </script>
 @endpush
 @push('css')
-{{-- https://web.dev/defer-non-critical-css/ --}}
-<link rel="preload" href="{{mix('css/client.css')}}" as="style" media='screen' type='text/css' onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{mix('css/client.css')}}" media='screen' type='text/css'></noscript>
+    {{-- https://web.dev/defer-non-critical-css/ --}}
+    <link rel="preload" href="{{mix('css/client.css')}}" as="style" media='screen' type='text/css'
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{mix('css/client.css')}}" media='screen' type='text/css'>
+    </noscript>
 @endpush

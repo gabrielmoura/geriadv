@@ -8,7 +8,8 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 require('./bootstrap');
-require('./web-push1/main.js');
+require('./0custom/client');
+require('./web-push1/main');
 
 //window.toUint8Array = require('base64-to-uint8array');
 // window.Vue = require('vue');
@@ -73,7 +74,7 @@ import './select2';
 import './tynimce';
 import './toastr';
 
-require('./0custom/client');
+
 //import 'toastr/toastr';
 //import('./maskmoney');
 

@@ -6,14 +6,16 @@ if (!function_exists('routeIs')) {
     }
 }
 if (!function_exists('routeActive')) {
+
     /**
      * Retorna "active" se dentro da rota
      * @param $route
-     * @return string
+     * @param string $print
+     * @return mixed|string
      */
-    function routeActive($route)
+    function routeActive($route, $print = 'active')
     {
-        return (str_contains(Route::currentRouteName(), $route)) ? 'active' : '';
+        return (str_contains(Route::currentRouteName(), $route)) ? $print : '';
     }
 }
 if (!function_exists('resumo')) {
