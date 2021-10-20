@@ -23,7 +23,12 @@ class DashController extends Controller
         /*if (session()->has('cartID') && !\Cart::session(session()->get('cartID'))->isEmpty()) {
             return redirect()->route('checkout.index');
         }*/
-        if (Auth::user()->hasRole(['admin'])) {
+        $userAuth=Auth::user();
+        //Caso não hája company_id na sessão escreva (opcional)
+        if(!session()->has('company_id')) session(['company_id' => $userAuth->company()->id]);
+        
+        
+        if ($userAuth->hasRole(['admin'])) {
             return redirect()->route('admin.index');
         } else {
             return redirect()->route('employee.index');

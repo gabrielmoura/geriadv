@@ -86,7 +86,9 @@ class Company extends Model
     | Attributes
     |------------------------------------------------------------------------------------
     */
-
+public function getPaid():bool{
+return true;
+}
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
