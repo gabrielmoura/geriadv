@@ -29,22 +29,28 @@ class Calendar extends Model
     ];
 
 
-    protected $fillable = ['start', 'end', 'name',
+    protected $fillable = [
+        'name',
         'end_time',
         'event_id',
         'start_time',
         'recurrence',
         'created_at',
         'updated_at',
-        'deleted_at',];
+        'deleted_at',
+        'description'
+    ];
+    protected $casts = [
+        'properties' => 'collection',
+    ];
+    protected string $format;
 
-
-    public function events()
+    public function calendars()
     {
         return $this->hasMany(Calendar::class, 'calendar_id', 'id');
     }
 
-    public function event()
+    public function calendar()
     {
         return $this->belongsTo(Calendar::class, 'calendar_id');
     }
@@ -52,24 +58,18 @@ class Calendar extends Model
     public function getStartTimeAttribute($value)
     {
         //Carbon::parse()
-        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')):null;
 
     }
 
-    public function setStartTimeAttribute($value)
-    {
-        $this->attributes['start_time'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
+
 
     public function getEndTimeAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setEndTimeAttribute($value)
-    {
-        $this->attributes['end_time'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
+
 
     /*
     |------------------------------------------------------------------------------------

@@ -42,10 +42,11 @@
                         content: eventObj.description,
                         trigger: 'hover',
                         placement: 'top',
+                        html:true,
                         container: 'body'
                     });
                 },
-                timeFormat: 'h:mm',
+
                 header: {
                     left: 'prev,next today ',
                     center: 'title',

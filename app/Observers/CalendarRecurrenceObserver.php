@@ -7,9 +7,12 @@ use Carbon\Carbon;
 
 class CalendarRecurrenceObserver
 {
+    private function format($data){
+        return Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $data);
+    }
     public static function created(Event $event)
     {
-        if (!$event->event()->exists()) {
+        if (!$event->calendar()->exists()) {
             $recurrences = [
                 'daily' => [
                     'times' => 365,
@@ -24,21 +27,23 @@ class CalendarRecurrenceObserver
                     'function' => 'addMonth'
                 ]
             ];
-            //$startTime = Carbon::parse($event->start_time);
-            $startTime = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $event->start_time)->format('Y-m-d H:i:s');
-            //$endTime = Carbon::parse($event->end_time);
-            $endTime = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $event->end_time)->format('Y-m-d H:i:s');
+            $startTime = Carbon::parse($event->start_time);
+            //$startTime = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $event->start_time);
+            $endTime = Carbon::parse($event->end_time);
+            //$endTime = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $event->end_time);
             $recurrence = $recurrences[$event->recurrence] ?? null;
+
 
             if ($recurrence)
                 for ($i = 0; $i < $recurrence['times']; $i++) {
                     $startTime->{$recurrence['function']}();
                     $endTime->{$recurrence['function']}();
-                    $event->events()->create([
+                    $event->calendars()->create([
                         'name' => $event->name,
                         'start_time' => $startTime,
                         'end_time' => $endTime,
                         'recurrence' => $event->recurrence,
+                        'description' => $event->description,
                     ]);
                 }
         }
@@ -46,13 +51,13 @@ class CalendarRecurrenceObserver
 
     public function updated(Event $event)
     {
-        if ($event->events()->exists() || $event->event) {
+        if ($event->calendars()->exists() || $event->calendar) {
             $startTime = Carbon::parse($event->getOriginal('start_time'))->diffInSeconds($event->start_time, false);
             $endTime = Carbon::parse($event->getOriginal('end_time'))->diffInSeconds($event->end_time, false);
-            if ($event->event)
-                $childEvents = $event->event->events()->whereDate('start_time', '>', $event->getOriginal('start_time'))->get();
+            if ($event->calendar)
+                $childEvents = $event->calendar->events()->whereDate('start_time', '>', $event->getOriginal('start_time'))->get();
             else
-                $childEvents = $event->events;
+                $childEvents = $event->calendars;
 
             foreach ($childEvents as $childEvent) {
                 if ($startTime)
@@ -71,10 +76,10 @@ class CalendarRecurrenceObserver
 
     public function deleted(Event $event)
     {
-        if ($event->events()->exists())
-            $events = $event->events()->pluck('id');
+        if ($event->calendars()->exists())
+            $events = $event->calendars()->pluck('id');
         else if ($event->event)
-            $events = $event->event->events()->whereDate('start_time', '>', $event->start_time)->pluck('id');
+            $events = $event->calendar->calendars()->whereDate('start_time', '>', $event->start_time)->pluck('id');
         else
             $events = [];
 

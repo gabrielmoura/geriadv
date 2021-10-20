@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ViewModels\ViewModel;
 
 class ClientView extends Model
 {
-    use HasFactory;
+    //use HasFactory;
 
-    protected $fillable = [];
+    //protected $fillable = [];
+    protected $table = 'client_views';
+    protected $casts = [
+        'cpf' => 'encrypted',
+        'rg' => 'encrypted',
+    ];
 
 
     /*
@@ -37,7 +42,5 @@ class ClientView extends Model
     |------------------------------------------------------------------------------------
     */
 
-    public function save(){
-        // do nothing
-    }
+
 }

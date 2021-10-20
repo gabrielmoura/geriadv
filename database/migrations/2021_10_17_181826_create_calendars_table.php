@@ -15,22 +15,25 @@ class CreateCalendarsTable extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
+            $table->softDeletes();
             $table->string('idEx')->nullable()->comment('ID externo');
             $table->string('name')->comment('Titulo');
             $table->dateTime('start_time')->comment('Inicio');
             $table->dateTime('end_time')->comment('Fim');
-            $table->json('properties')->nullable();
-            $table->text('description')->comment('Descrição')->nullable();
+
             $table->enum('recurrence', ['daily', 'weekly', 'monthly', 'none'])->default('none');
-            $table->timestamps();
+
 
             $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
             $table->foreign('company_id')->references('id')->on('companies');
 
             $table->unsignedInteger('calendar_id')->nullable(); // foreign key to itself
-            $table->foreign('calendar_id')->references('id')->on('calendars');
+            $table->foreign('calendar_id','calendar_fk_556522')->references('id')->on('calendars');
 
-            $table->softDeletes();
+            $table->json('properties')->nullable();
+            $table->text('description')->comment('Descrição')->nullable();
+
         });
     }
 
