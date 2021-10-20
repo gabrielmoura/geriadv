@@ -42,6 +42,6 @@
         </table>
     </div>
     <div>
-        <iframe src="{{route('admin.company.iframe')}}" title='Funcionários'>
+        <iframe src="{{route('admin.company.iframe')}}" title='Funcionários' width="100%"></iframe>
     </div>
 @endsection

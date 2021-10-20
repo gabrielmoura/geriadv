@@ -30,7 +30,7 @@ class AgendamentoController extends Controller
     {
         // abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $events = Model::withCount('events')
+        $events = Model::withCount('calendars')
             ->get();
 
         return view('admin.calendar.index', compact('events'));
@@ -44,6 +44,7 @@ class AgendamentoController extends Controller
             foreach ($source['model']::all() as $model) {
                 //$crudFieldValue = $model->getOriginal($source['date_field']);
                 $crudFieldValue = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $model->getOriginal($source['date_field']))->format('Y-m-d H:i:s');
+                //$crudFieldValue=Carbon::parse($model->getOriginal($source['date_field']))->toDateTimeString();
 
                 if (!$crudFieldValue) {
                     continue;
@@ -69,7 +70,7 @@ class AgendamentoController extends Controller
 
 
         $events = [];
-        $data = \App\Models\Calendar::all();
+        $data = Model::all();
         if ($data->count()) {
             foreach ($data as $key => $value) {
                 $events[] = Calendar::event(
@@ -116,41 +117,51 @@ class AgendamentoController extends Controller
 
     public function store(StoreCalendarRequest $request)
     {
-        Model::create($request->all());
+        $format = (string)config('panel.date_format') . ' ' . config('panel.time_format');
+        $data = $request->all();
+        $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
+        $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
+        Model::create($data);
 
         return redirect()->route('admin.calendar.systemCalendar');
     }
 
-    public function edit(Model $event)
+    public function edit(Model $schedule)
     {
         // abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $event->load('event')
-            ->loadCount('events');
+        $event = $schedule;
+        $event->load('calendar')->loadCount('calendars');
+
+
 
         return view('admin.calendar.edit', compact('event'));
     }
 
-    public function update(UpdateCalendarRequest $request, Event $event)
-    {
-        $event->update($request->all());
+    public function update(UpdateCalendarRequest $request, Model $event)
+    {  $format = (string)config('panel.date_format') . ' ' . config('panel.time_format');
+        $data = $request->all();
+        $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
+        $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
+        $event->update($data);
 
         return redirect()->route('admin.calendar.systemCalendar');
     }
 
-    public function show(Model $event)
+    public function show(Model $schedule)
     {
         //       abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $event = $schedule;
+        $event->load('calendar')->loadCount('calendars');
 
-        $event->load('event');
 
         return view('admin.calendar.show', compact('event'));
     }
 
-    public function destroy(Model $event)
+    public function destroy(Model $schedule)
     {
         // abort_if(Gate::denies('event_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $event = $schedule;
         $event->delete();
 
         return back();

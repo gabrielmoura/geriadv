@@ -53,7 +53,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web','as'=>'admin.'], f
             Route::get('schedule/calendar', [AgendamentoController::class, 'indexShow'])->name('systemCalendar');
         });
     });
-
+Route::get('test',function(){
+    return \App\Models\ClientView::all();
+});
 
 });
 

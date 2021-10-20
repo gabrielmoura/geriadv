@@ -22,6 +22,7 @@
                         {{ __('cruds.event.fields.name_helper') }}
                     </p>
                 </div>
+                <x-form-tinymce name="description" title="Descrição"></x-form-tinymce>
                 <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
                     <label for="start_time">{{ __('cruds.event.fields.start_time') }}*</label>
                     <input type="text" id="start_time" name="start_time" class="form-control datetime "

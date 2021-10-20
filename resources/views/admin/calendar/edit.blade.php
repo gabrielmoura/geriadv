@@ -40,6 +40,7 @@
                         {{ __('cruds.event.fields.start_time_helper') }}
                     </p>
                 </div>
+                <x-form-tinymce name="description" title="Descrição" :value="htmlentities($event->decription)"></x-form-tinymce>
                 <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
                     <label for="end_time">{{ __('cruds.event.fields.end_time') }}*</label>
                     <input type="text" id="end_time" name="end_time" class="form-control datetime"
