@@ -13,6 +13,10 @@ class AnalyticsController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
+=======
+        //https://hdtuto.com/article/laravel-eloquent-eager-load-count-relation-example
+>>>>>>> origin/FeitoNoTrabalho
 
         $clients = Clients::whereMonth(
             'created_at', '=', Carbon::now()->subMonth()->month

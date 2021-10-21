@@ -125,6 +125,10 @@ class Clients extends Model implements HasMedia
         , 'newsletter'
 
         , 'recommendation_id'
+<<<<<<< HEAD
+=======
+        ,'benefit_id'
+>>>>>>> origin/FeitoNoTrabalho
 
     ];
     protected $casts = [
@@ -183,7 +187,11 @@ class Clients extends Model implements HasMedia
      */
     public function benefits()
     {
+<<<<<<< HEAD
         return $this->belongsTo(Benefits::class, 'id', 'client_id');
+=======
+        return $this->belongsTo(Benefits::class, 'benefit_id', 'id');
+>>>>>>> origin/FeitoNoTrabalho
 
     }
 

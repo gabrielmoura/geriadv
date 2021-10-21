@@ -210,4 +210,34 @@ class AjaxController extends Controller
         return response('', 201);
     }
 
+<<<<<<< HEAD
+=======
+    public function getCalendar(){
+        $events = [];
+
+        foreach ($this->sources as $source) {
+            foreach ($source['model']::all() as $model) {
+                //$crudFieldValue = $model->getOriginal($source['date_field']);
+                $crudFieldValue = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $model->getOriginal($source['date_field']))->format('Y-m-d H:i:s');
+                //$crudFieldValue=Carbon::parse($model->getOriginal($source['date_field']))->toDateTimeString();
+
+                if (!$crudFieldValue) {
+                    continue;
+                }
+
+                $events[] = [
+                    'title' => trim($source['prefix'] . " " . $model->{$source['field']}
+                        . " " . $source['suffix']),
+                    'start' => $crudFieldValue,
+                    //'end' => $model->{$source['end_field']},
+                    'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $model->{$source['end_field']})->format('Y-m-d H:i:s'),
+                    'description' => $model->description ?? '',
+                    'url' => route($source['route'], $model->id),
+                ];
+            }
+        }
+        return collect($events)->toJson();
+    }
+
+>>>>>>> origin/FeitoNoTrabalho
 }
