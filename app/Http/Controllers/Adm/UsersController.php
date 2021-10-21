@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -117,8 +118,8 @@ class UsersController extends Controller
      */
     protected function logInUser($id)
     {
-        Auth:
-        loginUsingId($id);
+
+        Auth::loginUsingId($id);
         return redirect()->route('redirDASH');
     }
 }

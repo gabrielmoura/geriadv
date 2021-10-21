@@ -86,13 +86,12 @@ class Company extends Model
     | Attributes
     |------------------------------------------------------------------------------------
     */
-<<<<<<< HEAD
 
-=======
-public function getPaid():bool{
-return true;
-}
->>>>>>> origin/FeitoNoTrabalho
+    public function getPaid(): bool
+    {
+        return true;
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

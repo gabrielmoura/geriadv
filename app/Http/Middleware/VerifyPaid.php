@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class VerifyPaid
@@ -20,5 +21,5 @@ class VerifyPaid
         return $next($request);
     }
 
-    
+
 }

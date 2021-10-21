@@ -33,9 +33,8 @@ Route::middleware(['auth'])->prefix('ajax')->name('ajax.')->group(function () {
     Route::post('getEmployees', [AjaxController::class, 'getEmployees'])->name('getEmployees');
 
     Route::post('getCep', [AjaxController::class, 'getCep'])->name('getCep');
-<<<<<<< HEAD
-=======
+
     //  Busca informações do calendário
     Route::get('getCalendar', [AjaxController::class, 'getCalendar'])->name('getCalendar');
->>>>>>> origin/FeitoNoTrabalho
+
 });

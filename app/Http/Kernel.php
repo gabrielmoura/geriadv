@@ -77,9 +77,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'restrictedToDayLight' => \App\Http\Middleware\TimeBasedRestriction::class,
-<<<<<<< HEAD
-=======
         'verifyPaid' => \App\Http\Middleware\VerifyPaid::class,
->>>>>>> origin/FeitoNoTrabalho
     ];
 }

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-
+use Carbon\Carbon;
 /**
  * Class AjaxController
  * @package App\Http\Controllers
@@ -210,8 +210,7 @@ class AjaxController extends Controller
         return response('', 201);
     }
 
-<<<<<<< HEAD
-=======
+
     public function getCalendar(){
         $events = [];
 
@@ -238,6 +237,4 @@ class AjaxController extends Controller
         }
         return collect($events)->toJson();
     }
-
->>>>>>> origin/FeitoNoTrabalho
 }

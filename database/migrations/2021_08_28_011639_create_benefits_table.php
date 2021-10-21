@@ -19,14 +19,7 @@ class CreateBenefitsTable extends Migration
 
             $table->string('name')->index();
             $table->tinyText('description')->nullable();
-<<<<<<< HEAD
 
-            $table->unsignedBigInteger('client_id')->comment('Cliente');
-            $table->foreign('client_id')->references('id')->on('clients');
-
-            $table->unsignedBigInteger('user_id')->nullable()->comment('Funcionário');
-            $table->foreign('user_id')->references('id')->on('users');
-=======
             $table->decimal('wage')->comment('Remuneração');
 
             $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
@@ -39,7 +32,7 @@ class CreateBenefitsTable extends Migration
             $table->float('wage_factor')->comment('Fator de Remuneração')->nullable();
             //Usado para escolher o calculo aplicado.
             $table->enum('wage_type',['percent','salary'])->comment('Tipo de Remuneração')->nullable();
->>>>>>> origin/FeitoNoTrabalho
+
         });
     }
 

@@ -44,7 +44,7 @@ class CreateClientViewsTable extends Migration
     clients.tel1,
     clients.slug
    FROM (((((clients
-     JOIN benefits ON ((benefits.client_id = clients.id)))
+     JOIN benefits ON ((benefits.id = clients.benefit_id)))
      JOIN client_statuses ON (((client_statuses.client_id = clients.id) AND (client_statuses.id = ( SELECT max(client_statuses_1.id) AS max
            FROM client_statuses client_statuses_1
           WHERE (client_statuses_1.client_id = clients.id))))))

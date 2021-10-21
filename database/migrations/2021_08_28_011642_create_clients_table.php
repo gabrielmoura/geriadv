@@ -27,13 +27,10 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('pendency_id')->nullable()->comment('Pendencias');
             $table->foreign('pendency_id')->references('id')->on('pendencies');
 
-<<<<<<< HEAD
-            //$table->unsignedBigInteger('benefit_id')->nullable()->comment('Benefícios');
-            //$table->foreign('benefit_id')->references('id')->on('benefits');
-=======
+
             $table->unsignedBigInteger('benefit_id')->nullable()->comment('Benefícios');
             $table->foreign('benefit_id')->references('id')->on('benefits');
->>>>>>> origin/FeitoNoTrabalho
+
 
             /**
              * Dados Pessoais

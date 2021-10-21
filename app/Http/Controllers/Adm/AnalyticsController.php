@@ -13,10 +13,8 @@ class AnalyticsController extends Controller
 {
     public function index()
     {
-<<<<<<< HEAD
-=======
+
         //https://hdtuto.com/article/laravel-eloquent-eager-load-count-relation-example
->>>>>>> origin/FeitoNoTrabalho
 
         $clients = Clients::whereMonth(
             'created_at', '=', Carbon::now()->subMonth()->month
@@ -30,7 +28,6 @@ class AnalyticsController extends Controller
 
         $benefits = Benefits::whereMonth('created_at', '=', Carbon::now()->subMonth()->month);
         //$benefitsTotal = $benefits->count(); //Quantidade total de Beneficios
-
 
         return view('admin.index', compact('clients', 'status', 'benefits'));
     }

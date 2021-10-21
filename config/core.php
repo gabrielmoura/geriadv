@@ -1,9 +1,6 @@
 <?php
 return [
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/FeitoNoTrabalho
     /**
      * Funcionará no fim de semana?
      */
@@ -19,11 +16,10 @@ return [
      * Informações para aposentadoria
      */
     'minimum' => [
-<<<<<<< HEAD
-=======
+
         //Salário minimo
         'salary' =>env('SALARY',1100),
->>>>>>> origin/FeitoNoTrabalho
+
         //Minimo de idade para se aposentar
         'age_to_retire' => [
             'm' => 65,

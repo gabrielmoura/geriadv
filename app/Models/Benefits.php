@@ -36,11 +36,9 @@ class Benefits extends Model
     use HasFactory;
     use LogsActivity;
 
-<<<<<<< HEAD
-    protected $fillable = ['name', 'description', 'client_id'];
-=======
+
     protected $fillable = ['name', 'description', 'client_id','wage','wage_factor','wage_type'];
->>>>>>> origin/FeitoNoTrabalho
+
 
     public function getActivitylogOptions(): LogOptions
     {
