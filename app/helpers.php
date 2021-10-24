@@ -79,3 +79,29 @@ if (!function_exists('formatDate')) {
         return date_format(date_create($data), "d/m/Y");
     }
 }
+if (!function_exists('signedRoute')) {
+    /**
+     * @param string $name
+     * @param array $parameters
+     * @param null $expiration
+     * @param bool $absolute
+     * @return string
+     */
+    function signedRoute(string $name, $parameters = [], $expiration = null, $absolute = true)
+    {
+        return \Illuminate\Support\Facades\URL::signedRoute($name, $parameters = [], $expiration = null, $absolute = true);
+    }
+}
+if (!function_exists('temporarySignedRoute')) {
+    /**
+     * @param $name
+     * @param $expiration
+     * @param array $parameters
+     * @param bool $absolute
+     * @return string
+     */
+    function temporarySignedRoute($name, $expiration, $parameters = [], $absolute = true)
+    {
+        return \Illuminate\Support\Facades\URL::temporarySignedRoute($name, $expiration, $parameters = [], $absolute = true);
+    }
+}

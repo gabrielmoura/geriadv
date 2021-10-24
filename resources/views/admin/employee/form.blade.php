@@ -22,14 +22,20 @@
 
                     </div>
                 </fieldset>
-                <fieldset class="col-md-12">
-                    <legend>Dados</legend>
-                    <div class="row">
-                        @php($benefits=config('core.benefits'))
-                        <x-form-select name="benefit" title="Beneficio" :selects="$benefits" ></x-form-select>
-                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2"></x-form-input>
-                    </div>
-                </fieldset>
+
+                @if($form['route'][0]=='admin.employee.store')
+                    <fieldset class="col-md-12">
+                        <legend>Acesso</legend>
+                        <div class="row">
+
+
+                            <x-form-input name="password" title="Password" type="password"
+                                          class="col-md-2"></x-form-input>
+                            <x-form-input type="password" name="password_confirmation"
+                                          title="Password again"></x-form-input>
+                        </div>
+                    </fieldset>
+                @endif
 
                 <fieldset class="col-md-12">
                     <legend>Endereço</legend>

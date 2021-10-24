@@ -33,8 +33,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web','as'=>'admin.'], f
 
     Route::resource('/usuario', UsersController::class)->names('users');
     Route::resource('/company', CompanyController::class)->names('company');
-    Route::get('/company/iframe', [CompanyController::class, 'iframe'])->name('company.iframe');
-    Route::resource('/employee', EmployeeController::class)->names('employee');
+    Route::get('/company/iframe/{id}', [CompanyController::class, 'showIframe'])->name('company.iframe');
+    Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytic.index');
     Route::get('/logActivity', [LogActivityController::class, 'index'])->name('log.activity');
     Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('ActivityControl');

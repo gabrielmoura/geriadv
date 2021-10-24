@@ -36,9 +36,8 @@
                     @endforeach
                     <td>
                         <a href="{{route('admin.users.edit',['usuario'=>$usuario->id])}}">
-                            <i class="fa fa-edit"></i></a>|
-                        <a href="{{route('admin.users.show',['usuario'=>$usuario->id])}}">
-                            <i class="fa fa-eye"></i></a>
+                            <i class="fa fa-edit"></i></a>
+
                     </td>
                 </tr>
             @endforeach

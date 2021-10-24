@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -16,12 +18,18 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $this->middleware('role:manager');
-
-        $employees = Employee::find(Auth::user()->company()->id)
-            ->employees()->get();
+        $employees = Employee::where('company_id', session()->get('company_id'))->get();
 
         return view('admin.employee.index', compact('employees'));
+    }
+
+    public function create()
+    {
+        if (!request()->hasValidSignature()) {
+            abort(401);
+        }
+        $form = ['route' => ['admin.employee.store'], 'method' => 'post'];
+        return view('admin.employee.form', compact('form'));
     }
 
     /**
@@ -32,16 +40,30 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::find($id);
-        return view('admin.employee.show', compact('company'));
+        return view('admin.employee.show', compact('employee'));
     }
 
     public function store(Request $request)
     {
-        $request->validade();
-        $employee = Employee::create([
-            '' => $request
-
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
+        $employee = DB::transaction(function () use ($request) {
+            $user = User::create(['name' => $request->name
+                , 'email' => $request->email
+                , 'password' => Hash::make($request->password)
+            ]);
+            $user->assignRole('employees');
+            $employee = Employee::create(['user_id' => $user->id
+                , 'company_id' => session()->get('company_id')
+                , 'name' => $request->name
+                , 'email' => $request->email
+            ]);
+            return $employee;
+        });
+
         if ($employee) {
             toastr()->success('Funcionário criado com sucesso.');
         }
@@ -50,7 +72,7 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
-        $request->validade();
+        // $request->validade();
         $employee = Employee::update([
             '' => $request
 
@@ -73,7 +95,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $form = ['route' => ['admin.users.update', $id], 'method' => 'put'];
-        //$user = User::find($id);
+
         $employee = Employee::find($id);
         return view('admin.employee.form', compact('form', 'employee'));
     }

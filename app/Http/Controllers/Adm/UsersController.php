@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -18,10 +20,20 @@ class UsersController extends Controller
 
     public function index()
     {
-        //Deverá retornar todos os usuários rejeitando o que for admin
-        $usuarios = User::all()->reject(function ($user) {
-            return $user->hasRole('admin');
-        });
+        $userAuth = Auth::user();
+        if ($userAuth->hasRole('admin')) {
+            //Deverá retornar todos os usuários rejeitando o que for admin
+            $usuarios = User::all()->reject(function ($user) {
+                return $user->hasRole('admin');
+            });
+        }
+        if ($userAuth->hasRole('manager')) {
+            $usuarios = [];
+            foreach (Company::find(session()->get('company_id'))->employees()->get() as $emp) {
+                $usuarios[] = $emp->user()->first();
+            }
+        }
+
         return view('admin.users.index', compact('usuarios'));
     }
 
@@ -29,10 +41,12 @@ class UsersController extends Controller
     public function create()
     {
         $form = ['route' => ['admin.users.store'], 'method' => 'post'];
-        foreach (Role::all() as $drole) {
-            $role[$drole->id] = $drole->name;
+        $company = [];
+        foreach (Company::all() as $drole) {
+            $company[] = ['value' => $drole->id, 'name' => $drole->name];
         }
-        return view('admin.users.form', compact('form', 'role'));
+
+        return view('admin.users.form', compact('form', 'company'));
     }
 
     public function store(Request $request)
@@ -43,8 +57,18 @@ class UsersController extends Controller
         ]);
         $data = $request->all();
         $data['password'] = Hash::make(request('password'));
-        $user = User::create($data);
-        $user->assignRole($data['role']);
+        $user = DB::transaction(function () use ($request, $data) {
+            $user = User::create($data);
+            $user->assignRole('manager');
+            Employee::create([
+                'name' => $request->name,
+                'email' => $request->email
+                , 'user_id' => $user->id
+                , 'company_id' => $request->company
+            ]);
+            return $user;
+        });
+
 
         toastr()->success('Usuário:' . $user->name . ' criado com sucesso');
         return redirect()->route('admin.users.index');
@@ -61,10 +85,11 @@ class UsersController extends Controller
     {
         $form = ['route' => ['admin.users.update', $id], 'method' => 'put'];
         $user = User::find($id);
-        foreach (Role::all() as $drole) {
-            $role[$drole->id] = $drole->name;
+        $company = [];
+        foreach (Company::all() as $drole) {
+            $company[] = ['value' => $drole->id, 'name' => $drole->name];
         }
-        return view('admin.users.form', compact('form', 'user', 'role'));
+        return view('admin.users.form', compact('form', 'user', 'company'));
     }
 
 
@@ -72,19 +97,21 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'password' => 'min:6|max:15|nullable|confirmed',
-            'email' => 'required|email|unique:users'
+            'email' => 'nullable|email'
         ]);
 
         $user = User::findOrFail($id);
 
         $data = $request->all();
 
-        if (request()->has('password') && request('password')) {
+        if (request()->has('password_confirmation')) {
             $data['password'] = Hash::make(request('password'));
         }
 
-        if (request()->has('role') && request('role')) {
-            $user->syncRoles(request('role'));
+        if (request()->has('company') && request('company')) {
+            Company::find($request->company)
+                ->employees()
+                ->create(['user_id' => $id, 'name' => $user->name, 'email' => $user->email]);
         }
 
         $user->update($data);
@@ -118,7 +145,6 @@ class UsersController extends Controller
      */
     protected function logInUser($id)
     {
-
         Auth::loginUsingId($id);
         return redirect()->route('redirDASH');
     }

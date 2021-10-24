@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -30,6 +31,8 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'audit_user'], //Audita Usuários
             ['name' => 'view_analytic'], //Quantidades de Vendas e Valores
             ['name' => 'edit_user'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_company'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_employee'], //Adicionar e Remover usuários(funcionários)
 
         ];
         foreach ($permissions as $permission) {
@@ -51,32 +54,47 @@ class RolesAndPermissionsSeeder extends Seeder
         // Responsável por Gerir o sistema: Gerente
         $manager = Role::create(['name' => 'manager']);
         $dataManager = [];
-        foreach (Permission::all() as $item) {
+        foreach (Permission::whereNotIn('name', ['edit_user', 'audit_user', 'edit_company'])->get() as $item) {
             $dataManager[] = $item->name;
         }
-        $manager->givePermissionTo($dataAdmin);
+        $manager->givePermissionTo($dataManager);
 
         //Responsável por gerir clientes: Funcionários
-        $editor = Role::create(['name' => 'employees']);
+        $employees = Role::create(['name' => 'employees']);
         $dataEditor = [];
-        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user','audit_user'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee','view_analytic'])->get() as $item) {
             $dataEditor[] = $item->name;
         }
-        $editor->givePermissionTo($dataEditor);
-
+        $employees->givePermissionTo($dataEditor);
 
 
         //Role::create(['name' => 'client']);
 
-        //if(config('APP_ENV')!= "production") {
-            $user = \App\Models\User::factory()->create([
+        if (config('APP_ENV') != "production") {
+            $gadmin = User::factory()->create([
                 'name' => 'GAdmin',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('admin'),
                 //'adm' => true
             ]);
-            $user->assignRole($admin);
-        //}
+            $gadmin->assignRole($admin);
+
+            $gemployee = User::factory()->create([
+                'name' => 'GFunc',
+                'email' => 'func@example.com',
+                'password' => Hash::make('admin'),
+                //'adm' => true
+            ]);
+            $gemployee->assignRole($employees);
+
+            $gmanager = User::factory()->create([
+                'name' => 'GManager',
+                'email' => 'manager@example.com',
+                'password' => Hash::make('admin'),
+                //'adm' => true
+            ]);
+            $gmanager->assignRole($manager);
+        }
     }
 
 }

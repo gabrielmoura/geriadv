@@ -31,6 +31,9 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('benefit_id')->nullable()->comment('Benefícios');
             $table->foreign('benefit_id')->references('id')->on('benefits');
 
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            $table->foreign('company_id')->references('id')->on('companies');
+
 
             /**
              * Dados Pessoais

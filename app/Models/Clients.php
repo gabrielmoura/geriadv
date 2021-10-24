@@ -127,6 +127,7 @@ class Clients extends Model implements HasMedia
         , 'recommendation_id'
 
         , 'benefit_id'
+        ,'company_id'
 
 
     ];
@@ -184,9 +185,17 @@ class Clients extends Model implements HasMedia
     /**
      * Retorna Benefio Requerido
      */
-    public function benefits()
+    public function benefit()
     {
         return $this->belongsTo(Benefits::class, 'benefit_id', 'id');
+    }
+    public function testMany(){
+        return $this->belongsToMany(
+            User::class,
+            'trophies_users',
+            'trophy_id',
+            'user_id');
+
     }
 
     /**

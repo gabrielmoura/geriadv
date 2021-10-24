@@ -37,8 +37,13 @@ class Benefits extends Model
     use LogsActivity;
 
 
-    protected $fillable = ['name', 'description', 'client_id','wage','wage_factor','wage_type'];
+    protected $fillable = ['name', 'description', 'client_id', 'wage', 'wage_factor', 'wage_type'];
 
+
+    public function clients()
+    {
+        return $this->hasMany(Clients::class);
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

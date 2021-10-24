@@ -15,9 +15,21 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $this->middleware('role:admin');
+        $this->middleware(['role:admin', 'signed']);
         $companies = Company::all();
+
         return view('admin.company.index', compact('companies'));
+    }
+
+    public function create()
+    {
+        $this->middleware(['role:admin', 'signed']);
+
+        if (!request()->hasValidSignature()) {
+            abort(401);
+        }
+        $form = ['route' => ['admin.company.store'], 'method' => 'post'];
+        return view('admin.company.form', compact('form'));
     }
 
     /**
@@ -28,7 +40,7 @@ class CompanyController extends Controller
     public function show($id)
     {
         $company = Company::find($id);
-        return view('admin.company.show', compact('company'));
+        return view('admin.company.show', compact('company', 'id'));
     }
 
     /**
@@ -39,16 +51,21 @@ class CompanyController extends Controller
     public function showIframe($id)
     {
         $company = Company::find($id);
-        return view('admin.company.iframe', compact('company'));
+
+        $employees = $company->employees()->get();
+        $clients = $company->clients()->get();
+        return view('admin.company.iframe', compact('employees', 'clients'));
     }
 
     public function store(Request $request)
     {
-        $request->validade();
-        $company = Company::create([
-            '' => $request
+        //$request->validade();
+        $data = $request->all();
+        $data['cep'] = preg_replace('/[^0-9]/', '', $request['cep']);
+        $data['tel0'] = preg_replace('/[^0-9]/', '', $request['cnpj']);
+        $data['cnpj'] = preg_replace('/[^0-9]/', '', $request['tel0']);
+        $company = Company::create($data);
 
-        ]);
         if ($company) {
             toastr()->success('Companhia criada com sucesso.');
         }
@@ -56,11 +73,12 @@ class CompanyController extends Controller
 
     public function update(Request $request)
     {
-        $request->validade();
-        $company = Company::update([
-            '' => $request
-
-        ]);
+        //$request->validade();
+        $data = $request->all();
+        $data['cep'] = preg_replace('/[^0-9]/', '', $request['cep']);
+        $data['tel0'] = preg_replace('/[^0-9]/', '', $request['cnpj']);
+        $data['cnpj'] = preg_replace('/[^0-9]/', '', $request['tel0']);
+        $company = Company::update($data);
         if ($company) {
             toastr()->success('Companhia atualizada com sucesso.');
         }
@@ -73,7 +91,13 @@ class CompanyController extends Controller
 
     public function edit()
     {
+        $this->middleware(['role:admin', 'signed']);
 
+        if (!request()->hasValidSignature()) {
+            abort(401);
+        }
+        $form = ['route' => ['admin.company.update'], 'method' => 'put'];
+        return view('admin.company.form', compact('form'));
     }
 
 

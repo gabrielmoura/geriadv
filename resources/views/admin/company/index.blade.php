@@ -2,6 +2,7 @@
 @section('page-header') Empresas @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
+        <a href="{{signedRoute('admin.company.create')}}">Cadastrar Nova</a>
         <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0" >
             <thead>
             <tr>
@@ -34,14 +35,12 @@
                     <td>{{$company->address}}</td>
                     <td>{{$company->email}}</td>
                     <td>{{$company->tel0}}</td>
-                    <td><a href="{{route('admin.clients.show',['client'=>$company->slug])}}"><i class="fa fa-eye"></i></a>
+                    <td><a href="{{route('admin.company.show',['company'=>$company->id])}}"><i class="fa fa-eye"></i></a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    <div>
-        <iframe src="{{route('admin.company.iframe')}}" title='Funcionários' width="100%"></iframe>
-    </div>
+
 @endsection

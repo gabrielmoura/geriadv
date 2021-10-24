@@ -10,6 +10,7 @@ use App\Http\Requests\Calendar\StoreCalendarRequest;
 use App\Http\Requests\Calendar\UpdateCalendarRequest;
 use App\Models\Calendar as Model;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgendamentoController extends Controller
@@ -26,12 +27,17 @@ class AgendamentoController extends Controller
         ],
     ];
 
-    public function index()
+    public function index(Request $request)
     {
         // abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $events = Model::withCount('calendars')
-            ->get();
+        $events = Model::withCount('calendars')->where('company_id', '=', session()->get('company_id'));
+
+        if ($request->has('month')) {
+            //Busca agendamentos por data
+            $events->whereMonth('created_at', '=', $request->month);
+        }
+        $events->get();
 
         return view('admin.calendar.index', compact('events'));
     }
@@ -41,7 +47,7 @@ class AgendamentoController extends Controller
         $events = [];
 
         foreach ($this->sources as $source) {
-            foreach ($source['model']::all() as $model) {
+            foreach ($source['model']::where('company_id', '=', session()->get('company_id')) as $model) {
                 //$crudFieldValue = $model->getOriginal($source['date_field']);
                 $crudFieldValue = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $model->getOriginal($source['date_field']))->format('Y-m-d H:i:s');
                 //$crudFieldValue=Carbon::parse($model->getOriginal($source['date_field']))->toDateTimeString();
@@ -121,6 +127,7 @@ class AgendamentoController extends Controller
         $data = $request->all();
         $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
         $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
+        $data['company_id'] = session()->get('company_id');
         Model::create($data);
 
         return redirect()->route('admin.calendar.systemCalendar');
@@ -134,15 +141,16 @@ class AgendamentoController extends Controller
         $event->load('calendar')->loadCount('calendars');
 
 
-
         return view('admin.calendar.edit', compact('event'));
     }
 
     public function update(UpdateCalendarRequest $request, Model $event)
-    {  $format = (string)config('panel.date_format') . ' ' . config('panel.time_format');
+    {
+        $format = (string)config('panel.date_format') . ' ' . config('panel.time_format');
         $data = $request->all();
         $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
         $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
+        $data['company_id'] = session()->get('company_id');
         $event->update($data);
 
         return redirect()->route('admin.calendar.systemCalendar');

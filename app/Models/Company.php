@@ -71,9 +71,29 @@ class Company extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function employees()
     {
-        return $this->belongsTo(Employee::class, 'id', 'company_id');
+        return $this->hasMany(Employee::class, 'company_id', 'id');
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Clients::class);
+    }
+
+    /**
+     * @return array
+     */
+    public function users()
+    {
+        $data = [];
+        foreach ($this->employees()->get() as $employee) {
+            $data = $employee->user()->get();
+        }
+        return $data;
     }
     /*
     |------------------------------------------------------------------------------------

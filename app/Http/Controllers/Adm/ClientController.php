@@ -9,13 +9,19 @@ use App\Models\Note;
 use App\Models\Recommendation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Clients::all();
+        $clients = Clients::where('company_id', session()->get('company_id'))->get();
+        if (request()->has('filter')) {
+            $clients = $clients->filter(function ($value, $key) {
+                return $value->status != null;
+            });
+        }
         return view('admin.client.index', compact('clients'));
     }
 
@@ -30,7 +36,9 @@ class ClientController extends Controller
     {
         $clients = Clients::all();
         $form = ['route' => ['admin.clients.store'], 'method' => 'post'];
-        return view('admin.client.form', compact('clients', 'form'));
+        //$benefits = Benefits::where('company_id', Auth::user()->company()->id)->get();
+        $benefits = config('core.benefits');
+        return view('admin.client.form', compact('clients', 'form','benefits'));
     }
 
     public function store(Request $request)

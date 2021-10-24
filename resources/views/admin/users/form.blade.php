@@ -5,17 +5,17 @@
         <div class="col-sm-8">
             <div class="bgc-white p-20 bd">
                 {!! Form::open($form) !!}
+                <x-form-input  name="name" title="Username" :value="$user->name??''"></x-form-input>
 
-                {!! Form::myInput('text', 'name', 'Username',[],$user->name??'') !!}
+                <x-form-input type="email" name="email" title="Email" :value="$user->email??''"></x-form-input>
 
-                {!! Form::myInput('email', 'email', 'Email',[],$user->email??'') !!}
+                <x-form-input type="password" name="password" title="Password"></x-form-input>
+                <x-form-input type="password" name="password_confirmation" title="Password again"></x-form-input>
 
-                {!! Form::myInput('password', 'password', 'Password') !!}
+                <x-form-select :selects="$company" name="company" title="Empresa"></x-form-select>
 
-                {!! Form::myInput('password', 'password_confirmation', 'Password again') !!}
-                {!! Form::mySelect('role','Função',$role,(isset($user))?$user->roles()->get():[],['multiple'=>'multiple']) !!}
+                <x-form-file name="avatar" title="Avatar"></x-form-file>
 
-                {!! Form::myFile('avatar', 'Avatar') !!}
 
                 <button type="submit" class="btn btn-primary">Salvar</button>
 

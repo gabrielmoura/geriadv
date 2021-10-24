@@ -11,12 +11,14 @@ use App\Models\Note;
 use App\Models\UserOrder;
 use Cagartner\CorreiosConsulta\Facade as Correios;
 use Canducci\ZipCode\Facades\ZipCode;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Carbon\Carbon;
+
 /**
  * Class AjaxController
  * @package App\Http\Controllers
@@ -211,7 +213,12 @@ class AjaxController extends Controller
     }
 
 
-    public function getCalendar(){
+    /**
+     * Retorna lista de todos os agendamentos
+     * @return string
+     */
+    public function getCalendar()
+    {
         $events = [];
 
         foreach ($this->sources as $source) {
@@ -236,5 +243,15 @@ class AjaxController extends Controller
             }
         }
         return collect($events)->toJson();
+    }
+
+    public function getBenefits()
+    {
+        return Benefits::where('company_id', Auth::user()->company()->id)->get();
+    }
+
+    public function getAgendamento()
+    {
+        return \App\Models\Calendar::withCount('calendars')->whereMonth('created_at', '=', request('month'))->get();
     }
 }

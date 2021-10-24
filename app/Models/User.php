@@ -109,11 +109,14 @@ class User extends Authenticatable
         return $this->hasMany(UserSocial::class);
     }
 
-    public function company()
+    public function employee()
     {
-        //return $this->belongsTo(Company::class, 'company_id', 'id');
-        return $this->belongsTo(Employee::class, 'id', 'user_id')->first();
+        return $this->belongsTo(Employee::class, 'id', 'user_id');
 
+    }
+    public function company(){
+
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
 
