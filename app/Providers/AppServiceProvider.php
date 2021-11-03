@@ -30,10 +30,11 @@ class AppServiceProvider extends ServiceProvider
         parent::register();
 
 
+        /* Erro ao testar em produção
         if (!$this->app->environment('production')) {
             $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(ClockworkServiceProvider::class);
-        }
+        }*/
 
 
     }
