@@ -285,7 +285,7 @@ return [
 	|
 	*/
 
-	'storage' => env('CLOCKWORK_STORAGE', 'sql'),
+	'storage' => env('CLOCKWORK_STORAGE', 'files'),
 
 	// Path where the Clockwork metadata is stored
 	'storage_files_path' => env('CLOCKWORK_STORAGE_FILES_PATH', storage_path('clockwork')),
