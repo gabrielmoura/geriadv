@@ -20,9 +20,6 @@ class DashController extends Controller
     {
         // TODO: Implement __invoke() method.
 
-        /*if (session()->has('cartID') && !\Cart::session(session()->get('cartID'))->isEmpty()) {
-            return redirect()->route('checkout.index');
-        }*/
 
         $userAuth = Auth::user();
         //Caso não hája company_id na sessão escreva (opcional)
@@ -32,7 +29,7 @@ class DashController extends Controller
 
             return redirect()->route('admin.index');
         } else {
-            return redirect()->route('employee.index');
+            return redirect()->route('admin.index');
         }
     }
 }

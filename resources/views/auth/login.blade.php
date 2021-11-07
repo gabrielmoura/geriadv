@@ -1,11 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.front')
 
 @section('content')
 
-    <section class="account-login-area">
+    <section class="clean-block clean-form dark">
         <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Log In</h2>
+                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in,
+                    mattis vitae leo.</p> -->
+            </div>
             <div class="row">
-                <h4 class="fw-300 c-grey-900 mB-40">Login</h4>
+
                 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
 
@@ -56,7 +61,7 @@
                             </a>
                         </div>
                         <div class="peer">
-                            <a href="/register" class="btn btn-link">Create new account</a>
+                            <a href="{{ route('register') }}" class="btn btn-link">Create new account</a>
                         </div>
                     </div>
                 </form>

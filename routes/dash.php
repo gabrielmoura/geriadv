@@ -5,6 +5,7 @@ use App\Http\Controllers\Adm\AnalyticsController;
 use App\Http\Controllers\Adm\ClientController;
 use App\Http\Controllers\Adm\CompanyController;
 use App\Http\Controllers\Adm\EmployeeController;
+use App\Http\Controllers\Adm\HomeAdmController;
 use App\Http\Controllers\Adm\LogActivityController;
 use App\Http\Controllers\Adm\PendencyController;
 use App\Http\Controllers\Adm\UsersController;
@@ -19,17 +20,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/kkk', function () {
-    echo "Painel Funcioários";
-})->name('employee.index');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:web','as'=>'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.'], function () {
     /*
     |------------------------------------------------------------------------------------
     | Admin
     |------------------------------------------------------------------------------------
     */
-    Route::get('/', [UsersController::class, 'index'])->name('index');
+    Route::get('/', [HomeAdmController::class, 'index'])->name('index');
 
     Route::resource('/usuario', UsersController::class)->names('users');
     Route::resource('/company', CompanyController::class)->names('company');
@@ -53,9 +51,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web','as'=>'admin.'], f
             Route::get('schedule/calendar', [AgendamentoController::class, 'indexShow'])->name('systemCalendar');
         });
     });
-Route::get('test',function(){
-    return \App\Models\ClientView::all();
-});
+    Route::get('test', function () {
+        return \App\Models\ClientView::all();
+    });
 
 });
 
@@ -64,13 +62,9 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::get('/redirDASH', [DashController::class, '__invoke'])->name('redirDASH');
 
 
-//Route::get('/dash', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dash');
     Route::get('/me/setting', function () {
         return view('auth.profile.profile');
     })->name('user.setting');
 
-    Route::group(['prefix' => 'dash'], function () {
-        //Route::get('/dash', [HomeController::class, 'index'])->name('dash.index');
-        //  Route::get('/', [OrderController::class, 'index'])->name('client.index');
-    });
+
 });

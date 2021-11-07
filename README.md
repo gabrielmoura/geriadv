@@ -1,4 +1,4 @@
-# MManhaes
+# GeriADV
 Objetivos:
 * Escalabilidade
 * Segurança 
@@ -6,8 +6,23 @@ Objetivos:
 Criação de view para clientes, mostrando os ultimos dados de exibição.
 
 
+## Niveis de Permissões
 
-composer require maatwebsite/excel
+### Permissões
+* edit_client
+* edit_status
+* edit_scheduling
+* edit_pendency
+* audit_user
+* view_analytic
+* edit_user
+* edit_company
+* edit_employee
+
+### Funções
+* Funcionários
+* Gerente
+* Administrador Geral
 
 ## Requisitos
 

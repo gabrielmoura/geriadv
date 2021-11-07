@@ -68,25 +68,15 @@ mix.webpackConfig(webpack => {
 
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/front.js', 'public/js')
+
     //.js('node_modules/jquery-mask-plugin', 'public')
 
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/front.scss', 'public/css')
+    .copy('resources/css/front', 'public/css/front')
+    .copy('resources/js/front', 'public/js/front')
     .copy('node_modules/tinymce/skins', 'public/js/skins')
     .copy('resources/js/web-push1/sw.js','public/sw.js')
     .copy('resources/js/web-push1/main.js','public/js/webPush.js')
-    .styles(['resources/css/front/aos.css',
-    'resources/css/front/font-vandella.css',
-    'resources/css/front/animate.css',
-    'resources/css/front/fontello.css',
-    'resources/css/front/icofont.min.css',
-    'resources/css/front/jquery.fancybox.min.css',
-    'resources/css/front/shopify-social.css',
-    'resources/css/front/slick.css',
-    'resources/css/front/slicknav.css',
-    'resources/css/front/style.css',
-    'resources/css/front/swiper.min.css'],'public/css/front_theme.css')
     .styles(['resources/css/client.css'],'public/css/client.css')
     .sass('resources/sass/rtl.scss', 'public/css')
     //.purgeCss()
