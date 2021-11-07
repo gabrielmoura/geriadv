@@ -27,22 +27,13 @@ Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
-
-    Route::get('/user/profile', function () {
-        return view('profile');
-    })->name('profile');
-});
 
 Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
-        return view('home');
+        return redirect()->route('redirDASH');
     })->name('home');
 
     Route::get('/user/profile', function () {
