@@ -10,6 +10,8 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Stancl\Tenancy\Contracts\Syncable;
+use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 
 /**
  * App\Models\User
@@ -58,10 +60,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\NotificationChannels\WebPush\PushSubscription[] $pushSubscriptions
  * @property-read int|null $push_subscriptions_count
  */
-class User extends Authenticatable
+class User extends Authenticatable implements Syncable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     use LogsActivity, HasPushSubscriptions;
+    use ResourceSyncing;
 
     /**
      * The attributes that are mass assignable.
@@ -114,7 +117,9 @@ class User extends Authenticatable
         return $this->belongsTo(Employee::class, 'id', 'user_id');
 
     }
-    public function company(){
+
+    public function company()
+    {
 
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
@@ -126,5 +131,30 @@ class User extends Authenticatable
             ->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+
+
+    public function getGlobalIdentifierKey()
+    {
+        return $this->getAttribute($this->getGlobalIdentifierKeyName());
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return 'global_id';
+    }
+
+    public function getCentralModelName(): string
+    {
+        return CentralUser::class;
+    }
+
+    public function getSyncedAttributeNames(): array
+    {
+        return [
+            'name',
+            'password',
+            'email',
+        ];
     }
 }

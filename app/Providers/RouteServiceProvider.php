@@ -36,25 +36,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/dash.php'));
-
-            Route::middleware('ajax')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/ajax.php'));
-        });
+        $this->mapApiRoutes();
+        $this->mapWebRoutes();
+        $this->mapDashRoutes();
+        $this->mapAjaxRoutes();
     }
 
     /**
@@ -67,5 +52,51 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+    }
+
+    protected function centralDomains(): array
+    {
+        return config('tenancy.central_domains');
+    }
+
+    protected function mapWebRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::middleware('web')
+                ->domain($domain)
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        }
+    }
+
+    protected function mapDashRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::middleware('web')
+                ->domain($domain)
+                ->namespace($this->namespace)
+                ->group(base_path('routes/dash.php'));
+        }
+    }
+
+    protected function mapAjaxRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::middleware('web')
+                ->domain($domain)
+                ->namespace($this->namespace)
+                ->group(base_path('routes/ajax.php'));
+        }
+    }
+
+    protected function mapApiRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::prefix('api')
+                ->domain($domain)
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        }
     }
 }

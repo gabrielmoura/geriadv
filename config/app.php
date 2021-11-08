@@ -199,6 +199,8 @@ return [
         Yoeunes\Toastr\ToastrServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
 
+        App\Providers\TenancyServiceProvider::class,
+
     ],
 
     /*
