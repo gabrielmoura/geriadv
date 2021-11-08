@@ -49,7 +49,7 @@ class Pendencies extends Model implements HasMedia
 
     use LogsActivity;
 
-
+    protected $connection = 'tenant';
     protected $fillable = [
         'cras',
         'cpf',

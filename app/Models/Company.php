@@ -71,13 +71,6 @@ class Company extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function employees()
-    {
-        return $this->hasMany(Employee::class, 'company_id', 'id');
-    }
 
     public function clients()
     {
@@ -94,6 +87,14 @@ class Company extends Model
             $data = $employee->user()->get();
         }
         return $data;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'company_id', 'id');
     }
     /*
     |------------------------------------------------------------------------------------

@@ -25,8 +25,8 @@ class CreateCalendarsTable extends Migration
             $table->enum('recurrence', ['daily', 'weekly', 'monthly', 'none'])->default('none');
 
 
-            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
-            $table->foreign('company_id')->references('id')->on('companies');
+            //$table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            //$table->foreign('company_id')->references('id')->on('companies');
 
             $table->unsignedInteger('calendar_id')->nullable(); // foreign key to itself
             $table->foreign('calendar_id','calendar_fk_556522')->references('id')->on('calendars');

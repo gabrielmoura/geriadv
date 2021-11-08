@@ -18,4 +18,18 @@ class Authenticate extends Middleware
             return route('login');
         }
     }
+
+    /**
+     * @param $request
+     * @return string
+     */
+    protected function redirectToTenancy($request)
+    {
+        if (!$request->expectsJson()) {
+            $url = \Tenant::isTenantRequest() ?
+                route('tenant.login', ['prefix' => \Request::route('prefix')]) :
+                route('system.login');
+            return $url;
+        }
+    }
 }

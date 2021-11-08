@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -62,7 +60,7 @@ class RolesAndPermissionsSeeder extends Seeder
         //Responsável por gerir clientes: Funcionários
         $employees = Role::create(['name' => 'employees']);
         $dataEditor = [];
-        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee','view_analytic'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic'])->get() as $item) {
             $dataEditor[] = $item->name;
         }
         $employees->givePermissionTo($dataEditor);
@@ -70,7 +68,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         //Role::create(['name' => 'client']);
 
-        if (config('APP_ENV') != "production") {
+        /*
+         if (config('APP_ENV') != "production") {
             $gadmin = User::factory()->create([
                 'name' => 'GAdmin',
                 'email' => 'admin@example.com',
@@ -95,6 +94,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ]);
             $gmanager->assignRole($manager);
         }
+         */
     }
 
 }

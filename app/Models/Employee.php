@@ -65,6 +65,8 @@ class Employee extends Model
     use HasFactory;
     use LogsActivity;
 
+    protected $connection = 'tenant';
+
     protected $casts = [
         'cpf' => 'encrypted',
     ];

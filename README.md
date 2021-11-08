@@ -4,7 +4,9 @@
 ## Objetivos:
 
 * Escalabilidade
-* Segurança 
+* Segurança
+* Multi Tenancy
+* Multi Database 
 
 
 ## Niveis de Permissões

@@ -273,6 +273,8 @@ return [
         'Form'=> \Collective\Html\FormFacade::class,
         'Html'=>\Collective\Html\HtmlFacade::class,
 
+        'Tenant' => \App\Tenant\TenantFacade::class,
+
     ],
 
 ];

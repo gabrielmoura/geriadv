@@ -12,7 +12,13 @@ class Calendar extends Model
     use SoftDeletes;
     use HasFactory;
 
-
+    const RECURRENCE_RADIO = [
+        'none' => 'None',
+        'daily' => 'Daily',
+        'weekly' => 'Weekly',
+        'monthly' => 'Monthly',
+    ];
+    protected $connection = 'tenant';
     protected $dates = [
         'end_time',
         'start_time',
@@ -20,15 +26,6 @@ class Calendar extends Model
         'updated_at',
         'deleted_at',
     ];
-
-    const RECURRENCE_RADIO = [
-        'none' => 'None',
-        'daily' => 'Daily',
-        'weekly' => 'Weekly',
-        'monthly' => 'Monthly',
-    ];
-
-
     protected $fillable = [
         'name',
         'end_time',
@@ -45,6 +42,13 @@ class Calendar extends Model
     ];
     protected string $format;
 
+    public static function rules($update = false, $id = null)
+    {
+        return [
+            'name' => 'required',
+        ];
+    }
+
     public function calendars()
     {
         return $this->hasMany(Calendar::class, 'calendar_id', 'id');
@@ -58,17 +62,9 @@ class Calendar extends Model
     public function getStartTimeAttribute($value)
     {
         //Carbon::parse()
-        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')):null;
-
-    }
-
-
-
-    public function getEndTimeAttribute($value)
-    {
         return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
 
+    }
 
 
     /*
@@ -76,11 +72,10 @@ class Calendar extends Model
     | Validations
     |------------------------------------------------------------------------------------
     */
-    public static function rules($update = false, $id = null)
+
+    public function getEndTimeAttribute($value)
     {
-        return [
-            'name' => 'required',
-        ];
+        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
     /*
@@ -100,6 +95,7 @@ class Calendar extends Model
     | Attributes
     |------------------------------------------------------------------------------------
     */
+
     public function getEventOptions()
     {
         return [

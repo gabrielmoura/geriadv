@@ -32,6 +32,7 @@ class Note extends Model
     use HasFactory;
     use LogsActivity;
 
+    protected $connection = 'tenant';
     protected $fillable = ['client_id', 'body'];
 
     public function getActivitylogOptions(): LogOptions

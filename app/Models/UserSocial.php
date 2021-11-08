@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Classe Responsável por gerir Logins com Redes Sociais.
- * 
+ *
  * App\Models\UserSocial
  *
  * @property int $id
@@ -48,6 +48,7 @@ class UserSocial extends Model
 {
     use HasFactory;
 
+    protected $connection = 'tenant';
     protected $fillable = [
         'drive',
         'token',

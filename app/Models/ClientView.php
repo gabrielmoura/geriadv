@@ -8,7 +8,7 @@ use Spatie\ViewModels\ViewModel;
 class ClientView extends Model
 {
     //use HasFactory;
-
+    protected $connection = 'tenant';
     //protected $fillable = [];
     protected $table = 'client_views';
     protected $casts = [

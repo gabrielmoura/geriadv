@@ -30,6 +30,18 @@ Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
 
 Auth::routes();
 
+Route::group(['prefix' => '/{prefix}', 'as' => 'tenant.'], function () {
+    Auth::routes();
+
+    Route::group(['middleware' => 'web'], function(){
+        Route::name('home')->get('home', function () {
+            return view('tenant.home');
+        });
+        Route::get('/',function(){
+            return dd((new \App\Models\Employee())->getConnection());
+        });
+    });
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {

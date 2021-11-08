@@ -17,6 +17,7 @@ class Lawyer extends Model
     use HasFactory;
     use LogsActivity;
 
+    protected $connection = 'tenant';
     protected $fillable = [
         'name',
         'last_name',
@@ -29,14 +30,14 @@ class Lawyer extends Model
         'sex',
         'birth_date',
         'cep',
-        ];
+    ];
 
     /*
     |------------------------------------------------------------------------------------
     | Validations
     |------------------------------------------------------------------------------------
     */
-    public static function rules($update = false, $id=null)
+    public static function rules($update = false, $id = null)
     {
         return [
             'name' => 'required',

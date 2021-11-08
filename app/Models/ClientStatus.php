@@ -36,6 +36,7 @@ class ClientStatus extends Model
     use HasFactory;
     use LogsActivity;
 
+    protected $connection = 'tenant';
     protected $fillable = ['client_id', 'note_id', 'status'];
     private $status = ['analysis', //Analise
         'rejected', //Indeferido
@@ -64,10 +65,11 @@ class ClientStatus extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
-    public function client()
-    {
 
-        $this->belongsTo(Clients::class);
+    public static function boot()
+    {
+        parent::boot();
+
     }
     /*
     |------------------------------------------------------------------------------------
@@ -81,10 +83,10 @@ class ClientStatus extends Model
     |------------------------------------------------------------------------------------
     */
 
-    public static function boot()
+    public function client()
     {
-        parent::boot();
 
+        $this->belongsTo(Clients::class);
     }
 
     public function getActivitylogOptions(): LogOptions

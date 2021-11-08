@@ -27,6 +27,7 @@ class Recommendation extends Model
 {
     use HasFactory;
 
+    protected $connection = 'tenant';
     protected $fillable = ['name'];
 
     /*

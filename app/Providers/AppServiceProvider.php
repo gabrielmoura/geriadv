@@ -73,5 +73,7 @@ class AppServiceProvider extends ServiceProvider
         Calendar::observe(CalendarRecurrenceObserver::class);
 
 
+        \Tenant::loadConnections();
+
     }
 }

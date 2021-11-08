@@ -22,8 +22,8 @@ class CreateBenefitsTable extends Migration
 
             $table->decimal('wage')->comment('Remuneração');
 
-            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
-            $table->foreign('company_id')->references('id')->on('companies');
+            //$table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            //$table->foreign('company_id')->references('id')->on('companies');
 
              /**
              * Regras de Negocio

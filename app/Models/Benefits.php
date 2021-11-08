@@ -36,7 +36,7 @@ class Benefits extends Model
     use HasFactory;
     use LogsActivity;
 
-
+    protected $connection = 'tenant';
     protected $fillable = ['name', 'description', 'client_id', 'wage', 'wage_factor', 'wage_type'];
 
 
