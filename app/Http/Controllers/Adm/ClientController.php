@@ -9,25 +9,64 @@ use App\Models\Note;
 use App\Models\Recommendation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
+use Yajra\DataTables\Html\Builder;
+
 
 class ClientController extends Controller
 {
-    public function index()
+    protected $htmlBuilder;
+
+    public function __construct(Builder $htmlBuilder)
     {
-        $clients = Clients::where('company_id', session()->get('company_id'))->get();
-        if (request()->has('filter')) {
-            $clients = $clients->filter(function ($value, $key) {
-                return $value->status != null;
-            });
-        }
-        return view('admin.client.index', compact('clients'));
+        $this->htmlBuilder = $htmlBuilder;
     }
+
+    public function index(Request $request)
+    {
+        $client = Clients::where('company_id', session()->get('company_id'))->get();
+        if ($request->ajax()) {
+            return (new Datatables())->collection($client)
+                ->addColumn('action', function (Clients $client) {
+                    return '<div class="table-data-feature"><a href="' . route('admin.clients.show', ['client' => $client->slug]) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-eye"></i></a></div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        $html = $this->htmlBuilder
+            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Name'])
+            ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
+            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
+            ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])
+            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
+            ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
+            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
+            ->responsive(true);
+        return view('admin.client.datatable', compact('html'));
+    }
+
+    /*
+     public function index()
+{
+    $clients = Clients::where('company_id', session()->get('company_id'))->get();
+    if (request()->has('filter')) {
+        $clients = $clients->filter(function ($value, $key) {
+            return $value->status != null;
+        });
+    }
+    return view('admin.client.index', compact('clients'));
+}
+    */
+
 
     public function show($slug)
     {
-        $client = Clients::whereSlug($slug)->first();
+        $client = Clients::whereSlug($slug)
+            ->where('company_id', session()->get('company_id'))
+            ->first();
 
         return view('admin.client.show', compact('client'));
     }
@@ -38,7 +77,7 @@ class ClientController extends Controller
         $form = ['route' => ['admin.clients.store'], 'method' => 'post'];
         //$benefits = Benefits::where('company_id', Auth::user()->company()->id)->get();
         $benefits = config('core.benefits');
-        return view('admin.client.form', compact('clients', 'form','benefits'));
+        return view('admin.client.form', compact('clients', 'form', 'benefits'));
     }
 
     public function store(Request $request)
@@ -80,15 +119,15 @@ class ClientController extends Controller
                  */
                 'name' => $request['name']
                 , 'last_name' => $request['last_name']
-                , 'tel0' => preg_replace('/[^0-9]/', '', $request['tel0'])
-                , 'cpf' => preg_replace('/[^0-9]/', '', $request['cpf'])
+                , 'tel0' => numberClear($request['tel0'])
+                , 'cpf' => numberClear($request['cpf'])
                 , 'sex' => $request['sex']
                 , 'birth_date' => Carbon::make($request['birth_date'])
 
                 /**
                  * Dados do Endereço
                  */
-                , 'cep' => preg_replace('/[^0-9]/', '', $request['cep'])
+                , 'cep' => numberClear($request['cep'])
                 , 'address' => $request['address']
                 , 'number' => $request['number']
                 , 'complement' => $request['complement']

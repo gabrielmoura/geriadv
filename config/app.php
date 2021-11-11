@@ -195,6 +195,7 @@ return [
 
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\Datatables\ButtonsServiceProvider::class,
+        Yajra\DataTables\HtmlServiceProvider::class,
 
         Yoeunes\Toastr\ToastrServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,

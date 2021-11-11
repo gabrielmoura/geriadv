@@ -105,3 +105,13 @@ if (!function_exists('temporarySignedRoute')) {
         return \Illuminate\Support\Facades\URL::temporarySignedRoute($name, $expiration, $parameters = [], $absolute = true);
     }
 }
+if (!function_exists('numberClear')) {
+    /**
+     * @param $n
+     * @return string|string[]|null
+     */
+    function numberClear($n)
+    {
+        return preg_replace('/[^0-9]/', '', $n);
+    }
+}

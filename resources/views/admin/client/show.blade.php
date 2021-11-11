@@ -127,7 +127,7 @@
 
                                 <div class="profile-info-value">
                                     <button type="button"
-                                            class="btn btn-">{{($client->benefits()->get()->isEmpty())?'':$client->benefits()->first()->name}}</button>
+                                            class="btn btn-">{{($client->benefit()->get()->isEmpty())?'':$client->benefit()->first()->name}}</button>
                                 </div>
                             </div>
 
@@ -285,49 +285,7 @@
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">
-                    {!! Form::open(['route'=>'admin.clients.pendency','files'=>true]) !!}
-                    <input type="hidden" name="slug" value="{{$client->slug}}">
-
-
-                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cras))
-                        <x-form-file name="cras" title="cras"></x-form-file>
-                    @else
-                        <a href="{{$client->pendency()->first()->cras->getMedia('docs')->getUrl()}}" target="_new">Acessar
-                            CRAS</a>
-                    @endif
-
-                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->cpf))
-                        <x-form-file name="cpf" title="cpf"></x-form-file>
-                    @else
-                        <a href="{{$client->pendency()->first()->cpf->getMedia('docs')->getUrl()}}" target="_new">Acessar
-                            CPF</a>
-                    @endif
-
-                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->rg))
-                        <x-form-file name="rg" title="rg"></x-form-file>
-                    @else
-                        <a href="{{$client->pendency()->first()->rg->getMedia('docs')->getUrl()}}" target="_new">Acessar
-                            RG</a>
-                    @endif
-
-                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->birth_certificate))
-                        <x-form-file name="birth_certificate" title="Certidão de Nascimento"></x-form-file>
-                    @else
-                        <a href="{{$client->pendency()->first()->birth_certificate->getMedia('docs')->getUrl()}}"
-                           target="_new">Acessar Certidão de Nascimento</a>
-                    @endif
-
-                    @if($client->pendency()->first()==null || ($client->pendency()->first()!=null && !$client->pendency()->first()->proof_of_address))
-                        <x-form-file name="proof_of_address" title="Comprovante de Residencia"></x-form-file>
-                    @else
-                        <a href="{{$client->pendency()->first()->proof_of_address->getMedia('docs')->getUrl()}}"
-                           target="_new">Acessar Comprovante de Residencia</a>
-                        <button onclick="remDocs('proof_of_address');">Limpar</button>
-                    @endif
-
-                    <button type=reset>Apagar</button>
-                    <button type="submit">Enviar</button>
-                    {!! Form::close() !!}
+{{--@include('admin.client.component.pendency')  --}}
                 </div>
 
                 <div class="hr hr10 hr-double"></div>

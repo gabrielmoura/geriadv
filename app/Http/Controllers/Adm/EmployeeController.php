@@ -8,19 +8,47 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class EmployeeController extends Controller
 {
 
-    /**
-     * Apenas o gerente deve acessar
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index()
-    {
-        $employees = Employee::where('company_id', session()->get('company_id'))->get();
+    protected $htmlBuilder;
 
-        return view('admin.employee.index', compact('employees'));
+    public function __construct(Builder $htmlBuilder)
+    {
+        $this->htmlBuilder = $htmlBuilder;
+
+    }
+    public function index(Request $request)
+    {
+        //Apenas o gerente deve acessar
+        $employees = Employee::where('company_id', session()->get('company_id'))->get();
+        if ($request->ajax()) {
+            return (new Datatables())->collection($employees)
+                ->addColumn('action', function (Employee $employee) {
+                    return '<div class="table-data-feature"><a href="' . route('admin.employee.show', ['employee' => $employee->id]) . '"><i
+                                class="fa fa-eye"></i></a>|<a
+                            href="' . route('admin.employee.edit', ['employee' => $employee->id]) . '"><i
+                                class="fa fa-edit"></i></a></div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        $html = $this->htmlBuilder
+            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Name'])
+            ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
+            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
+            ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])
+            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
+            ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
+            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
+            ->responsive(true);
+
+
+        return view('admin.employee.index', compact('html'));
     }
 
     public function create()

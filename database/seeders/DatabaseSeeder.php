@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        //$this->call(RolesAndPermissionsSeeder::class);
-        // Pode consumir bastante Memória
-        $this->call(PopulateCompanySeeder::class);
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }
