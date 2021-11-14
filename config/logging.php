@@ -87,7 +87,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
-        'errorlog' => [
+        'errorlog' => [ // Usado no Heroku
             'driver' => 'errorlog',
             'level' => env('LOG_LEVEL', 'debug'),
         ],

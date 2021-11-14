@@ -50,9 +50,9 @@ class AnalyticsController extends Controller
                   ->whereMonth('created_at', '=', $month)->count();
       */
         //  Conta Clientes por beneficios no ultimo mes
-        foreach (Benefits::all() as $all) {
-            $benefits[$all['name']] = $all->clients()->count();
-        }
+        //foreach (Benefits::all() as $all) {
+          //  $benefits[$all['name']] = $all->clients()->count();
+        //}
 
 
         $status = collect()->merge(['monthly' => $statusM->merge(['benefits' => $benefits])]);

@@ -68,7 +68,10 @@ class CompanyController extends Controller
 
         if ($company) {
             toastr()->success('Companhia criada com sucesso.');
+        } else {
+            toastr()->error('Erro ao criar Companhia;');
         }
+        return redirect()->route('admin.company.index');
     }
 
     public function update(Request $request)

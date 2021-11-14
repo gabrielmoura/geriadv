@@ -1,5 +1,5 @@
 @extends('layouts.default')
-
+@section('page-header')Usuários @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <a class="btn btn-lg btn-success" href="{{route('admin.users.create')}}">Registrar Usuários</a>
@@ -11,6 +11,9 @@
                 <th>Email</th>
                 <th>Avatar</th>
                 <th>Função</th>
+                @role('admin')
+                <th>Empresa</th>
+                @endrole
                 <th>Ação</th>
             </tr>
             </thead>
@@ -20,6 +23,9 @@
                 <th>Email</th>
                 <th>Avatar</th>
                 <th>Função</th>
+                @role('admin')
+                <th>Empresa</th>
+                @endrole
                 <th>Ação</th>
             </tr>
             </tfoot>
@@ -34,6 +40,11 @@
                     @foreach($usuario->getRoleNames() as $role)
                         {{$role}}
                     @endforeach
+                    @role('admin')
+                    <td>
+                        {{(is_null($usuario->employee()->first()))?'':$usuario->employee()->first()->company()->first()->name}}
+                    </td>
+                    @endrole
                     <td>
                         <a href="{{route('admin.users.edit',['usuario'=>$usuario->id])}}">
                             <i class="fa fa-edit"></i></a>
@@ -46,4 +57,3 @@
     </div>
 
 @endsection
-@section('page-header')Usuários @endsection

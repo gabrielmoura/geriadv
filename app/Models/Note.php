@@ -36,8 +36,7 @@ class Note extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->logFillable();
+        return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
     }

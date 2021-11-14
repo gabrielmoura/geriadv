@@ -74,7 +74,7 @@ if (!function_exists('formatDate')) {
      * @param string $data
      * @return false|string
      */
-    function formatDate(string $data)
+    function formatDate( $data)
     {
         return date_format(date_create($data), "d/m/Y");
     }

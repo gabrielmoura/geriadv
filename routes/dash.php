@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Adm\AgendamentoController;
 use App\Http\Controllers\Adm\AnalyticsController;
+use App\Http\Controllers\Adm\BenefitsController;
 use App\Http\Controllers\Adm\ClientController;
 use App\Http\Controllers\Adm\CompanyController;
 use App\Http\Controllers\Adm\EmployeeController;
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::resource('/company', CompanyController::class)->names('company');
     Route::get('/company/iframe/{id}', [CompanyController::class, 'showIframe'])->name('company.iframe');
     Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
+    Route::resource('/benefit', BenefitsController::class)->names('benefit');
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytic.index');
     Route::get('/logActivity', [LogActivityController::class, 'index'])->name('log.activity');
     Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('ActivityControl');

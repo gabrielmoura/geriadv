@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCompaniesTable extends Migration
 {
@@ -16,8 +16,8 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-           
-             /**
+
+            /**
              * Dados Pessoais
              */
 
@@ -25,7 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('tel0')->comment('telefone')->nullable();
             $table->string('name')->nullable();
             $table->string('cnpj')->nullable();
-            
+
             /**
              * Dados do Endereço
              */
@@ -37,6 +37,14 @@ class CreateCompaniesTable extends Migration
             $table->string('district')->comment('Bairro')->nullable();
             $table->string('city')->comment('Cidade')->nullable();
             $table->string('state')->comment('Estado')->nullable();
+
+            /**
+             * Configurações
+             */
+            $table->time('opening')->comment('Abre as')->nullable();
+            $table->time('closing')->comment('Fecha as')->nullable();
+            $table->boolean('weekend')->comment('Fim de Semana')->default(false);
+            $table->string('logo')->nullable();
         });
     }
 

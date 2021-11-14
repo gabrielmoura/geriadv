@@ -9,7 +9,7 @@
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <x-form-input name="cnpj" title="CNPJ" class="optional col-md-3"
+                        <x-form-input name="cnpj" title="CNPJ" class="optional col-md-3" inputClass="cnpj"
                                       placeholder="só numeros"></x-form-input>
                         <x-form-input name="name" title="Nome" class="col-md-2" required></x-form-input>
                         <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail"></x-form-input>

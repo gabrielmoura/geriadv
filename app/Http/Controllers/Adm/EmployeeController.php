@@ -101,10 +101,7 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         // $request->validade();
-        $employee = Employee::update([
-            '' => $request
-
-        ]);
+        $employee = Employee::find($request->id)->update($request->all());
         if ($employee) {
             toastr()->success('Funcionário atualizado com sucesso.');
         }
@@ -122,7 +119,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $form = ['route' => ['admin.users.update', $id], 'method' => 'put'];
+        $form = ['route' => ['admin.employee.update', $id], 'method' => 'put'];
 
         $employee = Employee::find($id);
         return view('admin.employee.form', compact('form', 'employee'));

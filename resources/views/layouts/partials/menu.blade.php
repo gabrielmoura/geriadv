@@ -47,7 +47,17 @@
 @endcan
 
 
-
+@can('edit_employee')
+    <li class="nav-item">
+        <a class="sidebar-link {{ routeActive('admin.benefit') }}"
+           href="{{route('admin.benefit.index')}}">
+        <span class="icon-holder">
+            <i class="c-brown-500 ti-user"></i>
+        </span>
+            <span class="title">Beneficios</span>
+        </a>
+    </li>
+@endcan
 
 @can('edit_client')
     <li class="nav-item">

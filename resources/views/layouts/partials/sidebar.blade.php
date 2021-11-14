@@ -8,11 +8,11 @@
                         <div class="peers ai-c fxw-nw">
                             <div class="peer">
                                 <div class="logo">
-                                    <img src="{{url('/images/logo.png')}}" alt="">
+                                    <img src="{{session()->get('company.logo')??url('/images/logo.png')}}" alt="">
                                 </div>
                             </div>
                             <div class="peer peer-greed">
-                                <h5 class="lh-1 mB-0 logo-text">{{''??config('app.name')}}</h5>
+                                <h5 class="lh-1 mB-0 logo-text">{{session()->get('company.name')??config('app.name')}}</h5>
                             </div>
                         </div>
                     </a>

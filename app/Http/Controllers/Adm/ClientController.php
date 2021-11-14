@@ -73,10 +73,12 @@ class ClientController extends Controller
 
     public function create()
     {
-        $clients = Clients::all();
+        $clients = Clients::where('company_id', session()->get('company_id'))->get();
         $form = ['route' => ['admin.clients.store'], 'method' => 'post'];
-        //$benefits = Benefits::where('company_id', Auth::user()->company()->id)->get();
-        $benefits = config('core.benefits');
+        $benefits = [];
+        foreach (Benefits::where('company_id', session()->get('company_id'))->get() as $benefit) {
+            $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
+        }
         return view('admin.client.form', compact('clients', 'form', 'benefits'));
     }
 
@@ -145,7 +147,7 @@ class ClientController extends Controller
 
             $client = Clients::create($clientData);
             if ($request->has('benefit') && isset($request->benefit)) {
-                Benefits::create(['name' => $request['benefit'], 'client_id' => $client->id]);
+                $clientData['benefit_id'] = $request->benefit;
             }
             if ($request->has('note') && isset($request->note)) {
                 Note::create(['user_id' => $client->id, 'body' => $request['note']]);

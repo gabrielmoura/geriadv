@@ -17,8 +17,8 @@
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
                         <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
                         <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"></x-form-date>
-                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail"></x-form-input>
-                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"></x-form-input>
+                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail" :value="$client->email??''"></x-form-input>
+                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel" :value="$client->tel0??''"></x-form-input>
 
                     </div>
                 </fieldset>
@@ -35,7 +35,7 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
+                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep" value="{{$client->cep??old('cep')}}"
                                       inputClass="cep"></x-form-input>
 
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
@@ -43,13 +43,13 @@
                                 for="pessoa_logradouro">Logradouro</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="address"
-                                value="{{old('address')}}"
+                                value="{{$client->address??old('address')}}"
                                 id="Street">
                         </div>
                         <div class="form-group integer optional pessoa_numero col-md-2"><label
                                 class="control-label integer optional" for="pessoa_numero">Número</label><input
                                 class="form-control numeric integer optional" type="number" step="1"
-                                value="{{old('number')}}"
+                                value="{{$client->number??old('number')}}"
                                 name="number" id="pessoa_numero">
                         </div>
 
@@ -57,34 +57,34 @@
                                 class="control-label string optional"
                                 for="pessoa_complemento">Complemento</label><input
                                 class="form-control string optional" type="text" name="complement"
-                                value="{{old('complement')}}"
+                                value="{{$client->complement??old('complement')}}"
                                 id="pessoa_complemento"></div>
 
                         <div class="form-group string optional pessoa_bairro col-md-3"><label
                                 class="control-label string optional" for="pessoa_bairro">Bairro</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="district"
-                                value="{{old('district')}}"
+                                value="{{$client->district??old('district')}}"
                                 id="District">
                         </div>
                         <div class="form-group string optional pessoa_cidade col-md-3"><label
                                 class="control-label string optional" for="pessoa_cidade">Cidade</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="city"
-                                value="{{old('city')}}"
+                                value="{{$client->city??old('city')}}"
                                 id="City">
                         </div>
                         <div class="form-group string optional pessoa_uf col-md-2"><label
                                 class="control-label string optional" for="pessoa_uf">UF</label><input
                                 class="form-control string optional transform-upper-case"
                                 oninput="RemoveAccents(this, this.value)" type="text" name="state"
-                                value="{{old('state')}}"
+                                value="{{$client->state??old('state')}}"
                                 id="State">
                         </div>
                     </div>
                 </fieldset>
 
-                <fieldset class="col-md-12">
+                <!--<fieldset class="col-md-12">
                     <legend>Informações Adicionais</legend>
                     <div class="row">
                         <div class="form-group string optional pessoa_profissao col-xs-6"><label
@@ -104,7 +104,7 @@
                                                                                   id="pessoa_anotacoes"></textarea>
                         </div>
                     </div>
-                </fieldset>
+                </fieldset> -->
 
                 <button type="submit" class="btn btn-primary">Salvar</button>
 

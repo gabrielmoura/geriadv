@@ -20,7 +20,7 @@ class CreateBenefitsTable extends Migration
             $table->string('name')->index();
             $table->tinyText('description')->nullable();
 
-            $table->decimal('wage')->comment('Remuneração');
+            $table->decimal('wage')->comment('Remuneração')->nullable();
 
             $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
             $table->foreign('company_id')->references('id')->on('companies');

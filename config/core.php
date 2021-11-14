@@ -18,7 +18,7 @@ return [
     'minimum' => [
 
         //Salário minimo
-        'salary' =>env('SALARY',1100),
+        'salary' => env('SALARY', 1100),
 
         //Minimo de idade para se aposentar
         'age_to_retire' => [
@@ -31,24 +31,5 @@ return [
             'f' => 15,
         ],
     ],
-    /**
-     * Benefícios que o Sistema aceita
-     */
-    'benefits' => [
-        [
-            'name' => 'LOAS NIVER',
-            'value' => 'niver'
-        ],
-        [
-            'name' => 'APOSENTADORIA',
-            'value' => 'aposentadoria'
-        ],
-        [
-            'name' => 'LOAS',
-            'value' => 'loas'
-        ],
-
-    ]
-
 
 ];
