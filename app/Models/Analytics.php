@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Tem por objetivo armazenar informações para compor estatisticas.
- * 
+ *
  * Class Analytics
  *
  * @package App\Models
@@ -35,20 +35,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Analytics withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Analytics withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $analyticsTable_type
+ * @property int|null $analyticsTable_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Analytics whereAnalyticsTableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Analytics whereAnalyticsTableType($value)
  */
 class Analytics extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['log_name','total','subject'];
+    protected $fillable = ['log_name', 'total', 'subject'];
 
     /*
     |------------------------------------------------------------------------------------
     | Validations
     |------------------------------------------------------------------------------------
     */
-    public static function rules($update = false, $id=null)
+    public static function rules($update = false, $id = null)
     {
         return [
             'name' => 'required',

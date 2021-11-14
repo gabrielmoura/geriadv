@@ -57,6 +57,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\NotificationChannels\WebPush\PushSubscription[] $pushSubscriptions
  * @property-read int|null $push_subscriptions_count
+ * @property-read \App\Models\Company $company
+ * @property-read \App\Models\Employee $employee
  */
 class User extends Authenticatable
 {
@@ -114,7 +116,9 @@ class User extends Authenticatable
         return $this->belongsTo(Employee::class, 'id', 'user_id');
 
     }
-    public function company(){
+
+    public function company()
+    {
 
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
@@ -122,8 +126,11 @@ class User extends Authenticatable
 
     public function getActivitylogOptions(): LogOptions
     {
+        /*
         return LogOptions::defaults()
             ->logFillable();
+        */
+        return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
     }

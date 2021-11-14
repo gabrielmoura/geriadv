@@ -88,6 +88,12 @@ use Spatie\Sluggable\SlugOptions;
  * @property-read int|null $activities_count
  * @property-read \App\Models\Pendencies|null $pendency
  * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePendencyId($value)
+ * @property int|null $company_id Empresa
+ * @property-read \App\Models\Benefits|null $benefit
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $testMany
+ * @property-read int|null $test_many_count
+ * @method static \Database\Factories\ClientsFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCompanyId($value)
  */
 class Clients extends Model implements HasMedia
 {
@@ -127,7 +133,7 @@ class Clients extends Model implements HasMedia
         , 'recommendation_id'
 
         , 'benefit_id'
-        ,'company_id'
+        , 'company_id'
 
 
     ];
@@ -142,6 +148,12 @@ class Clients extends Model implements HasMedia
     | Relations
     |------------------------------------------------------------------------------------
     */
+
+    public static function boot()
+    {
+        parent::boot();
+        Clients::observe(ClientObserver::class);
+    }
 
     public function user()
     {
@@ -169,14 +181,6 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Note::class, 'id', 'client_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function log()
-    {
-        return $this->belongsTo(LogMovement::class, 'id', 'client_id');
-    }
-
     public function pendency()
     {
         return $this->belongsTo(Pendencies::class, 'pendency_id', 'id');
@@ -189,7 +193,9 @@ class Clients extends Model implements HasMedia
     {
         return $this->belongsTo(Benefits::class, 'benefit_id', 'id');
     }
-    public function testMany(){
+
+    public function testMany()
+    {
         return $this->belongsToMany(
             User::class,
             'trophies_users',
@@ -206,7 +212,6 @@ class Clients extends Model implements HasMedia
     {
         return $this->belongsTo(Recommendation::class, 'recommendation_id', 'id');
     }
-
 
     public function getDownCPFAttribute()
     {
@@ -226,6 +231,12 @@ class Clients extends Model implements HasMedia
         return $this->getMedia('product')->first()->getUrl('full');
     }
 
+    /*
+        |------------------------------------------------------------------------------------
+        | Scopes
+        |------------------------------------------------------------------------------------
+        */
+
     public function getProof_of_addressAttribute()
     {
         //return $this->photos()->first()->full;
@@ -233,10 +244,11 @@ class Clients extends Model implements HasMedia
     }
 
     /*
-        |------------------------------------------------------------------------------------
-        | Scopes
-        |------------------------------------------------------------------------------------
-        */
+    |------------------------------------------------------------------------------------
+    | Attributes
+    |------------------------------------------------------------------------------------
+    */
+
     /**
      * Get the options for generating the slug.
      */
@@ -247,11 +259,6 @@ class Clients extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
-    /*
-    |------------------------------------------------------------------------------------
-    | Attributes
-    |------------------------------------------------------------------------------------
-    */
     public function getFullNameAttribute(): string
     {
         return $this->name . ' ' . $this->last_name;
@@ -259,15 +266,8 @@ class Clients extends Model implements HasMedia
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->logFillable();
+        return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-        Clients::observe(ClientObserver::class);
     }
 }

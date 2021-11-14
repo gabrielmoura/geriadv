@@ -64,10 +64,11 @@ class ClientStatus extends Model
     | Relations
     |------------------------------------------------------------------------------------
     */
-    public function client()
-    {
 
-        $this->belongsTo(Clients::class);
+    public static function boot()
+    {
+        parent::boot();
+
     }
     /*
     |------------------------------------------------------------------------------------
@@ -81,16 +82,15 @@ class ClientStatus extends Model
     |------------------------------------------------------------------------------------
     */
 
-    public static function boot()
+    public function client()
     {
-        parent::boot();
 
+        $this->belongsTo(Clients::class);
     }
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->logFillable();
+        return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
     }

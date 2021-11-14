@@ -59,6 +59,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\EmployeeFactory factory(...$parameters)
  */
 class Employee extends Model
 {
@@ -131,8 +133,7 @@ class Employee extends Model
     */
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->logFillable();
+        return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
     }
