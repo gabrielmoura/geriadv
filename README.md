@@ -1,5 +1,12 @@
 # GeriADV
-![](resources/static/images/geriadv.png)
+<p align="center">
+<img src="resources/static/images/geriadv.png" />
+</p>
+
+[![Website](https://img.shields.io/website?label=thawing-lake-86055.herokuapp.com&style=for-the-badge&url=https%3A%2F%2Fthawing-lake-86055.herokuapp.com)](https://thawing-lake-86055.herokuapp.com)
+<h4 align="center"> 
+	🚧  GeriADV 🚀 Em construção...  🚧
+</h4>
 
 ## Objetivos:
 
@@ -25,7 +32,19 @@
 * Gerente
 * Administrador Geral
 
-## Requisitos
+### 🛠 Tecnologias
+* [Laravel](https://laravel.com/)
+* [SASS](https://sass-lang.com/)
+* [Jquery](https://jquery.com/)
+* [Axios](https://github.com/axios/axios)
+* [DataTables](https://datatables.net/)
+* [Bootstrap](https://getbootstrap.com/)
+* [FullCalendar](https://fullcalendar.io/)
+* [Lodash](https://lodash.com/)
+* [Ziggy](https://github.com/tighten/ziggy)
+* [WebSocket](https://github.com/beyondcode/laravel-websockets)
+
+### Requisitos
 
 * PHP: 8.0
 * Laravel: 8.54
@@ -38,5 +57,6 @@
 * PHP extension php_xmlreader enabled
 * PHP extension php_zlib enabled
 * PHP extension php_gmp enabled
+* PostgreSQL
 * https://roadrunner.dev/ optional
 
