@@ -27,24 +27,24 @@ class EmployeeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name()
+            'name' => $this->faker->firstName()
             , 'last_name' => $this->faker->lastName()
             , 'company_id' => $this->company()
             , 'user_id' => $this->userId()
-            , 'cpf' => CreateDocBR::cpfRandom()
-            , 'rg' => null
+            , 'cpf' => $this->faker->cpf(false)
+            , 'rg' => $this->faker->rg(false)
             , 'email' => $this->faker->companyEmail()
-            , 'tel0' => null
-            , 'tel1' => null
+            , 'tel0' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
+            , 'tel1' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
             , 'sex' => collect(['m', 'f'])->random()
-            , 'birth_date' => null
-            , 'cep' => null
-            , 'address' => null
-            , 'number' => null
-            , 'complement' => null
+            , 'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now')
+            , 'cep' => $this->numberClear($this->faker->postcode())
+            , 'address' => $this->faker->address()
+            , 'number' => $this->faker->randomNumber()
+            , 'complement' => collect(range('A', 'Z'))->random()
             , 'district' => null
-            , 'city' => null
-            , 'state' => null
+            , 'city' => $this->faker->city()
+            , 'state' => $this->faker->stateAbbr()
         ];
     }
 
@@ -57,6 +57,7 @@ class EmployeeFactory extends Factory
             'password' => Hash::make('admin'),
             //'adm' => true
         ]);
+        $u->assignRole('manager');
         return $u->id;
     }
 
@@ -69,6 +70,9 @@ class EmployeeFactory extends Factory
         return $c->random()->id;
 
     }
-
+    private function numberClear($number)
+    {
+        return preg_replace('/[^0-9]/', '', $number);
+    }
 
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Actions\Client\CreateDocBR;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,17 +22,17 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'company' . $this->faker->randomNumber(1)
-            , 'cnpj' => CreateDocBR::cnpjRandom(false)
+            'name' => $this->faker->firstName() .' '. $this->faker->lastName() . ' company ' . $this->faker->randomNumber(1)
+            , 'cnpj' => $this->faker->cnpj(false)
             , 'cep' => $this->numberClear($this->faker->postcode())
-            , 'address' => null
-            , 'number' => null
-            , 'complement' => null
+            , 'address' => $this->faker->address()
+            , 'number' => $this->faker->randomNumber(3)
+            , 'complement' => collect(range('A', 'Z'))->random()
             , 'district' => null
-            , 'city' => null
-            , 'state' => null
-            , 'email' => null
-            , 'tel0' => null
+            , 'city' => $this->faker->city()
+            , 'state' => $this->faker->stateAbbr()
+            , 'email' => $this->faker->email()
+            , 'tel0' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
         ];
     }
 

@@ -22,6 +22,6 @@ class PopulateCompanySeeder extends Seeder
         Benefits::factory(3)->create();
         Employee::factory(10)->create();
         //Lawyer::factory(10)->create();
-        Clients::factory(100)->create();
+        Clients::factory(1000)->create();
     }
 }

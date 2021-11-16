@@ -25,15 +25,15 @@ class LawyerFactory extends Factory
     {
         $email = $this->faker->companyEmail();
         return [
-            'name' => $this->faker->name()
+            'name' => $this->faker->firstName()
             , 'last_name' => $this->faker->lastName()
             , 'user_id' => null
             , 'cpf' => null
             , 'rg' => null
             , 'oab' => null
             , 'email' => $email
-            , 'tel0' => null
-            , 'tel1' => null
+            , 'tel0' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
+            , 'tel1' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
             , 'sex' => null
             , 'birth_date' => null
             , 'cep' => null
@@ -50,5 +50,9 @@ class LawyerFactory extends Factory
             //'adm' => true
         ]);
         return $u->id;
+    }
+    private function numberClear($number)
+    {
+        return preg_replace('/[^0-9]/', '', $number);
     }
 }

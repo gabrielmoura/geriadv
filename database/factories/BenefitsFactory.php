@@ -26,7 +26,7 @@ class BenefitsFactory extends Factory
             'name' => $this->name()
             , 'description' => $this->faker->title()
             , 'company_id' => $this->company()
-            , 'wage' => 10.00 // Remuneração
+            , 'wage' => collect([$this->faker->randomFloat(2,0),null])->random() // Remuneração
             , 'wage_factor' => null // Fator de Remuneração
             , 'wage_type' => null //Tipo de Remuneração
         ];

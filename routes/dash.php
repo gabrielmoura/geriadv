@@ -7,6 +7,7 @@ use App\Http\Controllers\Adm\ClientController;
 use App\Http\Controllers\Adm\CompanyController;
 use App\Http\Controllers\Adm\EmployeeController;
 use App\Http\Controllers\Adm\HomeAdmController;
+use App\Http\Controllers\Adm\LawyerController;
 use App\Http\Controllers\Adm\LogActivityController;
 use App\Http\Controllers\Adm\PendencyController;
 use App\Http\Controllers\Adm\UsersController;
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::get('/company/iframe/{id}', [CompanyController::class, 'showIframe'])->name('company.iframe');
     Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
     Route::resource('/benefit', BenefitsController::class)->names('benefit');
+    Route::resource('/lawyer', LawyerController::class)->names('lawyer');
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytic.index');
     Route::get('/logActivity', [LogActivityController::class, 'index'])->name('log.activity');
     Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('ActivityControl');
@@ -56,6 +58,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::get('test', function () {
         return \App\Models\ClientView::all();
     });
+
+    Route::middleware(['signed','role:admin'])->get('/redirAuth/{user}', function ($user) {
+        \Illuminate\Support\Facades\Auth::loginUsingId($user);
+        \Illuminate\Support\Facades\Log::info('authenticated to another user using special permissions levels.', [
+            'by' => \Illuminate\Support\Facades\Auth::user(),
+            'user' => $user
+        ]);
+        return redirect()->route('home');
+    })->name('auth.redir');
 
 });
 

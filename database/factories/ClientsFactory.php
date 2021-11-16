@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Actions\Client\CreateDocBR;
 use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\Company;
@@ -27,26 +26,26 @@ class ClientsFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name()
+            'name' => $this->faker->firstName()
             , 'last_name' => $this->faker->lastName()
-            , 'tel0' => null
-            , 'cpf' => CreateDocBR::cpfRandom(false)
-            , 'rg' => null
+            , 'tel0' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
+            , 'cpf' => $this->faker->cpf(false)
+            , 'rg' => $this->faker->rg(false)
             , 'sex' => collect(['m', 'f'])->random()
-            , 'birth_date' => null
+            , 'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now')
             , 'email' => $this->faker->email()
 
             /**
              * Dados do Endereço
              */
             , 'cep' => $this->numberClear($this->faker->postcode())
-            , 'address' => null
+            , 'address' => $this->faker->address()
             , 'number' => $this->faker->randomNumber()
-            , 'complement' => null
+            , 'complement' => collect(range('A', 'Z'))->random()
 
-            , 'district' => $this->faker->name()
-            , 'city' => $this->faker->name()
-            , 'state' => $this->faker->name()
+            , 'district' => $this->faker->city()
+            , 'city' => $this->faker->city()
+            , 'state' => $this->faker->stateAbbr()
 
             //, 'country'
             //, 'newsletter'
@@ -65,9 +64,7 @@ class ClientsFactory extends Factory
         if (is_null($c)) {
             return null;
         }
-        //return $c->random()->id; //Retorna ID aleatório
-        return 1;
-
+        return $c->random()->id; //Retorna ID aleatório
     }
 
     private function benefit()
