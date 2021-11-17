@@ -64,7 +64,7 @@ class Lawyer extends Model
         'tel1',
         'sex',
         'birth_date',
-        'cep',
+        //'cep',
     ];
 
     /*

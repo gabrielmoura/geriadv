@@ -25,22 +25,20 @@ class LawyerController extends Controller
         if ($request->ajax()) {
             return (new Datatables())->collection($lawyer)
                 ->addColumn('action', function (Lawyer $lawyer) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.benefit.show', ['benefit' => $lawyer->id]) . '"><i
+                    return '<div class="table-data-feature"><a href="' . route('admin.lawyer.show', ['lawyer' => $lawyer->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
-                            href="' . route('admin.benefit.edit', ['benefit' => $lawyer->id]) . '"><i
+                            href="' . route('admin.lawyer.edit', ['lawyer' => $lawyer->id]) . '"><i
                                 class="fa fa-edit"></i></a></div>';
                 })
-                ->addColumn('amount', function (Lawyer $lawyer) {
-                    return (is_null($lawyer->wage)) ? config('core.minimum.salary') * $lawyer->wage_factor : $lawyer->wage * $lawyer->wage_factor;
-                })
-                ->rawColumns(['amount', 'action'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
         $html = $this->htmlBuilder
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nome'])
-            ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Descrição'])
-            ->addColumn(['data' => 'wage_type', 'name' => 'wage_type', 'title' => 'Tipo de Remuneração'])
-            ->addColumn(['data' => 'amount', 'name' => 'amount', 'title' => 'Total'])
+            ->addColumn(['data' => 'last_name', 'last_name' => 'last_name', 'title' => 'Sobrenome'])
+            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
+            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'rg', 'name' => 'rg', 'title' => 'RG'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true);
 
@@ -50,9 +48,9 @@ class LawyerController extends Controller
 
     public function edit($lawyer)
     {
-        $form = ['route' => ['admin.benefit.update', ['benefit' => $lawyer]], 'method' => 'put'];
-        $benefit = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company_id'))->first();
-        return view('admin.lawyers.form', compact('form', 'benefit'));
+        $form = ['route' => ['admin.lawyer.update', ['lawyer' => $lawyer]], 'method' => 'put'];
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company_id'))->first();
+        return view('admin.lawyers.form', compact('form', 'lawyer'));
     }
 
     public function create()
@@ -61,9 +59,10 @@ class LawyerController extends Controller
         return view('admin.lawyers.form', compact('form'));
     }
 
-    public function show()
+    public function show($lawyer)
     {
-        return view('');
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company_id'))->first();
+        return view('admin.lawyers.show',compact('lawyer'));
     }
 
     public function update($lawyer, Request $request)

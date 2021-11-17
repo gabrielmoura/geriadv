@@ -9,6 +9,7 @@ use App\Models\Note;
 use App\Models\Recommendation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 use Yajra\DataTables\Html\Builder;
@@ -26,17 +27,26 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $client = Clients::where('company_id', session()->get('company_id'))->get();
+        // Caso o Admin também deseje ter acesso a os clientes.
+        $user = Auth::user();
+        if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
+            $client = Clients::all();
+        }
+
         if ($request->ajax()) {
             return (new Datatables())->collection($client)
                 ->addColumn('action', function (Clients $client) {
                     return '<div class="table-data-feature"><a href="' . route('admin.clients.show', ['client' => $client->slug]) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-eye"></i></a></div>';
+                })
+                ->addColumn('fullname', function (Clients $client) {
+                    return $client->fullname;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
         $html = $this->htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Name'])
+            ->addColumn(['data' => 'fullname', 'name' => 'fullname', 'title' => 'Nome'])
             ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
             ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])

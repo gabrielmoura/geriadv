@@ -43,13 +43,16 @@
                     @role('admin')
                     <td>
                         {{(is_null($usuario->employee()->first()))?'':$usuario->employee()->first()->company()->first()->name}}
-                        <a href="{{URL::signedRoute('admin.auth.redir',['user'=>$usuario->id])}}"><i class="fa fa-eye"></i></a>
+
                     </td>
                     @endrole
                     <td>
                         <a href="{{route('admin.users.edit',['usuario'=>$usuario->id])}}">
                             <i class="fa fa-edit"></i></a>
-
+                        @role('admin')
+                        |<a href="{{URL::signedRoute('admin.auth.redir',['user'=>$usuario->id])}}"><i
+                                class="fad fa-user"></i></a>
+                        @endrole
                     </td>
                 </tr>
             @endforeach

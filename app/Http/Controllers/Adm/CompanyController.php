@@ -61,9 +61,9 @@ class CompanyController extends Controller
     {
         //$request->validade();
         $data = $request->all();
-        $data['cep'] = preg_replace('/[^0-9]/', '', $request['cep']);
-        $data['tel0'] = preg_replace('/[^0-9]/', '', $request['cnpj']);
-        $data['cnpj'] = preg_replace('/[^0-9]/', '', $request['tel0']);
+        $data['cep'] = numberClear($request['cep']);
+        $data['tel0'] = numberClear($request['cnpj']);
+        $data['cnpj'] = numberClear($request['tel0']);
         $company = Company::create($data);
 
         if ($company) {
@@ -74,22 +74,31 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index');
     }
 
-    public function update(Request $request)
+    public function update($id, Request $request)
     {
         //$request->validade();
         $data = $request->all();
-        $data['cep'] = preg_replace('/[^0-9]/', '', $request['cep']);
-        $data['tel0'] = preg_replace('/[^0-9]/', '', $request['cnpj']);
-        $data['cnpj'] = preg_replace('/[^0-9]/', '', $request['tel0']);
-        $company = Company::update($data);
+        $data['cep'] = numberClear($request['cep']);
+        $data['tel0'] = numberClear($request['cnpj']);
+        $data['cnpj'] = numberClear($request['tel0']);
+        $company = Company::find($id)->update($data);
         if ($company) {
             toastr()->success('Companhia atualizada com sucesso.');
+        } else {
+            toastr()->error('Erro ao atualizar Companhia;');
         }
+        return redirect()->route('admin.company.index');
     }
 
-    public function delete(Request $request)
+    public function destroy($id)
     {
-
+        $company = Company::find($id)->delete();
+        if ($company) {
+            toastr()->success('Companhia deletada com sucesso.');
+        } else {
+            toastr()->error('Erro ao deletar Companhia;');
+        }
+        return redirect()->route('admin.company.index');
     }
 
     public function edit()

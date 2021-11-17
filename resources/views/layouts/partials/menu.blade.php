@@ -34,30 +34,42 @@
     </li>
 @endcan
 
-@can('edit_employee')
-    <li class="nav-item">
-        <a class="sidebar-link {{ routeActive('admin.employee') }}"
-           href="{{route('admin.employee.index')}}">
+@role('manager')
+<li class="nav-item">
+    <a class="sidebar-link {{ routeActive('admin.lawyer') }}"
+       href="{{route('admin.lawyer.index')}}">
         <span class="icon-holder">
             <i class="c-brown-500 ti-user"></i>
         </span>
-            <span class="title">Funcionários</span>
-        </a>
-    </li>
-@endcan
+        <span class="title">Advogados</span>
+    </a>
+</li>
+@endrole
 
-
-@can('edit_employee')
-    <li class="nav-item">
-        <a class="sidebar-link {{ routeActive('admin.benefit') }}"
-           href="{{route('admin.benefit.index')}}">
+@role('manager')
+<li class="nav-item">
+    <a class="sidebar-link {{ routeActive('admin.employee') }}"
+       href="{{route('admin.employee.index')}}">
         <span class="icon-holder">
             <i class="c-brown-500 ti-user"></i>
         </span>
-            <span class="title">Beneficios</span>
-        </a>
-    </li>
-@endcan
+        <span class="title">Funcionários</span>
+    </a>
+</li>
+@endrole
+
+
+@role('manager')
+<li class="nav-item">
+    <a class="sidebar-link {{ routeActive('admin.benefit') }}"
+       href="{{route('admin.benefit.index')}}">
+        <span class="icon-holder">
+            <i class="c-brown-500 ti-user"></i>
+        </span>
+        <span class="title">Beneficios</span>
+    </a>
+</li>
+@endrole
 
 @can('edit_client')
     <li class="nav-item">

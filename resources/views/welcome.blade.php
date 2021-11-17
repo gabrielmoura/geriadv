@@ -5,7 +5,7 @@
             class="d-md-flex justify-content-md-center align-items-md-center pulse animated infinite" id="wp"
             target="_blank"
             style="background: url(&quot;images/botao-whatsapp.png&quot;) center / contain no-repeat, #5bbf21;width: 154px;height: 44px;"
-            href="https://api.whatsapp.com/send/?phone=552140028922&amp;text=Olá vim pelo GERIADV E gostaria de conhecer os planos!&app_absent=0"></a>
+            href="https://api.whatsapp.com/send/?phone={{config('meta.whatsapp.number')}}&amp;text={{config('meta.whatsapp.text')}}&app_absent=0"></a>
         <div class="text">
             <h2>GeriADV.</h2>
             <p>Gerente Virtual para seu escritório.</p>

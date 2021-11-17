@@ -16,13 +16,14 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-           
+            $table->softDeletes();
+
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('company_id')->comment('Empresa')->index();
             $table->foreign('company_id')->references('id')->on('companies');
-           
+
              /**
              * Dados Pessoais
              */
@@ -59,6 +60,6 @@ class CreateEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employees'); 
+        Schema::dropIfExists('employees');
     }
 }
