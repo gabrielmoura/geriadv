@@ -59,13 +59,17 @@ if (!function_exists('formatHours')) {
      */
     function formatHours($data)
     {
-        date_default_timezone_set('America/Sao_Paulo');
-        $formatter = new IntlDateFormatter('pt_BR',
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::NONE,
-            'America/Sao_Paulo',
-            IntlDateFormatter::GREGORIAN);
-        return $formatter->format($data);
+       if (class_exists('IntlDateFormatter')) {
+            date_default_timezone_set(config('app.timezone'));
+            $formatter = new IntlDateFormatter(config('app.locale'),
+                IntlDateFormatter::FULL,
+                IntlDateFormatter::NONE,
+                config('app.timezone'),
+                IntlDateFormatter::GREGORIAN);
+            return $formatter->format($data);
+        } else {
+            return $data;
+        }
     }
 }
 if (!function_exists('formatDate')) {
