@@ -2,8 +2,8 @@
 @section('page-header') Empresas @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <a href="{{signedRoute('admin.company.create')}}">Cadastrar Nova</a>
-        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0" >
+        <a class="btn btn-lg btn-success" href="{{signedRoute('admin.company.create')}}">Cadastrar Nova</a>
+        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0">
             <thead>
             <tr>
                 <th>Nome</th>
@@ -35,7 +35,11 @@
                     <td>{{$company->address}}</td>
                     <td>{{$company->email}}</td>
                     <td>{{$company->tel0}}</td>
-                    <td><a href="{{route('admin.company.show',['company'=>$company->id])}}"><i class="fa fa-eye"></i></a>
+                    <td><a href="{{route('admin.company.show',['company'=>$company->id])}}">
+                            <i class="fa fa-eye"></i>
+                        </a>|<a href="{{route('admin.company.edit',['company'=>$company->id])}}">
+                            <i class="fa fa-edit"></i>
+                        </a>
                     </td>
                 </tr>
             @endforeach

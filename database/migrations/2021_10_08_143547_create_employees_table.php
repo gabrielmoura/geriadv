@@ -43,7 +43,7 @@ class CreateEmployeesTable extends Migration
              * Dados do Endereço
              */
 
-            $table->integer('cep')->nullable();
+            $table->string('cep')->nullable();
             $table->string('address')->comment('Endereço')->nullable();
             $table->integer('number')->comment('Numero')->nullable();
             $table->string('complement')->nullable()->comment('Complemento');

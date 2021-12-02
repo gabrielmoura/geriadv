@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\EmployeeTraits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,9 +69,16 @@ class Employee extends Model
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use EmployeeTraits;
 
     protected $casts = [
         'cpf' => 'encrypted',
+        'cep' => 'integer',
+        'name' => 'string',
+        'last_name' => 'string',
+        //   'birth_date' => 'date',
+        'number' => 'integer',
+        'complement' => 'string'
     ];
 
     protected $fillable = [
@@ -138,5 +146,10 @@ class Employee extends Model
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
     }
 }

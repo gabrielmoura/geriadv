@@ -121,7 +121,7 @@ class UsersController extends Controller
               ->log('Atualizou o usuário ' . $user->name);
         */
         toastr()->success('Usuário:' . $user->name . ' atualizado com sucesso');
-        return redirect()->route('admin.users.index')->with('success', $user);
+        return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' atualizado com sucesso');
     }
 
 

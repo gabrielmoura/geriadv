@@ -23,16 +23,33 @@ class BenefitsController extends Controller
 
     }
 
+
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
 
-        $benefits = Benefits::where('company_id', session()->get('company_id'))->get();
+        $benefits = Benefits::where('company_id', session()->get('company_id'));
+        if (config('panel.datatable')) {
+            return $this->datatable($request, $benefits);
+        } else {
+            return $this->datatable($request, $benefits);
+            //$benefits = $benefits->get();
+        }
+    }
+
+    /**
+     * @param $request
+     * @param $benefits
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Exception
+     */
+    protected function datatable($request, $benefits)
+    {
         if ($request->ajax()) {
-            return (new Datatables())->collection($benefits)
+            return Datatables::of($benefits)
                 ->addColumn('action', function (Benefits $benefits) {
                     return '<div class="table-data-feature"><a href="' . route('admin.benefit.show', ['benefit' => $benefits->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
@@ -51,7 +68,9 @@ class BenefitsController extends Controller
             ->addColumn(['data' => 'wage_type', 'name' => 'wage_type', 'title' => 'Tipo de Remuneração'])
             ->addColumn(['data' => 'amount', 'name' => 'amount', 'title' => 'Total'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true);
+            ->responsive(true)
+            ->serverSide(true)
+            ->minifiedAjax();
 
 
         return view('admin.benefits.index', compact('html'));

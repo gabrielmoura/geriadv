@@ -7,4 +7,8 @@ return [
         'en' => 'English',
         'pt' => 'Portuguese',
     ],
+    /**
+     * Usar DataTable
+     */
+    'datatable' => true
 ];

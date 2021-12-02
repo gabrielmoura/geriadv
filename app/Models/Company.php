@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * App\Models\Company
@@ -51,11 +53,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $employees_count
  * @method static \Database\Factories\CompanyFactory factory(...$parameters)
  */
-class Company extends Model
+class Company extends Model implements HasMedia
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'cnpj', 'cep', 'address', 'number', 'complement', 'district', 'city', 'state', 'email', 'tel0', 'logo'];
     protected $table = 'companies';

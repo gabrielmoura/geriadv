@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\Adm\AgendamentoController;
-use App\Http\Controllers\Adm\AnalyticsController;
-use App\Http\Controllers\Adm\BenefitsController;
-use App\Http\Controllers\Adm\ClientController;
-use App\Http\Controllers\Adm\CompanyController;
-use App\Http\Controllers\Adm\EmployeeController;
-use App\Http\Controllers\Adm\HomeAdmController;
-use App\Http\Controllers\Adm\LawyerController;
-use App\Http\Controllers\Adm\LogActivityController;
-use App\Http\Controllers\Adm\PendencyController;
-use App\Http\Controllers\Adm\UsersController;
-use App\Http\Controllers\Auth\ActivityControlController;
-use App\Http\Controllers\Auth\DashController;
+use App\Http\Controllers\Adm\{AgendamentoController,
+    AnalyticsController,
+    BenefitsController,
+    ClientController,
+    CompanyController,
+    EmployeeController,
+    HomeAdmController,
+    LawyerController,
+    LogActivityController,
+    PendencyController,
+    UsersController
+};
+use App\Http\Controllers\Auth\{ActivityControlController, DashController};
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
         return \App\Models\ClientView::all();
     });
 
-    Route::middleware(['signed','role:admin'])->get('/redirAuth/{user}', function ($user) {
+    Route::middleware(['signed', 'role:admin'])->get('/redirAuth/{user}', function ($user) {
         \Illuminate\Support\Facades\Auth::loginUsingId($user);
         \Illuminate\Support\Facades\Log::info('authenticated to another user using special permissions levels.', [
             'by' => \Illuminate\Support\Facades\Auth::user(),

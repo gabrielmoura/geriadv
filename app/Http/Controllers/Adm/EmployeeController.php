@@ -14,19 +14,50 @@ use Yajra\DataTables\Html\Builder;
 class EmployeeController extends Controller
 {
 
+    /**
+     * @var Builder
+     */
     protected $htmlBuilder;
 
+    /**
+     * EmployeeController constructor.
+     * @param Builder $htmlBuilder
+     */
     public function __construct(Builder $htmlBuilder)
     {
         $this->htmlBuilder = $htmlBuilder;
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Exception
+     */
     public function index(Request $request)
     {
         //Apenas o gerente deve acessar
-        $employees = Employee::where('company_id', session()->get('company_id'))->get();
+        $employees = Employee::where('company_id', session()->get('company_id'));
+
+        if (config('panel.datatable')) {
+            return $this->datatable($request, $employees);
+        } else {
+            return $this->datatable($request, $employees);
+            //$employees = $employees->get();
+            //return view('admin.employee.index', compact('clients'));
+        }
+    }
+
+    /**
+     * @param $request
+     * @param $employees
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Exception
+     */
+    protected function datatable($request, $employees)
+    {
         if ($request->ajax()) {
-            return (new Datatables())->collection($employees)
+            return Datatables::of($employees)
                 ->addColumn('action', function (Employee $employee) {
                     return '<div class="table-data-feature"><a href="' . route('admin.employee.show', ['employee' => $employee->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
@@ -45,7 +76,9 @@ class EmployeeController extends Controller
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true);
+            ->responsive(true)
+            ->serverSide(true)
+            ->minifiedAjax();
 
 
         return view('admin.employee.index', compact('html'));
@@ -88,6 +121,9 @@ class EmployeeController extends Controller
                 , 'company_id' => session()->get('company_id')
                 , 'name' => $request->name
                 , 'email' => $request->email
+                , 'cep' => numberClear($request->cep)
+                , 'cpf' => numberClear($request->cpf)
+                , 'tel0' => numberClear($request->tel0)
             ]);
             return $employee;
         });
@@ -101,8 +137,22 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         // $request->validade();
-        $employee = Employee::find($request->id)->update($request->all());
-        if ($employee) {
+        $data = $request->all();
+        //dd($data);
+        $employee = Employee::find($request->id);
+        if ($request->has('cep')) {
+            $data['cep'] = numberClear($request->cep);
+        }
+        if ($request->has('cpf')) {
+            $data['cpf'] = numberClear($request->cpf);
+        }
+        if ($request->has('tel0')) {
+            $data['tel0'] = numberClear($request->tel0);
+        }
+
+
+        if ($employee->update($data)) {
+
             toastr()->success('Funcionário atualizado com sucesso.');
         }
         return redirect()->route('admin.employee.index');

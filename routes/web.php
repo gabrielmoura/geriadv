@@ -1,10 +1,8 @@
 <?php
 
 use App\Events\TestEvent;
-use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PushController;
+use App\Http\Controllers\{HomeController,NotificationController,PushController,Auth\SocialiteController};
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Adm\AgendamentoController;
 /*

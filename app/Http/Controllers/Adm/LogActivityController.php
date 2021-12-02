@@ -26,16 +26,15 @@ class LogActivityController extends Controller
         //$activity->all()->last();
         //Cache::remember('activity',now()->addDay());
         $month = Carbon::now()->month;
-        $activity = Activity::whereMonth('created_at', '=', $month)->get();
+        $activity = Activity::whereMonth('created_at', '=', $month);
 
         if (session()->has('company.name')) {
             $activity = Activity::whereMonth('created_at', '=', $month)
-                ->where('log_name', session()->get('company.name'))
-                ->get();
+                ->where('log_name', session()->get('company.name'));
         }
 
         if ($request->ajax()) {
-            return (new Datatables())->collection($activity)
+            return Datatables::of($activity)
                 ->addColumn('employee', function (Activity $activity) {
                     return \App\Models\User::find($activity->causer_id)->name ?? null;
                 })
@@ -72,7 +71,9 @@ class LogActivityController extends Controller
             ->addColumn(['data' => 'employee', 'name' => 'employee', 'title' => 'Funcionário'])
             ->addColumn(['data' => 'type', 'name' => 'type', 'title' => 'Tipo'])
             ->addColumn(['data' => 'altered', 'name' => 'altered', 'title' => 'Dados Alterados'])
-            ->responsive(true);
+            ->responsive(true)
+            ->serverSide(true)
+            ->minifiedAjax();
 
 
         return view('admin.log.datatable', compact('html', 'request'));

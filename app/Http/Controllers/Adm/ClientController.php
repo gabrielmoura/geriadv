@@ -26,20 +26,34 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $client = Clients::where('company_id', session()->get('company_id'))->get();
+        $clients = Clients::where('company_id', session()->get('company_id'));
         // Caso o Admin também deseje ter acesso a os clientes.
         $user = Auth::user();
         if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
-            $client = Clients::all();
+            $clients = Clients::query();
+        }
+        if (config('panel.datatable')) {
+            return $this->datatable($request, $clients);
+        } else {
+            $clients = $clients->get();
+            return view('admin.client.index', compact('clients'));
         }
 
+    }
+
+    protected function datatable($request, $client)
+    {
+
         if ($request->ajax()) {
-            return (new Datatables())->collection($client)
+            return Datatables::of($client)
                 ->addColumn('action', function (Clients $client) {
                     return '<div class="table-data-feature"><a href="' . route('admin.clients.show', ['client' => $client->slug]) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-eye"></i></a></div>';
                 })
                 ->addColumn('fullname', function (Clients $client) {
                     return $client->fullname;
+                })
+                ->addColumn('status', function (Clients $client) {
+                    return (!!$client->status()->get()->last()) ? __('view.' . $client->status()->get()->last()->status) : '';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -53,8 +67,11 @@ class ClientController extends Controller
             ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'status', 'name' => 'Status', 'title' => 'Status'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true);
+            ->responsive(true)
+            ->serverSide(true)
+            ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
     }
 
@@ -141,7 +158,7 @@ class ClientController extends Controller
                  */
                 , 'cep' => numberClear($request['cep'])
                 , 'address' => $request['address']
-                , 'number' => $request['number']
+                , 'number' => numberClear($request['number'])
                 , 'complement' => $request['complement']
                 , 'district' => $request['district']
                 , 'city' => $request['city']
