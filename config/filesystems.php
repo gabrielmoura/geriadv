@@ -60,6 +60,7 @@ return [
             'bucket' => env('MINIO_BUCKET'),
             'endpoint' => env('MINIO_URL'),
             //'url'=>"http://mgmercado.localhost",
+            //'bucket_endpoint' => false,
             'use_path_style_endpoint' => env('AWS_PATH_STYLE', true),
             //'scheme'  => 'http',
             //'http' => ['verify' => false],

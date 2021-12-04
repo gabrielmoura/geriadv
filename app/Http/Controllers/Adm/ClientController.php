@@ -138,6 +138,7 @@ class ClientController extends Controller
             , 'state' => 'required'
             , 'country'
             , 'newsletter'
+            , 'benefit' => 'required|numeric'
         ]);
 
         $client = DB::transaction(function () use ($request) {
@@ -163,22 +164,24 @@ class ClientController extends Controller
                 , 'district' => $request['district']
                 , 'city' => $request['city']
                 , 'state' => $request['state']
+
                 //, 'country' => $input['country']
                 // , 'newsletter' => $input['newsletter']
 
 
             ];
-            if (session()->has('company_id')) {
+            if (session()->has('company.id')) {
                 $clientData['company_id'] = session()->get('company.id');
             }
             if (isset($recommendation->id)) {
                 $clientData['recommendation_id'] = $recommendation->id;
             }
-
-            $client = Clients::create($clientData);
             if ($request->has('benefit') && isset($request->benefit)) {
                 $clientData['benefit_id'] = $request->benefit;
             }
+
+            $client = Clients::create($clientData);
+
             if ($request->has('note') && isset($request->note)) {
                 Note::create(['user_id' => $client->id, 'body' => $request['note']]);
             }
@@ -208,7 +211,7 @@ class ClientController extends Controller
     public function update(Request $request, $slug)
     {
         $data = $request->all();
-        if (session()->has('company_id')) {
+        if (session()->has('company.id')) {
             $data['company_id'] = session()->get('company.id');
         }
 

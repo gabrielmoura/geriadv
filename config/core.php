@@ -31,5 +31,7 @@ return [
             'f' => 15,
         ],
     ],
+    'docs' => ['cras', 'cpf', 'rg', 'birth_certificate', 'proof_of_address'],
+
 
 ];

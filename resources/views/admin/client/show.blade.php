@@ -285,20 +285,12 @@
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">
-{{--@include('admin.client.component.pendency')  --}}
+                    @include('admin.client.pendency')
                 </div>
 
                 <div class="hr hr10 hr-double"></div>
 
-                <ul class="pager pull-right">
-                    <li class="previous disabled">
-                        <a href="#">← Prev</a>
-                    </li>
 
-                    <li class="next">
-                        <a href="#">Next →</a>
-                    </li>
-                </ul>
             </div><!-- /#doc -->
 
             <div id="pictures" class="tab-pane">

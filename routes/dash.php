@@ -44,9 +44,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::post('/ActivityControl', [ActivityControlController::class, 'store'])->name('ActivityControl.store');
 
     Route::group(['middleware' => 'restrictedToDayLight'], function () {
-        Route::resource('/client', ClientController::class)->names('clients');
         Route::post('/client/pendency', [PendencyController::class, 'store'])->name('clients.pendency');
-        Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delee');
+        Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
+        Route::resource('/client', ClientController::class)->names('clients');
 
 
         // Calendário
