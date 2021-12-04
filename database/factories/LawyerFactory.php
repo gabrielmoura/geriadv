@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,16 +28,16 @@ class LawyerFactory extends Factory
         return [
             'name' => $this->faker->firstName()
             , 'last_name' => $this->faker->lastName()
-            , 'user_id' => null
-            , 'cpf' => null
-            , 'rg' => null
-            , 'oab' => null
+            , 'user_id' => $this->userId($email)
+            , 'company_id' => $this->companyId()
+            , 'cpf' => $this->faker->cpf(false)
+            , 'rg' => $this->faker->rg(false)
+            , 'oab' => $this->faker->randomNumber(4)
             , 'email' => $email
             , 'tel0' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
             , 'tel1' => $this->numberClear($this->faker->areaCode() . $this->faker->landline())
-            , 'sex' => null
-            , 'birth_date' => null
-            , 'cep' => null
+            , 'sex' => collect(['m', 'f'])->random()
+            , 'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now')
         ];
     }
 
@@ -51,6 +52,12 @@ class LawyerFactory extends Factory
         ]);
         return $u->id;
     }
+
+    private function companyId()
+    {
+        return Company::all()->random()->id;
+    }
+
     private function numberClear($number)
     {
         return preg_replace('/[^0-9]/', '', $number);

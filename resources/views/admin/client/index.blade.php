@@ -2,7 +2,9 @@
 @section('page-header') Clientes @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
+        @hasrole('manager|employees')
         <a class="btn btn-lg btn-success" href="{{route('admin.clients.create')}}">Registrar Cliente</a>
+        @endhasrole
         <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0">
             <thead>
             <tr>

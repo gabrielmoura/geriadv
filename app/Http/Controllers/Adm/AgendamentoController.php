@@ -31,7 +31,7 @@ class AgendamentoController extends Controller
     {
         // abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $events = Model::withCount('calendars')->where('company_id', '=', session()->get('company_id'));
+        $events = Model::withCount('calendars')->where('company_id', '=', session()->get('company.id'));
 
         if ($request->has('month')) {
             //Busca agendamentos por data
@@ -47,7 +47,7 @@ class AgendamentoController extends Controller
         $events = [];
 
         foreach ($this->sources as $source) {
-            foreach ($source['model']::where('company_id', '=', session()->get('company_id')) as $model) {
+            foreach ($source['model']::where('company_id', '=', session()->get('company.id')) as $model) {
                 //$crudFieldValue = $model->getOriginal($source['date_field']);
                 $crudFieldValue = Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $model->getOriginal($source['date_field']))->format('Y-m-d H:i:s');
                 //$crudFieldValue=Carbon::parse($model->getOriginal($source['date_field']))->toDateTimeString();
@@ -127,7 +127,7 @@ class AgendamentoController extends Controller
         $data = $request->all();
         $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
         $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
-        $data['company_id'] = session()->get('company_id');
+        $data['company_id'] = session()->get('company.id');
         Model::create($data);
 
         return redirect()->route('admin.calendar.systemCalendar');
@@ -150,7 +150,7 @@ class AgendamentoController extends Controller
         $data = $request->all();
         $data['start_time'] = Carbon::createFromFormat($format, $request->start_time);
         $data['end_time'] = Carbon::createFromFormat($format, $request->end_time);
-        $data['company_id'] = session()->get('company_id');
+        $data['company_id'] = session()->get('company.id');
         $event->update($data);
 
         return redirect()->route('admin.calendar.systemCalendar');

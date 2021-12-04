@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'enable' => env('MIX_WEBPUSH_ENABLE', false),
     /**
      * These are the keys for authentication (VAPID).
      * These keys must be safely stored and should not change.

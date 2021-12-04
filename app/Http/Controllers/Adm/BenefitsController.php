@@ -31,7 +31,7 @@ class BenefitsController extends Controller
     public function index(Request $request)
     {
 
-        $benefits = Benefits::where('company_id', session()->get('company_id'));
+        $benefits = Benefits::where('company_id', session()->get('company.id'));
         if (config('panel.datatable')) {
             return $this->datatable($request, $benefits);
         } else {
@@ -83,7 +83,7 @@ class BenefitsController extends Controller
     public function edit($benefit)
     {
         $form = ['route' => ['admin.benefit.update', ['benefit' => $benefit]], 'method' => 'put'];
-        $benefit = Benefits::whereId($benefit)->whereCompanyId(session()->get('company_id'))->first();
+        $benefit = Benefits::whereId($benefit)->whereCompanyId(session()->get('company.id'))->first();
         return view('admin.benefits.form', compact('form', 'benefit'));
     }
 
@@ -112,7 +112,7 @@ class BenefitsController extends Controller
     public function update($benefit, Request $request)
     {
         $benefit = Benefits::whereId($benefit)
-            ->whereCompanyId(session()->get('company_id'))->first()
+            ->whereCompanyId(session()->get('company.id'))->first()
             ->update($request->all());
         if ($benefit) {
             toastInfo('Sucesso ao atualizar');
@@ -130,7 +130,7 @@ class BenefitsController extends Controller
     public function delete($benefit)
     {
         $benefit = Benefits::whereId($benefit)
-            ->whereCompanyId(session()->get('company_id'))->first()
+            ->whereCompanyId(session()->get('company.id'))->first()
             ->delete();
         if ($benefit) {
             toastInfo('Sucesso ao deletar');
@@ -148,7 +148,7 @@ class BenefitsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['company_id'] = session()->get('company_id');
+        $data['company_id'] = session()->get('company.id');
         $benefit = Benefits::create($data);
         if ($benefit) {
             toastInfo('Sucesso ao adicionar');

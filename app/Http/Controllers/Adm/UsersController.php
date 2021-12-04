@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Clients;
 use App\Models\Company;
 use App\Models\Employee;
 use App\Models\User;
@@ -18,7 +19,7 @@ class UsersController extends Controller
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $userAuth = Auth::user();
         if ($userAuth->hasRole('admin')) {
@@ -29,7 +30,7 @@ class UsersController extends Controller
         }
         if ($userAuth->hasRole('manager')) {
             $usuarios = [];
-            foreach (Company::find(session()->get('company_id'))->employees()->get() as $emp) {
+            foreach (Company::find(session()->get('company.id'))->employees()->get() as $emp) {
                 $usuarios[] = $emp->user()->first();
             }
         }

@@ -21,7 +21,7 @@ class LawyerController extends Controller
     public function index(Request $request)
     {
 
-        $lawyer = Lawyer::where('company_id', session()->get('company_id'))->get();
+        $lawyer = Lawyer::where('company_id', session()->get('company.id'))->get();
         if ($request->ajax()) {
             return (new Datatables())->collection($lawyer)
                 ->addColumn('action', function (Lawyer $lawyer) {
@@ -49,7 +49,7 @@ class LawyerController extends Controller
     public function edit($lawyer)
     {
         $form = ['route' => ['admin.lawyer.update', ['lawyer' => $lawyer]], 'method' => 'put'];
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company_id'))->first();
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company.id'))->first();
         return view('admin.lawyers.form', compact('form', 'lawyer'));
     }
 
@@ -61,14 +61,14 @@ class LawyerController extends Controller
 
     public function show($lawyer)
     {
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company_id'))->first();
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company.id'))->first();
         return view('admin.lawyers.show',compact('lawyer'));
     }
 
     public function update($lawyer, Request $request)
     {
         $lawyer = Lawyer::whereId($lawyer)
-            ->whereCompanyId(session()->get('company_id'))->first()
+            ->whereCompanyId(session()->get('company.id'))->first()
             ->update($request->all());
         if ($lawyer) {
             toastInfo('Sucesso ao atualizar');
@@ -82,7 +82,7 @@ class LawyerController extends Controller
     public function delete($lawyer)
     {
         $lawyer = Lawyer::whereId($lawyer)
-            ->whereCompanyId(session()->get('company_id'))->first()
+            ->whereCompanyId(session()->get('company.id'))->first()
             ->delete();
         if ($lawyer) {
             toastInfo('Sucesso ao deletar');
@@ -97,7 +97,7 @@ class LawyerController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['company_id'] = session()->get('company_id');
+        $data['company_id'] = session()->get('company.id');
         $lawyer = Lawyer::create($data);
         if ($lawyer) {
             toastInfo('Sucesso ao adicionar');

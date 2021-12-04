@@ -26,7 +26,7 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', session()->get('company_id'));
+        $clients = Clients::where('company_id', session()->get('company.id'));
         // Caso o Admin também deseje ter acesso a os clientes.
         $user = Auth::user();
         if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
@@ -78,7 +78,7 @@ class ClientController extends Controller
     /*
      public function index()
 {
-    $clients = Clients::where('company_id', session()->get('company_id'))->get();
+    $clients = Clients::where('company_id', session()->get('company.id'))->get();
     if (request()->has('filter')) {
         $clients = $clients->filter(function ($value, $key) {
             return $value->status != null;
@@ -92,7 +92,7 @@ class ClientController extends Controller
     public function show($slug)
     {
         $client = Clients::whereSlug($slug)
-            ->where('company_id', session()->get('company_id'))
+            ->where('company_id', session()->get('company.id'))
             ->first();
 
         return view('admin.client.show', compact('client'));
@@ -100,10 +100,10 @@ class ClientController extends Controller
 
     public function create()
     {
-        $clients = Clients::where('company_id', session()->get('company_id'))->get();
+        $clients = Clients::where('company_id', session()->get('company.id'))->get();
         $form = ['route' => ['admin.clients.store'], 'method' => 'post'];
         $benefits = [];
-        foreach (Benefits::where('company_id', session()->get('company_id'))->get() as $benefit) {
+        foreach (Benefits::where('company_id', session()->get('company.id'))->get() as $benefit) {
             $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
         }
         return view('admin.client.form', compact('clients', 'form', 'benefits'));
@@ -168,6 +168,9 @@ class ClientController extends Controller
 
 
             ];
+            if (session()->has('company_id')) {
+                $clientData['company_id'] = session()->get('company.id');
+            }
             if (isset($recommendation->id)) {
                 $clientData['recommendation_id'] = $recommendation->id;
             }
@@ -205,6 +208,9 @@ class ClientController extends Controller
     public function update(Request $request, $slug)
     {
         $data = $request->all();
+        if (session()->has('company_id')) {
+            $data['company_id'] = session()->get('company.id');
+        }
 
         $client = DB::transaction(function () use ($data, $slug) {
             $client = Clients::whereSlug($slug)->first();

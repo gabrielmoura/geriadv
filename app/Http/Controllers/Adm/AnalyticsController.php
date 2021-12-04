@@ -23,11 +23,11 @@ class AnalyticsController extends Controller
         //  Quantidade de Clientes no mes
         $statusM['client_count'] = Clients::whereMonth(
             'created_at', '=', $month
-        )->where('company_id', '=', session()->get('company_id'))->count();
+        )->where('company_id', '=', session()->get('company.id'))->count();
 
 
         //  Multiplica valor pelo multiplicador e retorna o valor a receber no mes.
-        foreach (Clients::whereMonth('created_at', '=', $month)->where('company_id', '=', session()->get('company_id')) as $all) {
+        foreach (Clients::whereMonth('created_at', '=', $month)->where('company_id', '=', session()->get('company.id')) as $all) {
             $statusM['amount_count'] = (float)$all->benefit()->first()->wage * $all->benefit()->first()->wage_factor;
         }
 
@@ -42,7 +42,7 @@ class AnalyticsController extends Controller
             ->whereMonth('created_at', '=', $month)
             ->count();
         //Conta os agendamentos
-        $statusM['calendar_count'] = Calendar::whereMonth('created_at', '=', $month)->where('company_id', '=', session()->get('company_id'))
+        $statusM['calendar_count'] = Calendar::whereMonth('created_at', '=', $month)->where('company_id', '=', session()->get('company.id'))
             ->count();
 
         //Novas Entradas no mes

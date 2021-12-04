@@ -22,8 +22,9 @@
     <!-- Specific css content placeholder -->
 @stack('css')
 <!-- End of specific css content placeholder -->
-    <script>
-        window.Laravel = {!! json_encode([
+    @if(config('webpush.enable'))
+        <script>
+            window.Laravel = {!! json_encode([
           'user' => Auth::user(),
           'csrfToken' => csrf_token(),
           'vapidPublicKey' => config('webpush.vapid.public_key'),
@@ -32,6 +33,7 @@
               'cluster' => config('broadcasting.connections.pusher.options.cluster'),
           ],
       ]) !!};
-    </script>
+        </script>
+    @endif
 </head>
 

@@ -9,8 +9,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 require('./bootstrap');
 require('./0custom/client');
-require('./web-push1/main');
-
+if(process.env.MIX_WEBPUSH_ENABLE===true) {
+    require('./web-push1/main');
+}
 //window.toUint8Array = require('base64-to-uint8array');
 // window.Vue = require('vue');
 import Vue from 'vue'

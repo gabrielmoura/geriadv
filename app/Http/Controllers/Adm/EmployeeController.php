@@ -37,7 +37,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         //Apenas o gerente deve acessar
-        $employees = Employee::where('company_id', session()->get('company_id'));
+        $employees = Employee::where('company_id', session()->get('company.id'));
 
         if (config('panel.datatable')) {
             return $this->datatable($request, $employees);
@@ -118,7 +118,7 @@ class EmployeeController extends Controller
             ]);
             $user->assignRole('employees');
             $employee = Employee::create(['user_id' => $user->id
-                , 'company_id' => session()->get('company_id')
+                , 'company_id' => session()->get('company.id')
                 , 'name' => $request->name
                 , 'email' => $request->email
                 , 'cep' => numberClear($request->cep)

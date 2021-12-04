@@ -43,7 +43,6 @@
 <script src="{{ mix('/js/app.js') }}"></script>
 
 
-
 <!-- Global js content -->
 
 <!-- End of global js content-->
@@ -52,27 +51,28 @@
 @stack('js')
 <!-- End of specific js content placeholder -->
 @toastr_render
-<script>
-    const public_channel = '{{config('app.name')}}.Public';
-
-    Echo.channel(public_channel)
-        .listen('OrderShipmentStatusUpdated', (data) => {
-            console.log(data)
-        });
-</script>
-
-@auth()
+@if(config('webpush.enable'))
     <script>
-        const private_channel = '{{config('app.name')}}.{{auth()->id()}}';
+        const public_channel = '{{config('app.name')}}.Public';
 
-        Echo.private(private_channel)
-            .notification((notification) => {
-                console.log(notification);
+        Echo.channel(public_channel)
+            .listen('OrderShipmentStatusUpdated', (data) => {
+                console.log(data)
             });
-
     </script>
-@endauth
 
+    @auth()
+        <script>
+            const private_channel = '{{config('app.name')}}.{{auth()->id()}}';
+
+            Echo.private(private_channel)
+                .notification((notification) => {
+                    console.log(notification);
+                });
+
+        </script>
+    @endauth
+@endif
 </body>
 
 </html>
