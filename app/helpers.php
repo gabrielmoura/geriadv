@@ -59,7 +59,7 @@ if (!function_exists('formatHours')) {
      */
     function formatHours($data)
     {
-       if (class_exists('IntlDateFormatter')) {
+        if (class_exists('IntlDateFormatter')) {
             date_default_timezone_set(config('app.timezone'));
             $formatter = new IntlDateFormatter(config('app.locale'),
                 IntlDateFormatter::FULL,
@@ -78,7 +78,7 @@ if (!function_exists('formatDate')) {
      * @param string $data
      * @return false|string
      */
-    function formatDate( $data)
+    function formatDate($data)
     {
         return date_format(date_create($data), "d/m/Y");
     }
@@ -116,6 +116,15 @@ if (!function_exists('numberClear')) {
      */
     function numberClear($n)
     {
+        if ($n == null) {
+            return null;
+        }
         return preg_replace('/[^0-9]/', '', $n);
+    }
+}
+if (!function_exists('calculateAmount')) {
+    function calculateAmount($obj)
+    {
+        return \App\Actions\Payment\Amount::getValue($obj);
     }
 }
