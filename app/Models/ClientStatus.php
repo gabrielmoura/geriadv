@@ -82,10 +82,9 @@ class ClientStatus extends Model
     |------------------------------------------------------------------------------------
     */
 
-    public function client()
+    public function clients()
     {
-
-        $this->belongsTo(Clients::class);
+        return $this->belongsTo(Clients::class);
     }
 
     public function getActivitylogOptions(): LogOptions

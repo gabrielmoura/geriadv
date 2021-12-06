@@ -57,7 +57,7 @@ class BenefitsController extends Controller
                                 class="fa fa-edit"></i></a></div>';
                 })
                 ->addColumn('amount', function (Benefits $benefits) {
-                    return (is_null($benefits->wage)) ? config('core.minimum.salary') * $benefits->wage_factor : $benefits->wage * $benefits->wage_factor;
+                    return calculateAmount($benefits);
                 })
                 ->rawColumns(['amount', 'action'])
                 ->make(true);
@@ -115,7 +115,7 @@ class BenefitsController extends Controller
             ->whereCompanyId(session()->get('company.id'))->first()
             ->update($request->all());
         if ($benefit) {
-            toastInfo('Sucesso ao atualizar');
+            toastr()->success('Sucesso ao atualizar');
         } else {
             toastError('Erro ao atualizar');
         }
@@ -127,13 +127,13 @@ class BenefitsController extends Controller
      * @param $benefit
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($benefit)
+    public function destroy($benefit)
     {
         $benefit = Benefits::whereId($benefit)
             ->whereCompanyId(session()->get('company.id'))->first()
             ->delete();
         if ($benefit) {
-            toastInfo('Sucesso ao deletar');
+            toastr()->success('Sucesso ao deletar');
         } else {
             toastError('Erro ao deletar');
         }
@@ -151,7 +151,7 @@ class BenefitsController extends Controller
         $data['company_id'] = session()->get('company.id');
         $benefit = Benefits::create($data);
         if ($benefit) {
-            toastInfo('Sucesso ao adicionar');
+            toastr()->success('Sucesso ao adicionar');
         } else {
             toastError('Erro ao adicionar');
         }

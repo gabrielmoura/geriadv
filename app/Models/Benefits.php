@@ -53,7 +53,7 @@ class Benefits extends Model
 
     public function clients()
     {
-        return $this->hasMany(Clients::class);
+        return $this->belongsTo(Clients::class,'id','benefit_id');
     }
 
     public function getActivitylogOptions(): LogOptions

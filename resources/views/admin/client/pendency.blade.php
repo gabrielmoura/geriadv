@@ -6,14 +6,17 @@
             </div>
             <div class="card-body">
                 {!! Form::open(['route'=>['admin.clients.pendency'],'files' => true]) !!}
-
+                @php($count=0)
                 @foreach(config('core.docs') as $name)
                     <input type="hidden" name="slug" value="{{$client->slug}}">
                     @if(($client->pendency()->get()->isEmpty())?true:!$client->pendency()->first()->{$name})
+                        @php($count=+1)
                         <x-form-file name="{{ $name }}"></x-form-file>
                     @endif
                 @endforeach
-                <button type="submit">Enviar</button>
+                @if($count>0)
+                    <button type="submit">Enviar</button>
+                @endif
                 {!! Form::close() !!}
             </div>
         </div>
@@ -32,7 +35,7 @@
                                     href="{{$client->pendency()->first()->getMedia($name)[0]->getUrl()}}"
                                     target="_blank">{{strtoupper($name)}}</a> <a
                                     href="#" onclick="deletedoc('{{$name}}','{{$client->slug}}');"><i
-                                        class="ace-icon fa fa-times red"></i></a>
+                                        class="fad fa-trash-alt red"></i></a>
                             </p>
                         @endif
                     @endif
@@ -49,7 +52,7 @@
         let deletedoc = function (docx, slugx) {
 
             var doc = document.createElement("input");
-            doc.type = "text";
+            doc.type = "hidden";
             doc.name = "doc";
             doc.value = docx;
 
