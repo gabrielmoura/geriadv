@@ -52,7 +52,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                locale: 'pt',
+                locale: 'pt_BR',
                 businessHours: {
                     // days of week. an array of zero-based day of week integers (0=Sunday)
                     dow: [1, 2, 3, 4, 5], // Monday - Thursday

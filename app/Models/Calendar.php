@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,12 +52,18 @@ class Calendar extends Model
     use HasFactory;
 
 
+    /**
+     *
+     */
     const RECURRENCE_RADIO = [
-        'none' => 'None',
-        'daily' => 'Daily',
-        'weekly' => 'Weekly',
-        'monthly' => 'Monthly',
+        'none' => 'Nenhum',
+        'daily' => 'Diária',
+        'weekly' => 'Semanalmente',
+        'monthly' => 'Mensal',
     ];
+    /**
+     * @var string[]
+     */
     protected $dates = [
         'end_time',
         'start_time',
@@ -66,6 +71,9 @@ class Calendar extends Model
         'updated_at',
         'deleted_at',
     ];
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'end_time',
@@ -76,13 +84,26 @@ class Calendar extends Model
         'updated_at',
         'deleted_at',
         'description',
-        'company_id'
+        'company_id',
+        'properties',
+        'lawyer_id'
     ];
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'properties' => 'collection',
     ];
+    /**
+     * @var string
+     */
     protected string $format;
 
+    /**
+     * @param false $update
+     * @param null $id
+     * @return string[]
+     */
     public static function rules($update = false, $id = null)
     {
         return [
@@ -90,22 +111,31 @@ class Calendar extends Model
         ];
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function calendars()
     {
         return $this->hasMany(Calendar::class, 'calendar_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function calendar()
     {
         return $this->belongsTo(Calendar::class, 'calendar_id');
     }
 
-    public function getStartTimeAttribute($value)
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lawyer()
     {
-        //Carbon::parse()
-        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-
+        return $this->belongsTo(Lawyer::class, 'lawyer_id');
     }
+
+
 
 
     /*
@@ -114,10 +144,6 @@ class Calendar extends Model
     |------------------------------------------------------------------------------------
     */
 
-    public function getEndTimeAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
 
     /*
     |------------------------------------------------------------------------------------
@@ -137,6 +163,9 @@ class Calendar extends Model
     |------------------------------------------------------------------------------------
     */
 
+    /**
+     * @return array
+     */
     public function getEventOptions()
     {
         return [

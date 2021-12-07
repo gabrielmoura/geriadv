@@ -1,5 +1,11 @@
 <?php
 if (!function_exists('routeIs')) {
+    /**
+     * @param $route
+     * @param string $return_ontrue
+     * @param null $return_onfalse
+     * @return mixed|string|null
+     */
     function routeIs($route, $return_ontrue = 'active', $return_onfalse = null)
     {
         return request()->routeIs($route) ? $return_ontrue : $return_onfalse;
@@ -44,6 +50,11 @@ if (!function_exists('arrayToObject')) {
     }
 }
 if (!function_exists('inObject')) {
+    /**
+     * @param $name
+     * @param $object
+     * @return bool
+     */
     function inObject($name, $object)
     {
         return collect($object)->contains(function ($value, $key) use ($name) {
@@ -123,6 +134,10 @@ if (!function_exists('numberClear')) {
     }
 }
 if (!function_exists('calculateAmount')) {
+    /**
+     * @param $obj
+     * @return float
+     */
     function calculateAmount($obj)
     {
         return \App\Actions\Payment\Amount::getValue($obj);

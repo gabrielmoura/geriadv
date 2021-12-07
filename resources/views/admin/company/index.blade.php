@@ -30,11 +30,11 @@
             @foreach($companies as $company)
                 <tr>
                     <td>{{$company->name}}</td>
-                    <td>{{$company->cnpj}}</td>
-                    <td>{{$company->cep}}</td>
+                    <td class="cnpj">{{$company->cnpj}}</td>
+                    <td class="cep">{{$company->cep}}</td>
                     <td>{{$company->address}}</td>
                     <td>{{$company->email}}</td>
-                    <td>{{$company->tel0}}</td>
+                    <td class="tel">{{$company->tel0}}</td>
                     <td><a href="{{route('admin.company.show',['company'=>$company->id])}}">
                             <i class="fa fa-eye"></i>
                         </a>|<a href="{{route('admin.company.edit',['company'=>$company->id])}}">

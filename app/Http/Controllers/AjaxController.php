@@ -245,11 +245,17 @@ class AjaxController extends Controller
         return collect($events)->toJson();
     }
 
+    /**
+     * @return Benefits[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getBenefits()
     {
         return Benefits::where('company_id', Auth::user()->company()->id)->get();
     }
 
+    /**
+     * @return \App\Models\Calendar[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Query\Builder[]|\Illuminate\Support\Collection
+     */
     public function getAgendamento()
     {
         return \App\Models\Calendar::withCount('calendars')->whereMonth('created_at', '=', request('month'))->get();

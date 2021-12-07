@@ -5,13 +5,11 @@ namespace App\Providers;
 
 use App\Models\Calendar;
 use App\Observers\CalendarRecurrenceObserver;
-use Clockwork\Support\Laravel\ClockworkServiceProvider;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Telescope\TelescopeServiceProvider;
 use RichardStyles\EloquentEncryption\Casts\Encrypted;
 use RichardStyles\EloquentEncryption\EloquentEncryption;
 
@@ -47,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        $this->forceHttps();
         //include_once base_path('resources/macros/form.php');
 
 
@@ -73,5 +72,14 @@ class AppServiceProvider extends ServiceProvider
         Calendar::observe(CalendarRecurrenceObserver::class);
 
 
+    }
+
+    private function forceHttps()
+    {
+        $url = parse_url(config('app.url'));
+
+        if ($url['scheme'] == 'https') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
     }
 }

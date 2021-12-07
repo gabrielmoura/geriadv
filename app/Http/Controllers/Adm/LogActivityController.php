@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
@@ -12,14 +13,29 @@ use Yajra\DataTables\Html\Builder;
 
 class LogActivityController extends Controller
 {
+    use CompanySessionTraits;
+
+    /**
+     * @var Builder
+     */
     protected $htmlBuilder;
 
+    /**
+     * LogActivityController constructor.
+     * @param Builder $htmlBuilder
+     */
     public function __construct(Builder $htmlBuilder)
     {
         $this->htmlBuilder = $htmlBuilder;
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function index(Request $request)
     {
         //$activity=Activity::all()->last();
@@ -30,7 +46,7 @@ class LogActivityController extends Controller
 
         if (session()->has('company.name')) {
             $activity = Activity::whereMonth('created_at', '=', $month)
-                ->where('log_name', session()->get('company.name'));
+                ->where('log_name', $this->getCompanyName());
         }
 
         if ($request->ajax()) {

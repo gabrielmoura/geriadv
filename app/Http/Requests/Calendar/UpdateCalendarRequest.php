@@ -33,11 +33,9 @@ class UpdateCalendarRequest extends FormRequest
             ],
             'start_time' => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
             'end_time' => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
             'recurrence' => [
                 'required',

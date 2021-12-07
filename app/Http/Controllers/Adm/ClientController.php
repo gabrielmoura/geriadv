@@ -7,6 +7,7 @@ use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\Note;
 use App\Models\Recommendation;
+use App\Traits\CompanySessionTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +18,31 @@ use Yajra\DataTables\Html\Builder;
 
 class ClientController extends Controller
 {
+    use CompanySessionTraits;
+
+    /**
+     * @var Builder
+     */
     protected $htmlBuilder;
 
+    /**
+     * ClientController constructor.
+     * @param Builder $htmlBuilder
+     */
     public function __construct(Builder $htmlBuilder)
     {
         $this->htmlBuilder = $htmlBuilder;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', session()->get('company.id'));
+        $clients = Clients::where('company_id', $this->getCompanyId());
         // Caso o Admin também deseje ter acesso a os clientes.
         $user = Auth::user();
         if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
@@ -41,6 +57,12 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @param $request
+     * @param $client
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Exception
+     */
     protected function datatable($request, $client)
     {
 
@@ -78,7 +100,7 @@ class ClientController extends Controller
     /*
      public function index()
 {
-    $clients = Clients::where('company_id', session()->get('company.id'))->get();
+    $clients = Clients::where('company_id', $this->getCompanyId())->get();
     if (request()->has('filter')) {
         $clients = $clients->filter(function ($value, $key) {
             return $value->status != null;
@@ -89,26 +111,42 @@ class ClientController extends Controller
     */
 
 
+    /**
+     * @param $slug
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function show($slug)
     {
         $client = Clients::whereSlug($slug)
-            ->where('company_id', session()->get('company.id'))
+            ->where('company_id', $this->getCompanyId())
             ->first();
 
         return view('admin.client.show', compact('client'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function create()
     {
-        $clients = Clients::where('company_id', session()->get('company.id'))->get();
+        $clients = Clients::where('company_id', $this->getCompanyId())->get();
         $form = ['route' => ['admin.clients.store'], 'method' => 'post'];
         $benefits = [];
-        foreach (Benefits::where('company_id', session()->get('company.id'))->get() as $benefit) {
+        foreach (Benefits::where('company_id', $this->getCompanyId())->get() as $benefit) {
             $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
         }
         return view('admin.client.form', compact('clients', 'form', 'benefits'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function store(Request $request)
     {
 
@@ -170,9 +208,9 @@ class ClientController extends Controller
 
 
             ];
-            if (session()->has('company.id')) {
-                $clientData['company_id'] = session()->get('company.id');
-            }
+
+            $clientData['company_id'] = $this->getCompanyId();
+
             if (isset($recommendation->id)) {
                 $clientData['recommendation_id'] = $recommendation->id;
             }
@@ -201,6 +239,10 @@ class ClientController extends Controller
         return redirect()->route('admin.clients.index');
     }
 
+    /**
+     * @param $slug
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function edit($slug)
     {
         $clients = Clients::whereSlug($slug)->first();
@@ -208,12 +250,19 @@ class ClientController extends Controller
         return view('admin.client.form', compact('clients', 'form'));
     }
 
+    /**
+     * @param Request $request
+     * @param $slug
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
+     */
     public function update(Request $request, $slug)
     {
         $data = $request->all();
-        if (session()->has('company.id')) {
-            $data['company_id'] = session()->get('company.id');
-        }
+        $data['company_id'] = $this->getCompanyId();
+
 
         $client = DB::transaction(function () use ($data, $slug) {
             $client = Clients::whereSlug($slug)->first();
@@ -227,6 +276,9 @@ class ClientController extends Controller
         return redirect()->route('admin.client.index')->with('success', 'Cliente:' . $client->name . ' atualizado com sucesso');
     }
 
+    /**
+     * @param $slug
+     */
     public function delete($slug)
     {
         $client = Clients::whereSlug($slug)->delete();

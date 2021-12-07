@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Clients;
 use App\Models\Company;
 use App\Models\Employee;
 use App\Models\User;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +14,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    use CompanySessionTraits;
+
+    /**
+     * UsersController constructor.
+     */
     public function __construct()
     {
         $this->middleware('role:admin');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function index(Request $request)
     {
         $userAuth = Auth::user();
@@ -30,7 +41,7 @@ class UsersController extends Controller
         }
         if ($userAuth->hasRole('manager')) {
             $usuarios = [];
-            foreach (Company::find(session()->get('company.id'))->employees()->get() as $emp) {
+            foreach (Company::find($this->getCompanyId())->employees()->get() as $emp) {
                 $usuarios[] = $emp->user()->first();
             }
         }
@@ -39,6 +50,9 @@ class UsersController extends Controller
     }
 
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create()
     {
         $form = ['route' => ['admin.users.store'], 'method' => 'post'];
@@ -50,6 +64,12 @@ class UsersController extends Controller
         return view('admin.users.form', compact('form', 'company'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Throwable
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -76,12 +96,20 @@ class UsersController extends Controller
         //return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' criado com sucesso');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show($id)
     {
         $user = User::findOrFail($id);
         return view(null, compact('user'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function edit($id)
     {
         $form = ['route' => ['admin.users.update', $id], 'method' => 'put'];
@@ -94,6 +122,12 @@ class UsersController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -126,6 +160,10 @@ class UsersController extends Controller
     }
 
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $user = User::destroy($id);

@@ -21,6 +21,9 @@ class CompanyController extends Controller
         return view('admin.company.index', compact('companies'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create()
     {
         $this->middleware(['role:admin', 'signed']);
@@ -57,13 +60,17 @@ class CompanyController extends Controller
         return view('admin.company.iframe', compact('employees', 'clients'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         //$request->validade();
         $data = $request->all();
         $data['cep'] = numberClear($request['cep']);
-        $data['tel0'] = numberClear($request['cnpj']);
-        $data['cnpj'] = numberClear($request['tel0']);
+        $data['tel0'] = numberClear($request['tel0']);
+        $data['cnpj'] = numberClear($request['cnpj']);
         $company = Company::create($data);
 
         if ($company) {
@@ -74,13 +81,18 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index');
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update($id, Request $request)
     {
         //$request->validade();
         $data = $request->all();
         $data['cep'] = numberClear($request['cep']);
-        $data['tel0'] = numberClear($request['cnpj']);
-        $data['cnpj'] = numberClear($request['tel0']);
+        $data['tel0'] = numberClear($request['tel0']);
+        $data['cnpj'] = numberClear($request['cnpj']);
         $company = Company::find($id)->update($data);
         if ($company) {
             toastr()->success('Companhia atualizada com sucesso.');
@@ -90,6 +102,10 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $company = Company::find($id)->delete();
@@ -101,15 +117,16 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index');
     }
 
-    public function edit()
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function edit($id)
     {
-        $this->middleware(['role:admin', 'signed']);
-
-        if (!request()->hasValidSignature()) {
-            abort(401);
-        }
-        $form = ['route' => ['admin.company.update'], 'method' => 'put'];
-        return view('admin.company.form', compact('form'));
+        $this->middleware(['role:admin|manager']);
+        $company=Company::find($id);
+        $form = ['route' => ['admin.company.update',$id], 'method' => 'put'];
+        return view('admin.company.form', compact('form','company'));
     }
 
 

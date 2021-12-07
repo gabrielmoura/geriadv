@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Benefits;
 use App\Models\Calendar;
 use App\Models\Clients;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AnalyticsController
@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Auth;
  */
 class AnalyticsController extends Controller
 {
-
+    use CompanySessionTraits;
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        if (Auth::user()->hasRole('admin')) {
+        if ($this->hasRole('admin')) {
             return $this->admin();
         } else {
             return $this->manager();
@@ -121,7 +121,7 @@ class AnalyticsController extends Controller
     {
         $statusM = [];
         $status = collect();
-        $companyId = session()->get('company.id');
+        $companyId = $this->getCompanyId();
         $client_count = Clients::whereCompanyId($companyId)->count();
         $range = [
             'now' => Carbon::now()->month,

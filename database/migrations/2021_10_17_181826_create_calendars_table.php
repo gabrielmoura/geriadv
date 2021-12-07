@@ -28,6 +28,9 @@ class CreateCalendarsTable extends Migration
             $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
             $table->foreign('company_id')->references('id')->on('companies');
 
+            $table->unsignedBigInteger('lawyer_id')->nullable()->comment('Advogado');
+            $table->foreign('lawyer_id')->references('id')->on('lawyers');
+
             $table->unsignedInteger('calendar_id')->nullable(); // foreign key to itself
             $table->foreign('calendar_id','calendar_fk_556522')->references('id')->on('calendars');
 

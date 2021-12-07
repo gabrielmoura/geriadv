@@ -4,24 +4,40 @@ namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lawyer;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
 class LawyerController extends Controller
 {
+    use CompanySessionTraits;
+
+    /**
+     * @var Builder
+     */
     protected $htmlBuilder;
 
+    /**
+     * LawyerController constructor.
+     * @param Builder $htmlBuilder
+     */
     public function __construct(Builder $htmlBuilder)
     {
         $this->htmlBuilder = $htmlBuilder;
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function index(Request $request)
     {
 
-        $lawyer = Lawyer::where('company_id', session()->get('company.id'))->get();
+        $lawyer = Lawyer::where('company_id', $this->getCompanyId())->get();
         if ($request->ajax()) {
             return (new Datatables())->collection($lawyer)
                 ->addColumn('action', function (Lawyer $lawyer) {
@@ -46,29 +62,51 @@ class LawyerController extends Controller
         return view('admin.lawyers.index', compact('html'));
     }
 
+    /**
+     * @param $lawyer
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function edit($lawyer)
     {
         $form = ['route' => ['admin.lawyer.update', ['lawyer' => $lawyer]], 'method' => 'put'];
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company.id'))->first();
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId($this->getCompanyId())->first();
         return view('admin.lawyers.form', compact('form', 'lawyer'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create()
     {
         $form = ['route' => ['admin.lawyer.store'], 'method' => 'post'];
         return view('admin.lawyers.form', compact('form'));
     }
 
+    /**
+     * @param $lawyer
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function show($lawyer)
     {
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId(session()->get('company.id'))->first();
-        return view('admin.lawyers.show',compact('lawyer'));
+        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId($this->getCompanyId())->first();
+        return view('admin.lawyers.show', compact('lawyer'));
     }
 
+    /**
+     * @param $lawyer
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function update($lawyer, Request $request)
     {
         $lawyer = Lawyer::whereId($lawyer)
-            ->whereCompanyId(session()->get('company.id'))->first()
+            ->whereCompanyId($this->getCompanyId())->first()
             ->update($request->all());
         if ($lawyer) {
             toastInfo('Sucesso ao atualizar');
@@ -79,10 +117,16 @@ class LawyerController extends Controller
         return redirect()->route('admin.lawyer.index');
     }
 
+    /**
+     * @param $lawyer
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function delete($lawyer)
     {
         $lawyer = Lawyer::whereId($lawyer)
-            ->whereCompanyId(session()->get('company.id'))->first()
+            ->whereCompanyId($this->getCompanyId())->first()
             ->delete();
         if ($lawyer) {
             toastInfo('Sucesso ao deletar');
@@ -94,10 +138,16 @@ class LawyerController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['company_id'] = session()->get('company.id');
+        $data['company_id'] = $this->getCompanyId();
         $lawyer = Lawyer::create($data);
         if ($lawyer) {
             toastInfo('Sucesso ao adicionar');

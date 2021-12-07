@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
 use App\Models\Benefits;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -15,6 +16,8 @@ use Yajra\DataTables\Html\Builder;
  */
 class BenefitsController extends Controller
 {
+    use CompanySessionTraits;
+
     protected $htmlBuilder;
 
     public function __construct(Builder $htmlBuilder)
@@ -31,7 +34,7 @@ class BenefitsController extends Controller
     public function index(Request $request)
     {
 
-        $benefits = Benefits::where('company_id', session()->get('company.id'));
+        $benefits = Benefits::where('company_id', $this->getCompanyId());
         if (config('panel.datatable')) {
             return $this->datatable($request, $benefits);
         } else {
@@ -51,9 +54,7 @@ class BenefitsController extends Controller
         if ($request->ajax()) {
             return Datatables::of($benefits)
                 ->addColumn('action', function (Benefits $benefits) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.benefit.show', ['benefit' => $benefits->id]) . '"><i
-                                class="fa fa-eye"></i></a>|<a
-                            href="' . route('admin.benefit.edit', ['benefit' => $benefits->id]) . '"><i
+                    return '<a href="' . route('admin.benefit.edit', ['benefit' => $benefits->id]) . '"><i
                                 class="fa fa-edit"></i></a></div>';
                 })
                 ->addColumn('amount', function (Benefits $benefits) {
@@ -83,7 +84,7 @@ class BenefitsController extends Controller
     public function edit($benefit)
     {
         $form = ['route' => ['admin.benefit.update', ['benefit' => $benefit]], 'method' => 'put'];
-        $benefit = Benefits::whereId($benefit)->whereCompanyId(session()->get('company.id'))->first();
+        $benefit = Benefits::whereId($benefit)->whereCompanyId($this->getCompanyId())->first();
         return view('admin.benefits.form', compact('form', 'benefit'));
     }
 
@@ -112,7 +113,7 @@ class BenefitsController extends Controller
     public function update($benefit, Request $request)
     {
         $benefit = Benefits::whereId($benefit)
-            ->whereCompanyId(session()->get('company.id'))->first()
+            ->whereCompanyId($this->getCompanyId())->first()
             ->update($request->all());
         if ($benefit) {
             toastr()->success('Sucesso ao atualizar');
@@ -130,7 +131,7 @@ class BenefitsController extends Controller
     public function destroy($benefit)
     {
         $benefit = Benefits::whereId($benefit)
-            ->whereCompanyId(session()->get('company.id'))->first()
+            ->whereCompanyId($this->getCompanyId())->first()
             ->delete();
         if ($benefit) {
             toastr()->success('Sucesso ao deletar');
@@ -148,7 +149,7 @@ class BenefitsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['company_id'] = session()->get('company.id');
+        $data['company_id'] = $this->getCompanyId();
         $benefit = Benefits::create($data);
         if ($benefit) {
             toastr()->success('Sucesso ao adicionar');

@@ -25,7 +25,7 @@
                 <x-form-tinymce name="description" title="Descrição"></x-form-tinymce>
                 <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
                     <label for="start_time">{{ __('cruds.event.fields.start_time') }}*</label>
-                    <input type="text" id="start_time" name="start_time" class="form-control datetime "
+                    <input type="text" id="start_time" name="start_time" class="form-control date-time "
                            value="{{ old('start_time', isset($event) ? $event->start_time : '') }}" required>
                     @if($errors->has('start_time'))
                         <em class="invalid-feedback">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
                     <label for="end_time">{{ __('cruds.event.fields.end_time') }}*</label>
-                    <input type="text" id="end_time" name="end_time" class="form-control datetime  "
+                    <input type="text" id="end_time" name="end_time" class="form-control date-time  "
                            value="{{ old('end_time', isset($event) ? $event->end_time : '') }}" required>
                     @if($errors->has('end_time'))
                         <em class="invalid-feedback">
@@ -65,7 +65,7 @@
                     @endif
                 </div>
                 <div>
-                    <input class="btn btn-danger" type="submit" value="{{ __('global.save') }}">
+                    <input class="btn btn-success" type="submit" value="{{ __('global.save') }}">
                 </div>
             </form>
 

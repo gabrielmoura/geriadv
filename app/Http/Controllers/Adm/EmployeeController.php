@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\User;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use Yajra\DataTables\Html\Builder;
 
 class EmployeeController extends Controller
 {
+    use CompanySessionTraits;
 
     /**
      * @var Builder
@@ -37,7 +39,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         //Apenas o gerente deve acessar
-        $employees = Employee::where('company_id', session()->get('company.id'));
+        $employees = Employee::where('company_id', $this->getCompanyId());
 
         if (config('panel.datatable')) {
             return $this->datatable($request, $employees);
@@ -118,7 +120,7 @@ class EmployeeController extends Controller
             ]);
             $user->assignRole('employees');
             $employee = Employee::create(['user_id' => $user->id
-                , 'company_id' => session()->get('company.id')
+                , 'company_id' => $this->getCompanyId()
                 , 'name' => $request->name
                 , 'email' => $request->email
                 , 'cep' => numberClear($request->cep)
