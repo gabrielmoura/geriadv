@@ -26,11 +26,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $this->middleware(['role:admin', 'signed']);
+        $this->middleware(['role:admin']);
 
-        if (!request()->hasValidSignature()) {
-            abort(401);
-        }
+
         $form = ['route' => ['admin.company.store'], 'method' => 'post'];
         return view('admin.company.form', compact('form'));
     }
