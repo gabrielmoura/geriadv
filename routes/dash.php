@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
         return \App\Models\ClientView::all();
     });
 
-    Route::middleware(['signed', 'role:admin'])->get('/redirAuth/{user}', function ($user) {
+    Route::middleware(['role:admin'])->get('/redirAuth/{user}', function ($user) {
         \Illuminate\Support\Facades\Auth::loginUsingId($user);
         \Illuminate\Support\Facades\Log::info('authenticated to another user using special permissions levels.', [
             'by' => \Illuminate\Support\Facades\Auth::user(),

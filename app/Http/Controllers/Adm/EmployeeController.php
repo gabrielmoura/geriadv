@@ -88,9 +88,7 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        if (!request()->hasValidSignature()) {
-            abort(401);
-        }
+
         $form = ['route' => ['admin.employee.store'], 'method' => 'post'];
         return view('admin.employee.form', compact('form'));
     }
