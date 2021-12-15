@@ -123,7 +123,7 @@ class AgendamentoController extends Controller
             ->responsive(true)
             ->serverSide(true)
             ->minifiedAjax();
-        return view('admin.client.datatable', compact('html'));
+        return view('admin.calendar.datatable', compact('html'));
     }
 
     /**
