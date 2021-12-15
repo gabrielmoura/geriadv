@@ -3,7 +3,7 @@
 <img src="resources/static/images/geriadv.png" />
 </p>
 
-[![Website](https://img.shields.io/website?label=thawing-lake-86055.herokuapp.com&style=for-the-badge&url=https%3A%2F%2Fthawing-lake-86055.herokuapp.com)](https://thawing-lake-86055.herokuapp.com)
+[![Website](https://img.shields.io/website?label=geriadv.herokuapp.com&style=for-the-badge&url=https%3A%2F%2Fgeriadv.herokuapp.com)](https://geriadv.herokuapp.com)
 <h4 align="center"> 
 	🚧  GeriADV 🚀 Em construção...  🚧
 </h4>
