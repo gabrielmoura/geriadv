@@ -17,7 +17,6 @@ use App\Http\Controllers\Adm\AgendamentoController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
     Route::get('/{slug}/callback', [SocialiteController::class, 'callback'])->name('callback');

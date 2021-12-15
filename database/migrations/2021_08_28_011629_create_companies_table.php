@@ -46,6 +46,7 @@ class CreateCompaniesTable extends Migration
             $table->time('closing')->comment('Fecha as')->nullable();
             $table->boolean('weekend')->comment('Fim de Semana')->default(false);
             $table->string('logo')->nullable();
+            $table->boolean('banned')->comment('Banido')->default(false);
         });
     }
 

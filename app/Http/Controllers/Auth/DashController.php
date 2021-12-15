@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\CompanySessionTraits;
 
 /**
  * Redireciona para o Painel correto
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DashController extends Controller
 {
+    use CompanySessionTraits;
     /**
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -20,12 +22,9 @@ class DashController extends Controller
     {
         // TODO: Implement __invoke() method.
 
-        $userAuth = Auth::user();
-        if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
-        if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $userAuth->employee()->first()->company()->first()->name]);
-        if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $userAuth->employee()->first()->company()->first()->logo]);
+        $this->populateSession()
 
-        if ($userAuth->hasRole(['admin'])) {
+        if ($this->hasRole('admin')) {
 
             return redirect()->route('admin.index');
         } else {
