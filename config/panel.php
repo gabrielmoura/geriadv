@@ -10,5 +10,10 @@ return [
     /**
      * Usar DataTable
      */
-    'datatable' => true
+    'datatable' => true,
+    
+    /**
+     * Força HTTPS
+     */
+    'forceHttps'=>env('FORCE_HTTPS',true),
 ];

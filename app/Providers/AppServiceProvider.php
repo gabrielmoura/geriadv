@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(ClockworkServiceProvider::class);
         }*/
 
-
+        $this->app['request']->server->set('HTTPS', true);
     }
 
     /**
@@ -76,10 +76,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function forceHttps()
     {
-        $url = parse_url(config('app.url'));
-
-        if ($url['scheme'] == 'https') {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+        if(config('panel.forceHttps')){
+            
+            if (parse_url(config('app.url'))['scheme'] == 'https') {
+                \Illuminate\Support\Facades\URL::forceScheme('https');
+            }
         }
     }
 }
