@@ -22,12 +22,11 @@ class DashController extends Controller
     {
         // TODO: Implement __invoke() method.
 
-        $this->populateSession()
+        $this->populateSession();
 
-        if ($this->hasRole('admin')) {
-
+        if($this->hasRole('admin')){
             return redirect()->route('admin.index');
-        } else {
+        }else{
             return redirect()->route('admin.index');
         }
     }
