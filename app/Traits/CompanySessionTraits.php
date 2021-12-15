@@ -13,7 +13,7 @@ trait CompanySessionTraits
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    private function getCompanyId()
+    public function getCompanyId()
     {
         if (session()->has('company.id')) {
             return session()->get('company.id');
@@ -27,7 +27,7 @@ trait CompanySessionTraits
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    private function getCompanyLogo()
+    public function getCompanyLogo()
     {
         if (session()->has('company.logo')) {
             return session()->get('company.logo');
@@ -41,7 +41,7 @@ trait CompanySessionTraits
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    private function getCompanyName()
+    public function getCompanyName()
     {
         if (session()->has('company.name')) {
             return session()->get('company.name');
@@ -55,7 +55,7 @@ trait CompanySessionTraits
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    private function getCompany()
+    public function getCompany()
     {
         return Company::find($this->getCompanyId());
     }
@@ -64,7 +64,7 @@ trait CompanySessionTraits
      * @param string|int|array|\Spatie\Permission\Contracts\Role|\Illuminate\Support\Collection $role
      * @return bool
      */
-    private function hasRole($role)
+    public function hasRole($role)
     {
         return Auth::user()->hasRole($role);
     }
