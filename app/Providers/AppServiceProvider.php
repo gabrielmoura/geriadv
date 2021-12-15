@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
         if(config('panel.forceHttps')){
             
             if (parse_url(config('app.url'))['scheme'] == 'https') {
-                \Illuminate\Support\Facades\URL::forceScheme('https');
+                \URL::forceScheme('https');
             }
         }
     }
