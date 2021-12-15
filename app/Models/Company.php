@@ -9,6 +9,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Observers\CompanyObserver;
 
 /**
  * App\Models\Company
@@ -127,5 +128,11 @@ class Company extends Model implements HasMedia
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Company::observe(CompanyObserver::class);
     }
 }
