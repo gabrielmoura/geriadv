@@ -42,7 +42,7 @@
                     @endforeach
                     @role('admin')
                     <td>
-                        {{(is_null($usuario->employee()->first()))?'':$usuario->employee()->first()->company()->first()->name}}
+                        {{(is_null($usuario->employee()->first()))?'':$usuario->employee()->first()->company()->first()->name??"Empresa Deletada"}}
 
                     </td>
                     @endrole
