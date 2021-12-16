@@ -69,26 +69,38 @@ trait CompanySessionTraits
         return Auth::user()->hasRole($role);
     }
 
-    public function populateSession(){
+    /**
+     * Popula sessão
+     */
+    public function populateSession()
+    {
         // Insere dados da empresa na sessão caso não seja admin.
         $userAuth = Auth::user();
-       /* 
-        if(!$userAuth->hasRole('admin')){
-            if (!session()->has('company.id')){
-            session(['company'=>[
-                'id' => $userAuth->employee()->first()->company()->first()->id,
-                'name' => $userAuth->employee()->first()->company()->first()->name,
-                'logo' => $userAuth->employee()->first()->company()->first()->logo,
-                'banned' => $userAuth->employee()->first()->company()->first()->banned
-                ]]);
-            }
-        }
-        */
-        
+        /*
+         if(!$userAuth->hasRole('admin')){
+             if (!session()->has('company.id')){
+             session(['company'=>[
+                 'id' => $userAuth->employee()->first()->company()->first()->id,
+                 'name' => $userAuth->employee()->first()->company()->first()->name,
+                 'logo' => $userAuth->employee()->first()->company()->first()->logo,
+                 'banned' => $userAuth->employee()->first()->company()->first()->banned
+                 ]]);
+             }
+         }
+         */
+
         if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
         if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $userAuth->employee()->first()->company()->first()->name]);
         if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $userAuth->employee()->first()->company()->first()->logo]);
         if (!session()->has('company.banned') && !$userAuth->hasRole('admin')) session(['company.banned' => $userAuth->employee()->first()->company()->first()->banned]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasBanned(): bool
+    {
+        return session()->has('company.banned');
     }
 
 }

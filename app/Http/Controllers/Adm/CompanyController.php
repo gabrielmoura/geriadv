@@ -122,9 +122,39 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $this->middleware(['role:admin|manager']);
-        $company=Company::find($id);
-        $form = ['route' => ['admin.company.update',$id], 'method' => 'put'];
-        return view('admin.company.form', compact('form','company'));
+        $company = Company::find($id);
+        $form = ['route' => ['admin.company.update', $id], 'method' => 'put'];
+        return view('admin.company.form', compact('form', 'company'));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function ban($id)
+    {
+        $company = Company::find($id)->update(['banned' => true]);
+        if ($company) {
+            toastr()->success('Companhia banida com sucesso.');
+        } else {
+            toastr()->error('Erro ao banir Companhia;');
+        }
+        return redirect()->route('admin.company.index');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unban($id)
+    {
+        $company = Company::find($id)->update(['banned' => false]);
+        if ($company) {
+            toastr()->success('Companhia desbanir com sucesso.');
+        } else {
+            toastr()->error('Erro ao desbanir Companhia;');
+        }
+        return redirect()->route('admin.company.index');
     }
 
 
