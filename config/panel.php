@@ -16,4 +16,5 @@ return [
      * Força HTTPS
      */
     'forceHttps'=>env('FORCE_HTTPS',true),
+    'forceCache'=>env('FORCE_CACHE',true),
 ];

@@ -57,6 +57,12 @@ trait CompanySessionTraits
      */
     public function getCompany()
     {
+        if(config('panel.forceCache')){
+            return cache()->remember('company:'.$this->getCompanyId(), 60*60*12, function () {
+                return Company::find($this->getCompanyId());
+            });
+        }
+        
         return Company::find($this->getCompanyId());
     }
 
@@ -88,11 +94,17 @@ trait CompanySessionTraits
              }
          }
          */
-
-        if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
-        if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $userAuth->employee()->first()->company()->first()->name]);
-        if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $userAuth->employee()->first()->company()->first()->logo]);
-        if (!session()->has('company.banned') && !$userAuth->hasRole('admin')) session(['company.banned' => $userAuth->employee()->first()->company()->first()->banned]);
+        if(config('panel.forceCache')){
+            if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $this->getCompany()->id]);
+            if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $this->getCompany()->name]);
+            if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $this->getCompany()->logo]);
+            if (!session()->has('company.banned') && !$userAuth->hasRole('admin')) session(['company.banned' => $this->getCompany()->banned]);
+        } else {
+            if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
+            if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $userAuth->employee()->first()->company()->first()->name]);
+            if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $userAuth->employee()->first()->company()->first()->logo]);
+            if (!session()->has('company.banned') && !$userAuth->hasRole('admin')) session(['company.banned' => $userAuth->employee()->first()->company()->first()->banned]);
+        }
     }
 
     /**
