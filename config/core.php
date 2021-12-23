@@ -1,17 +1,5 @@
 <?php
 return [
-
-    /**
-     * Funcionará no fim de semana?
-     */
-    'Weekend' => env('WEEKEND', false),
-
-    /**
-     * Horarios de funcionamento
-     */
-    'Opening' => env('OPENING', '07:00'),
-    'Closing' => env('CLOSING', '18:00'),
-
     /**
      * Informações para aposentadoria
      */
@@ -32,6 +20,4 @@ return [
         ],
     ],
     'docs' => ['cras', 'cpf', 'rg', 'birth_certificate', 'proof_of_address'],
-
-
 ];

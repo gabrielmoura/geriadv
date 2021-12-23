@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Actions\Company\CreateNewCompany;
 
 class CompanyController extends Controller
 {
@@ -64,12 +65,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //$request->validade();
-        $data = $request->all();
-        $data['cep'] = numberClear($request['cep']);
-        $data['tel0'] = numberClear($request['tel0']);
-        $data['cnpj'] = numberClear($request['cnpj']);
-        $company = Company::create($data);
+        $data=new CreateNewCompany($request);
+        $company = Company::create($data->store());
 
         if ($company) {
             toastr()->success('Companhia criada com sucesso.');
@@ -86,12 +83,8 @@ class CompanyController extends Controller
      */
     public function update($id, Request $request)
     {
-        //$request->validade();
-        $data = $request->all();
-        $data['cep'] = numberClear($request['cep']);
-        $data['tel0'] = numberClear($request['tel0']);
-        $data['cnpj'] = numberClear($request['cnpj']);
-        $company = Company::find($id)->update($data);
+        $data=new CreateNewCompany($request);
+        $company = Company::find($id)->update($data->update());
         if ($company) {
             toastr()->success('Companhia atualizada com sucesso.');
         } else {
