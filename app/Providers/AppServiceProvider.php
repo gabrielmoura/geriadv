@@ -33,8 +33,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(ClockworkServiceProvider::class);
         }*/
-
-        $this->app['request']->server->set('HTTPS', true);
+        if (config('panel.forceHttps')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 
     /**
@@ -76,8 +77,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function forceHttps()
     {
-        if(config('panel.forceHttps')){
-            
+        if (config('panel.forceHttps')) {
+
             if (parse_url(config('app.url'))['scheme'] == 'https') {
                 \URL::forceScheme('https');
             }
