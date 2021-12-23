@@ -18,6 +18,10 @@ trait CompanySessionTraits
         if (session()->has('company.id')) {
             return session()->get('company.id');
         } else {
+            if (config('panel.forceCache')) {
+                $userAuth = Auth::user();
+                if (!$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
+            }
             return null;
         }
     }
@@ -57,12 +61,12 @@ trait CompanySessionTraits
      */
     public function getCompany()
     {
-        if(config('panel.forceCache')){
-            return cache()->remember('company:'.$this->getCompanyId(), 60*60*12, function () {
+        if (config('panel.forceCache')) {
+            return cache()->remember('company:' . $this->getCompanyId(), 60 * 60 * 12, function () {
                 return Company::find($this->getCompanyId());
             });
         }
-        
+
         return Company::find($this->getCompanyId());
     }
 
@@ -94,7 +98,7 @@ trait CompanySessionTraits
              }
          }
          */
-        if(config('panel.forceCache')){
+        if (config('panel.forceCache')) {
             if (!session()->has('company.id') && !$userAuth->hasRole('admin')) session(['company.id' => $this->getCompany()->id]);
             if (!session()->has('company.name') && !$userAuth->hasRole('admin')) session(['company.name' => $this->getCompany()->name]);
             if (!session()->has('company.logo') && !$userAuth->hasRole('admin')) session(['company.logo' => $this->getCompany()->logo]);

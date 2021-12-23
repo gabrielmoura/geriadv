@@ -64,6 +64,24 @@
                         </em>
                     @endif
                 </div>
+
+
+                <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
+                    <label for="name">{{ __('cruds.event.fields.address') }}</label>
+                    <input type="text" id="name" name="name" class="form-control"
+                           value="{{ old('name', isset($event) ? $event->address : '') }}" >
+                    @if($errors->has('address'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('address') }}
+                        </em>
+                    @endif
+                    <p class="helper-block">
+                        {{ __('cruds.event.fields.address_helper') }}
+                    </p>
+                </div>
+
+                <x-form-select name="lawyer_id" :title="__('cruds.event.fields.lawyer')" :selects="$lawyer??[]"></x-form-select>
+
                 <div>
                     <input class="btn btn-success" type="submit" value="{{ __('global.save') }}">
                 </div>

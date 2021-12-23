@@ -9,6 +9,7 @@ use App\Http\Requests\Calendar\MassDestroyCalendarRequest;
 use App\Http\Requests\Calendar\StoreCalendarRequest;
 use App\Http\Requests\Calendar\UpdateCalendarRequest;
 use App\Models\Calendar as Model;
+use App\Models\Lawyer;
 use App\Traits\CompanySessionTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -219,8 +220,13 @@ class AgendamentoController extends Controller
     public function create()
     {
         //abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $lawyer = [];
+        foreach (Lawyer::whereCompanyId($this->getCompanyId()) as $l) {
+            $lawyer['id'] = $l->id;
+            $lawyer['name'] = $l->name;
+        }
 
-        return view('admin.calendar.create');
+        return view('admin.calendar.create', compact('lawyer'));
     }
 
     /**
@@ -236,6 +242,7 @@ class AgendamentoController extends Controller
         $data['start_time'] = Carbon::parse($request->start_time);
         $data['end_time'] = Carbon::parse($request->end_time);
         $data['company_id'] = $this->getCompanyId();
+        $data['lawyer_id'] = numberClear($request->lawyer_id);
 
         if (Model::create($data)) {
             toastr()->success('Salvo com sucesso.');
@@ -251,12 +258,12 @@ class AgendamentoController extends Controller
     public function edit(Model $schedule)
     {
         // abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $lawyer = [];
         $event = $schedule;
         $event->load('calendar')->loadCount('calendars');
 
 
-        return view('admin.calendar.edit', compact('event'));
+        return view('admin.calendar.edit', compact('event', 'lawyer'));
     }
 
     /**
@@ -272,6 +279,7 @@ class AgendamentoController extends Controller
         $data['start_time'] = Carbon::parse($request->start_time);
         $data['end_time'] = Carbon::parse($request->end_time);
         $data['company_id'] = $this->getCompanyId();
+        $data['lawyer_id'] = numberClear($request->lawyer_id);
         if ($event->update($data)) {
             toastr()->success('Salvo com sucesso.');
         }

@@ -87,6 +87,9 @@ return [
             'deleted_at_helper' => '',
             'event' => 'Evento',
             'event_helper' => '',
+            'lawyer' => 'Advogado',
+            'address' => 'Endereço',
+            'address_helper' => ''
         ],
     ],
 ];

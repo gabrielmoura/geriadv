@@ -21,6 +21,8 @@ class CreateCalendarsTable extends Migration
             $table->string('name')->comment('Titulo');
             $table->dateTime('start_time')->comment('Inicio');
             $table->dateTime('end_time')->comment('Fim');
+            $table->string('address')->nullable()->comment('Address');
+
 
             $table->enum('recurrence', ['daily', 'weekly', 'monthly', 'none'])->default('none');
 

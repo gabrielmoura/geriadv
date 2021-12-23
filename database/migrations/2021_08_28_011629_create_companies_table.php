@@ -42,6 +42,7 @@ class CreateCompaniesTable extends Migration
             /**
              * Configurações
              */
+            $table->json('config')->nullable()->comment('Configuração');
             $table->time('opening')->comment('Abre as')->nullable();
             $table->time('closing')->comment('Fecha as')->nullable();
             $table->boolean('weekend')->comment('Fim de Semana')->default(false);

@@ -87,6 +87,9 @@ return [
             'deleted_at_helper' => '',
             'event'             => 'Event',
             'event_helper'      => '',
+            'lawyer' => 'Lawyer',
+            'address' => 'Address',
+            'address_helper' => ''
         ],
     ],
 ];

@@ -86,7 +86,8 @@ class Calendar extends Model
         'description',
         'company_id',
         'properties',
-        'lawyer_id'
+        'lawyer_id',
+        'address'
     ];
     /**
      * @var string[]

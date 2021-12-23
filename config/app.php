@@ -177,7 +177,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
+        //App\Providers\TelescopeServiceProvider::class,
 
         // Excel Export
         Maatwebsite\Excel\ExcelServiceProvider::class,
@@ -257,7 +257,7 @@ return [
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Clockwork' => Clockwork\Support\Laravel\Facade::class,
+        //'Clockwork' => Clockwork\Support\Laravel\Facade::class,
 
         //'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         //'Correios' => Cagartner\CorreiosConsulta\Facade::class,

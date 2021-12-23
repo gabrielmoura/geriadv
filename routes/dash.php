@@ -35,15 +35,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::resource('/usuario', UsersController::class)->names('users');
     Route::resource('/company', CompanyController::class)->names('company');
     Route::get('/company/iframe/{id}', [CompanyController::class, 'showIframe'])->name('company.iframe');
-    Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
-    Route::resource('/benefit', BenefitsController::class)->names('benefit');
-    Route::resource('/lawyer', LawyerController::class)->names('lawyer');
+
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytic.index');
     Route::get('/logActivity', [LogActivityController::class, 'index'])->name('log.activity');
     Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('ActivityControl');
     Route::post('/ActivityControl', [ActivityControlController::class, 'store'])->name('ActivityControl.store');
 
-    Route::group(['middleware' => 'restrictedToDayLight'], function () {
+    Route::group(['middleware' => ['restrictedToDayLight', 'verifyBanned']], function () {
+        Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
+        Route::resource('/benefit', BenefitsController::class)->names('benefit');
+        Route::resource('/lawyer', LawyerController::class)->names('lawyer');
         Route::post('/client/pendency', [PendencyController::class, 'store'])->name('clients.pendency');
         Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
         Route::resource('/client', ClientController::class)->names('clients');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\CompanyObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,6 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use App\Observers\CompanyObserver;
 
 /**
  * App\Models\Company
@@ -61,8 +61,11 @@ class Company extends Model implements HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'cnpj', 'cep', 'address', 'number', 'complement', 'district', 'city', 'state', 'email', 'tel0', 'logo'];
+    protected $fillable = ['name', 'cnpj', 'cep', 'address', 'number', 'complement', 'district', 'city', 'state', 'email', 'tel0', 'logo', 'config'];
     protected $table = 'companies';
+    protected $casts = [
+        'config' => 'collection'
+    ];
 
     /*
        |------------------------------------------------------------------------------------
