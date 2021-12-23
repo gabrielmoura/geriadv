@@ -37,9 +37,9 @@ class LawyerController extends Controller
     public function index(Request $request)
     {
 
-        $lawyer = Lawyer::where('company_id', $this->getCompanyId())->get();
+        $lawyer = Lawyer::where('company_id', $this->getCompanyId());
         if ($request->ajax()) {
-            return (new Datatables())->collection($lawyer)
+            return Datatables::of($lawyer)
                 ->addColumn('action', function (Lawyer $lawyer) {
                     return '<div class="table-data-feature"><a href="' . route('admin.lawyer.show', ['lawyer' => $lawyer->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
@@ -54,7 +54,7 @@ class LawyerController extends Controller
             ->addColumn(['data' => 'last_name', 'last_name' => 'last_name', 'title' => 'Sobrenome'])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
-            ->addColumn(['data' => 'rg', 'name' => 'rg', 'title' => 'RG'])
+            ->addColumn(['data' => 'oab', 'name' => 'oab', 'title' => 'OAB'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true);
 
@@ -105,9 +105,14 @@ class LawyerController extends Controller
      */
     public function update($lawyer, Request $request)
     {
+        $data = $request->all();
+        $data['company_id'] = $this->getCompanyId();
+        $data['cep'] = numberClear($this->request['cep']);
+        $data['tel0'] = numberClear($this->request['tel0']);
+
         $lawyer = Lawyer::whereId($lawyer)
             ->whereCompanyId($this->getCompanyId())->first()
-            ->update($request->all());
+            ->update($data);
         if ($lawyer) {
             toastInfo('Sucesso ao atualizar');
         } else {
@@ -148,6 +153,8 @@ class LawyerController extends Controller
     {
         $data = $request->all();
         $data['company_id'] = $this->getCompanyId();
+        $data['cep'] = numberClear($this->request['cep']);
+        $data['tel0'] = numberClear($this->request['tel0']);
         $lawyer = Lawyer::create($data);
         if ($lawyer) {
             toastInfo('Sucesso ao adicionar');
