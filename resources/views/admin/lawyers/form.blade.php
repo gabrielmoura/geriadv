@@ -5,9 +5,9 @@
         <div class="col-sm-8">
             <div class="bgc-white p-20 bd">
                 {!! Form::open($form) !!}
-
-                <input type="hidden" name="id" value="{{ $lawyer->id??'' }}">
-
+                @if ($form['route'][0]=='admin.lawyer.update')
+                    <input type="hidden" name="id" value="{{ $lawyer->id??'' }}">
+                @endif
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
