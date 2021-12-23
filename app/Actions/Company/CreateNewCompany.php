@@ -54,28 +54,9 @@ class CreateNewCompany
     private function validate(){
         $this->request->validate([
             /**
-             * Dados Pessoais
+             * Dados
              */
             'name' => 'required|min:3'
-            , 'last_name' => 'required|min:3'
-            , 'tel' => 'required'
-            , 'rg' => 'required'
-            , 'cpf' => 'required|cpf_cnpj'
-            , 'sex' => 'required'
-            , 'birth_date' => 'required|date'
-
-            /**
-             * Dados do Endereço
-             */
-            , 'cep' => 'required'
-            , 'address' => 'required'
-            , 'number' => 'required|numeric'
-            , 'complement' => 'required'
-            , 'district' => 'required'
-            , 'city' => 'required'
-            , 'state' => 'required'
-            , 'country'
-            , 'newsletter'
         ]);
     }
 }
