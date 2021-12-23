@@ -119,4 +119,27 @@ trait CompanySessionTraits
         return session()->get('company.banned');
     }
 
+    /**
+     * Retorna True se fim de semana não habilitado.
+     * @return bool
+     */
+    private function blockFDS()
+    {
+        $weekend = now()->isWeekend();
+        if ($this->getCompany()->config->has('weekend') && $this->getCompany()->config['weekend']) {
+            return !$weekend;
+        } else {
+            return $weekend;
+        }
+    }
+
+    /**
+     * Retorna True se estiver fora do horário de funcionamento
+     * @return bool
+     */
+    private function blockTimeBased()
+    {
+        return !now()->isBetween($this->getCompany()->config['open'], $this->getCompany()->config['close']);
+    }
+
 }
