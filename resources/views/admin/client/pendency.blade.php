@@ -7,7 +7,7 @@
             <div class="card-body">
                 {!! Form::open(['route'=>['admin.clients.pendency'],'files' => true]) !!}
                 @php($count=0)
-                @foreach(config('core.docs') as $name)
+                @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
                     <input type="hidden" name="slug" value="{{$client->slug}}">
                     @if(($client->pendency()->get()->isEmpty())?true:!$client->pendency()->first()->{$name})
                         @php($count=+1)
@@ -27,7 +27,7 @@
                 <h6 class="text-primary fw-bold m-0">Ver Documentos</h6>
             </div>
             <div class="card-body">
-                @foreach(config('core.docs') as $name)
+                @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
                     @if(!$client->pendency()->get()->isEmpty())
                         @if($client->pendency()->first()->{$name})
                             <p>
