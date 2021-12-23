@@ -28,8 +28,7 @@ class CompanyController extends Controller
     public function create()
     {
         $this->middleware(['role:admin']);
-
-
+        
         $form = ['route' => ['admin.company.store'], 'method' => 'post'];
         return view('admin.company.form', compact('form'));
     }

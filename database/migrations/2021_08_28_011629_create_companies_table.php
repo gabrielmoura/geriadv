@@ -42,7 +42,7 @@ class CreateCompaniesTable extends Migration
             /**
              * Configurações
              */
-            $table->json('config')->comment('Configuração')->default([]);
+            $table->json('config')->comment('Configuração')->default('{}');
             $table->string('logo')->nullable();
             $table->boolean('banned')->comment('Banido')->default(false);
         });
