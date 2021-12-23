@@ -114,9 +114,9 @@ trait CompanySessionTraits
     /**
      * @return bool
      */
-    public function hasBanned(): bool
+    public function hasBanned()
     {
-        return session()->has('company.banned');
+        return session()->get('company.banned');
     }
 
 }
