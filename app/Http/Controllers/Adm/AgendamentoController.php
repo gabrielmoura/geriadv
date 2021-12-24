@@ -119,6 +119,7 @@ class AgendamentoController extends Controller
             ->addColumn(['data' => 'start_time', 'name' => 'start_time', 'title' => 'Hora de início'])
             ->addColumn(['data' => 'end_time', 'name' => 'end_time', 'title' => 'Hora de Fim'])
             ->addColumn(['data' => 'recurrence', 'name' => 'recurrence', 'title' => 'Recorrência'])
+            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereço'])
             ->addColumn(['data' => 'lawyer', 'name' => 'lawyer', 'title' => 'Advogado'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
@@ -128,6 +129,7 @@ class AgendamentoController extends Controller
     }
 
     /**
+     * Exibe Calendário
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -140,7 +142,7 @@ class AgendamentoController extends Controller
             if ($this->hasRole('admin')) {
                 $src = $source['model']::all();
             } else {
-                $src = $source['model']::where('company_id', '=', $this->getCompanyId());
+                $src = $source['model']::whereCompanyId($this->getCompanyId())->get();
             }
             foreach ($src as $model) {
                 $crudFieldValue = $model->getOriginal($source['date_field']);
@@ -150,14 +152,14 @@ class AgendamentoController extends Controller
                 if (!$crudFieldValue) {
                     continue;
                 }
-
+                $lawyer = '<br>' . $model->lawyer()->first()->name ?? '';
                 $events[] = [
                     'title' => trim($source['prefix'] . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
                     'start' => $crudFieldValue->format('Y-m-d H:i:s'),
                     //'end' => $model->{$source['end_field']},
                     'end' => $model->{$source['end_field']}->format('Y-m-d H:i:s'),
-                    'description' => $model->description ?? '',
+                    'description' => $model->description . $lawyer ?? '',
                     'url' => route($source['route'], $model->id),
                 ];
             }
@@ -221,9 +223,8 @@ class AgendamentoController extends Controller
     {
         //abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $lawyer = [];
-        foreach (Lawyer::whereCompanyId($this->getCompanyId()) as $l) {
-            $lawyer['id'] = $l->id;
-            $lawyer['name'] = $l->name;
+        foreach (Lawyer::whereCompanyId($this->getCompanyId())->get() as $l) {
+            $lawyer[] = ['value' => $l->id, 'name' => $l->name];
         }
 
         return view('admin.calendar.create', compact('lawyer'));

@@ -68,7 +68,7 @@
 
                 <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
                     <label for="name">{{ __('cruds.event.fields.address') }}</label>
-                    <input type="text" id="name" name="name" class="form-control"
+                    <input type="text" id="address" name="address" class="form-control"
                            value="{{ old('name', isset($event) ? $event->address : '') }}" >
                     @if($errors->has('address'))
                         <em class="invalid-feedback">
