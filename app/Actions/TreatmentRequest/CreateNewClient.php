@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Actions\Client;
+namespace App\Actions\TreatmentRequest;
 
 
 use App\Models\Clients;

@@ -58,12 +58,13 @@ class Lawyer extends Model
         'last_name',
         'user_id',
         'cpf',
-        'rg',
+        'oab',
         'email',
         'tel0',
         'tel1',
         'sex',
         'birth_date',
+        'company_id'
         //'cep',
     ];
 

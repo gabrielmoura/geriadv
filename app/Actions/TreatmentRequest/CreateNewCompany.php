@@ -1,27 +1,24 @@
 <?php
 
 
-namespace App\Actions\Company;
+namespace App\Actions\TreatmentRequest;
 
 
-use App\Models\Clients;
 use App\Models\LogMovement;
-use App\Models\Note;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 
 class CreateNewCompany
 {
 
     private $request;
-    
+
     public function __construct(Request $request)
     {
-        $this->request=$request;
+        $this->request = $request;
     }
-    
-    public function update(){
+
+    public function update()
+    {
         $this->validate();
         $data = $this->request->all();
         $data['cep'] = numberClear($this->request['cep']);
@@ -35,8 +32,9 @@ class CreateNewCompany
         ]);
         return $data;
     }
-    
-    public function store(){
+
+    public function store()
+    {
         $this->validate();
         $data = $this->request->all();
         $data['cep'] = numberClear($this->request['cep']);
@@ -50,8 +48,9 @@ class CreateNewCompany
         ]);
         return $data;
     }
-    
-    private function validate(){
+
+    private function validate()
+    {
         $this->request->validate([
             /**
              * Dados

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
-use App\Actions\Company\CreateNewCompany;
+use App\Actions\TreatmentRequest\CreateNewCompany;
 
 class CompanyController extends Controller
 {
@@ -28,7 +28,7 @@ class CompanyController extends Controller
     public function create()
     {
         $this->middleware(['role:admin']);
-        
+
         $form = ['route' => ['admin.company.store'], 'method' => 'post'];
         return view('admin.company.form', compact('form'));
     }

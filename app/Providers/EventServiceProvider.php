@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\Client\BirthdayCustomerEvent;
+use App\Events\Employee\AccessWrongTimeEvent;
 use App\Listeners\Client\BirthdayCustomerListener;
+use App\Listeners\Employee\AccessedAfterHours;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         BirthdayCustomerEvent::class => [
             BirthdayCustomerListener::class,
+        ],
+        AccessWrongTimeEvent::class => [
+            AccessedAfterHours::class,
         ]
     ];
 

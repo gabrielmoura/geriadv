@@ -19,7 +19,7 @@ class CreateLawyersTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            $table->unsignedBigInteger('company_id')->comment('Empresa')->index();
             $table->foreign('company_id')->references('id')->on('companies');
 
             /**

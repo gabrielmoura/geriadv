@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Actions\TreatmentRequest\CreateNewLawyer;
 use App\Http\Controllers\Controller;
 use App\Models\Lawyer;
 use App\Traits\CompanySessionTraits;
@@ -105,14 +106,8 @@ class LawyerController extends Controller
      */
     public function update($lawyer, Request $request)
     {
-        $data = $request->all();
-        $data['company_id'] = $this->getCompanyId();
-        $data['cep'] = numberClear($this->request['cep']);
-        $data['tel0'] = numberClear($this->request['tel0']);
-
-        $lawyer = Lawyer::whereId($lawyer)
-            ->whereCompanyId($this->getCompanyId())->first()
-            ->update($data);
+        $data = new CreateNewLawyer($request);
+        $lawyer = Lawyer::find($lawyer)->update($data->update());
         if ($lawyer) {
             toastInfo('Sucesso ao atualizar');
         } else {
@@ -151,11 +146,8 @@ class LawyerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['company_id'] = $this->getCompanyId();
-        $data['cep'] = numberClear($this->request['cep']);
-        $data['tel0'] = numberClear($this->request['tel0']);
-        $lawyer = Lawyer::create($data);
+        $data = new CreateNewLawyer($request);
+        $lawyer = Lawyer::create($data->store());
         if ($lawyer) {
             toastInfo('Sucesso ao adicionar');
         } else {
