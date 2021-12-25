@@ -23,35 +23,42 @@ class NotificationController extends Controller
 
     public function index()
     {
-
         $notifications = Auth::user()->unreadNotifications()->get();
-        return view('admin.notification.index', compact('notifications'));
-
+        return view('profile.notification', compact('notifications'));
     }
 
+    public function all()
+    {
+        $notifications = Auth::user()->notifications()->get();
+        return view('profile.notification', compact('notifications'));
+    }
+
+
     /**
-     *  Get user's notifications.
      * @param Request $request
-     * @return array
+     * @return array|\never
      */
     public function getNotifications(Request $request)
     {
-        $user = $request->user();
+        if ($request->ajax()) {
+            $user = $request->user();
 
-        // Limit the number of returned notifications, or return all
-        $query = $user->unreadNotifications();
-        $limit = (int)$request->input('limit', 0);
-        if ($limit) {
-            $query = $query->limit($limit);
+            // Limit the number of returned notifications, or return all
+            $query = $user->unreadNotifications();
+            $limit = (int)$request->input('limit', 0);
+            if ($limit) {
+                $query = $query->limit($limit);
+            }
+
+            $notifications = $query->get()->each(function ($n) {
+                $n->created = $n->created_at->toIso8601String();
+            });
+
+            $total = $user->unreadNotifications->count();
+
+            return compact('notifications', 'total');
         }
-
-        $notifications = $query->get()->each(function ($n) {
-            $n->created = $n->created_at->toIso8601String();
-        });
-
-        $total = $user->unreadNotifications->count();
-
-        return compact('notifications', 'total');
+        return abort(405, "Não Permitido");
     }
 
 
@@ -78,11 +85,11 @@ class NotificationController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function markAsRead(Request $request, $id)
+    public function markAsRead(Request $request)
     {
         $notification = $request->user()
             ->unreadNotifications()
-            ->where('id', $id)
+            ->where('id', $request->id)
             ->first();
 
         if (is_null($notification)) {
@@ -91,7 +98,7 @@ class NotificationController extends Controller
 
         $notification->markAsRead();
 
-        event(new NotificationRead($request->user()->id, $id));
+        event(new NotificationRead($request->user()->id, $request->id));
     }
 
     /**

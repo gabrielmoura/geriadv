@@ -1,7 +1,7 @@
 <?php
 
 use App\Events\TestEvent;
-use App\Http\Controllers\{HomeController,NotificationController,PushController,Auth\SocialiteController};
+use App\Http\Controllers\{HomeController,PushController,Auth\SocialiteController};
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Adm\AgendamentoController;
@@ -55,16 +55,7 @@ Route::group(['prefix' => 'subscriptions'], function () {
     Route::post('/delete', [PushController::class, 'destroy']);
 });
 
-// Notifications
-Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
-    Route::get('All', [NotificationController::class, 'index'])->name('index');
 
-    Route::post('notifications', [NotificationController::class, 'store'])->name('store');
-    Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');
-    Route::patch('/{id}/read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
-    Route::post('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('markAllRead');
-    Route::post('/{id}/dismiss', [NotificationController::class, 'dismiss'])->name('dismiss');
-});
 
 
 Route::get('manifest.json', function () {

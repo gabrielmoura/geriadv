@@ -15,11 +15,11 @@ class Amount
     {
 
         // Caso não haja Fator retornar valor
-        if ($benefit['wage_factor']==null) {
+        if (is_null($benefit['wage_factor'])) {
             return $benefit['wage'];
         }
         // Caso Salary especificado, retornar a multiplicação.
-        if ($benefit['wage_type'] === 'salary') {
+        if ($benefit['wage_type'] == 'salary') {
             return config('core.minimum.salary') * $benefit['wage_factor'];
         } else {
             // Caso Percent especificado, retornar a multiplicação.

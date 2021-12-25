@@ -37,21 +37,22 @@
 
                             @foreach(Auth::user()->unreadNotifications()->take(5)->get() as $notice)
                                 <li>
-                                    <a href="{{$notice->data['action_url']}}"
+                                    <a href="{{route('admin.notifications.index')}}"
                                        class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'
                                        >
                                         <input type="hidden" name="notification" id="notification_id" value="{{$notice->id}}" onclick="">
                                         <div class="peer mR-15">
-                                            <img class="w-3r bdrs-50p" src="/images/1.jpg" alt="">
+                                            <i class="fal fa-envelope w-3r bdrs-50p"></i>
+
                                         </div>
                                         <div class="peer peer-greed">
                                         <span>
                                             <span class="fw-500">{{$notice->data['title']}}</span>
-                                            <span class="c-grey-600">{{$notice->data['body']}}
+                                            <span class="c-grey-600">{{resumo($notice->data['body'],50)}}
                                             </span>
                                         </span>
                                             <p class="m-0">
-                                                <small class="fsz-xs">{{$notice->data['created']}}</small>
+                                                <small class="fsz-xs">{{$notice['created_at']}}</small>
                                             </p>
                                         </div>
                                     </a>
@@ -61,7 +62,7 @@
                     </li>
                     <li class="pX-20 pY-15 ta-c bdT">
                         <span>
-                            <a href="{{route('notifications.index')}}" class="c-grey-600 cH-blue fsz-sm td-n">Ver todos os Avisos
+                            <a href="{{route('admin.notifications.all')}}" class="c-grey-600 cH-blue fsz-sm td-n">Ver todos os Avisos
                                 <i class="ti-angle-right fsz-xs mL-10"></i>
                             </a>
                         </span>

@@ -139,7 +139,7 @@ trait CompanySessionTraits
      */
     private function blockTimeBased()
     {
-        return !now()->isBetween($this->getCompany()->config['open'], $this->getCompany()->config['close']);
+        return !now()->isBetween($this->getCompany()->config['opening'], $this->getCompany()->config['closing']);
     }
 
 }

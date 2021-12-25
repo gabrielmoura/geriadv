@@ -13,6 +13,7 @@ use App\Http\Controllers\Adm\{AgendamentoController,
     UsersController
 };
 use App\Http\Controllers\Auth\{ActivityControlController, DashController};
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +56,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
         Route::group(['as' => 'calendar.'], function () {
             Route::delete('schedules/destroy', [AgendamentoController::class, 'massDestroy'])->name('massDestroy');
             Route::get('schedule/calendar', [AgendamentoController::class, 'indexShow'])->name('systemCalendar');
+        });
+
+        // Notifications
+        Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
+            Route::get('Unread', [NotificationController::class, 'index'])->name('index');
+            Route::get('All', [NotificationController::class, 'all'])->name('all');
+
+            Route::post('notifications', [NotificationController::class, 'store'])->name('store');
+            Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');
+            Route::post('/read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+            Route::post('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('markAllRead');
+            Route::post('/{id}/dismiss', [NotificationController::class, 'dismiss'])->name('dismiss');
         });
     });
     Route::get('test', function () {
