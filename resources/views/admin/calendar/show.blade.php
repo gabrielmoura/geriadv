@@ -58,6 +58,23 @@
                             {{ $event->event->name ?? '' }}
                         </td>
                     </tr>
+
+                    <tr>
+                        <th>
+                            {{ __('cruds.event.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $event->address ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ __('cruds.event.fields.lawyer') }}
+                        </th>
+                        <td>
+                            {{ $event->lawyer()->first()->name ?? '' }}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">
