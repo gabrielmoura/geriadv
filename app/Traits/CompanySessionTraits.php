@@ -21,6 +21,7 @@ trait CompanySessionTraits
             if (config('panel.forceCache')) {
                 $userAuth = Auth::user();
                 if (!$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
+                return session()->get('company.id');
             }
             return null;
         }
