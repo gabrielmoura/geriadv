@@ -9,22 +9,17 @@ trait CompanySessionTraits
 {
 
     /**
-     * @return mixed|null
+     * @return mixed
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getCompanyId()
     {
-        if (session()->has('company.id')) {
-            return session()->get('company.id');
-        } else {
-            if (config('panel.forceCache')) {
-                $userAuth = Auth::user();
-                if (!$userAuth->hasRole('admin')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
-                return session()->get('company.id');
-            }
-            return null;
+        if (config('panel.forceCache')) {
+            $userAuth = Auth::user();
+            if (!$userAuth->hasRole('admin') && !session()->has('company.id')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
         }
+        return session()->get('company.id');
     }
 
     /**
