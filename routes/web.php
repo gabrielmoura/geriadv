@@ -24,11 +24,11 @@ Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    /*
+
     Route::get('/home', function () {
         return redirect()->route('redirDASH');
-    })->name('home');
-    */
+    });
+
 
     Route::get('/user/profile', function () {
         return view('profile');
