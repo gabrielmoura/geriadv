@@ -42,7 +42,9 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', $this->getCompanyId());
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);
+
+
         // Caso o Admin também deseje ter acesso a os clientes.
         $user = Auth::user();
         if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
@@ -66,8 +68,10 @@ class ClientController extends Controller
     protected function datatable($request, $client)
     {
 
+
         if ($request->ajax()) {
             return Datatables::of($client)
+                ->addIndexColumn()
                 ->addColumn('action', function (Clients $client) {
                     return '<div class="table-data-feature"><a href="' . route('admin.clients.show', ['client' => $client->slug]) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-eye"></i></a></div>';
                 })
@@ -75,10 +79,10 @@ class ClientController extends Controller
                     return $client->fullname;
                 })
                 ->addColumn('status', function (Clients $client) {
-                    return (!!$client->status()->get()->last()) ? __('view.' . $client->status()->get()->last()->status) : '';
+                    return (!!$client->status) ? __('view.' . $client->status->status) : '';
                 })
                 ->addColumn('lastupdate', function (Clients $client) {
-                    return (!!$client->status()->get()->last()) ? $client->status()->get()->last()->created_at : '';
+                    return (!!$client->status) ? $client->status->created_at : '';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
