@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Illuminate\{Database\Seeder, Support\Facades\Hash};
+use Spatie\Permission\Models\{Permission, Role};
+use Spatie\Permission\PermissionRegistrar;
+
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run()
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         /**
          * Permissões
@@ -46,7 +46,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Responsável por Gerir o sistema: Administrador
         $admin = Role::create(['name' => 'admin']);
         $dataAdmin = [];
-        foreach (Permission::all() as $item) {
+        foreach (Permission::whereNotIn('name', ['edit_scheduling', 'edit_client'])->get() as $item) {
             $dataAdmin[] = $item->name;
         }
         $admin->givePermissionTo($dataAdmin);
@@ -62,7 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
         //Responsável por gerir clientes: Funcionários
         $employees = Role::create(['name' => 'employees']);
         $dataEditor = [];
-        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee','view_analytic'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic'])->get() as $item) {
             $dataEditor[] = $item->name;
         }
         $employees->givePermissionTo($dataEditor);
