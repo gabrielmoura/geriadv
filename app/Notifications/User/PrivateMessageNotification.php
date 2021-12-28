@@ -10,18 +10,19 @@ class PrivateMessageNotification extends Notification
 {
     use Queueable;
 
-    protected $title, $body, $action_url;
+    protected $title, $body, $action_url, $from;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($title, $body, $action_url)
+    public function __construct($title, $body, $action_url, $from)
     {
         $this->title = $title;
         $this->body = $body;
         $this->action_url = $action_url;
+        $this->from = $from;
     }
 
     /**
@@ -60,7 +61,8 @@ class PrivateMessageNotification extends Notification
         return [
             'title' => $this->title,
             'body' => $this->body,
-            'action_url' => $this->action_url
+            'action_url' => $this->action_url,
+            'from' => $this->from
         ];
     }
 }
