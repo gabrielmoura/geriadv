@@ -140,6 +140,8 @@ return [
         Features::twoFactorAuthentication([
             'confirmPassword' => true,
         ]),
+        // Controle de Sessões
+        'logoutOtherBrowserSessions' => true,
     ],
 
 ];

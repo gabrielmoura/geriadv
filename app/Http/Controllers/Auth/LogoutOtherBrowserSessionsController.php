@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Dotenv\Exception\ValidationException;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,22 +15,25 @@ class LogoutOtherBrowserSessionsController extends Controller
 {
     public function logoutOtherBrowserSessions(StatefulGuard $guard)
     {
-        $this->resetErrorBag();
+        //$this->resetErrorBag();
 
-        if (!Hash::check($this->password, Auth::user()->password)) {
+        if (!Hash::check(request('password'), Auth::user()->password)) {
             throw ValidationException::withMessages([
                 'password' => [__('This password does not match our records.')],
             ]);
         }
 
-        $guard->logoutOtherDevices($this->password);
+        $guard->logoutOtherDevices(request('password'));
 
         $this->deleteOtherSessionRecords();
+        toastr()->success('Deslogado com sucesso.');
+        return redirect()->route('user.setting');
 
-        $this->confirmingLogout = false;
+        //$this->confirmingLogout = false;
 
-        $this->emit('loggedOut');
+        //$this->emit('loggedOut');
     }
+
 
     /**
      * Delete the other browser session records from storage.
@@ -82,6 +86,7 @@ class LogoutOtherBrowserSessionsController extends Controller
      */
     protected function createAgent($session)
     {
+        //dd((new Agent)->isMobile());
         return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });

@@ -5,16 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"> Browser Sessions - Manage and log out your active sessions on other browsers
-                    and devices.
+                <div class="card-header">{{__('global.browser.header')}}
                 </div>
                 <div class="card-body">
 
                     <div class="max-w-xl text-sm text-gray-600">
-                        Se necessário, você pode sair de todas as outras sessões do navegador em todos os seus
-                        dispositivos. Alguns de seus as sessões recentes estão listadas abaixo; no entanto, esta lista
-                        pode não ser exaustiva. Se você sente o seu conta tem foi comprometido, você também deve
-                        atualizar sua senha.
+                        {{__('global.browser.text')}}
                     </div>
 
                     <!-- Other Browser Sessions -->
@@ -23,7 +19,7 @@
                             <div class="flex items-center">
                                 <div class="row">
                                     <div class="col-sm" style="max-width: 10%">
-                                        @if($session->agent->is_desktop())
+                                        @if($session->agent->isDesktop())
                                             <svg fill="none" stroke-linecap="round" stroke-linejoin="round"
                                                  stroke-width="2"
                                                  viewBox="0 0 24 24" stroke="currentColor"
@@ -46,7 +42,9 @@
 
                                     <div class="col-sm">
                                         <div class="text-sm text-gray-600">
-                                            {{ $session->agent->platform() }} - {{ $session->agent->browser() }}
+                                            {{ $session->agent->platform() }}
+                                            - {{ $session->agent->browser() }} @if($session->is_current_device)<i
+                                                class="fas fa-badge-check"></i> @endif
                                         </div>
 
                                         <div>
@@ -54,8 +52,7 @@
                                                 {{ $session->ip_address }},
 
                                                 <span class="text-green-500 font-semibold"
-                                                      v-if="session.is_current_device">This device</span>
-                                                <span v-else>Last active {{ $session->last_active }}</span>
+                                                      v-if="session.is_current_device">{{__('global.browser.message')}} {{ $session->last_active }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -65,30 +62,31 @@
                     @endforeach
                     <div class="flex items-center mt-5">
                         <button onclick="$('#myModal').modal('show')">
-                            Log Out Other Browser Sessions
+                            {{__('global.browser.button')}}
                         </button>
                     </div>
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                          aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                {!! Form::open(['route'=>'user.setting.logoutBrowser']) !!}
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Log Out Other Browser Sessions</h5>
+                                    <h5 class="modal-title">{{__('global.browser.button')}}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Algumas de suas sessões recentes estão listadas abaixo; no
-                                        entanto, esta lista pode não ser exaustiva. Se você acha que sua conta foi
-                                        comprometida, você também deve atualizar sua senha.</p>
-                                    <input type="password" name="" id="">
+                                    <p>{{__('global.browser.text')}}</p>
+                                    <input type="password" name="password" id="password">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Log Out Other Browser Sessions
+                                    <button type="submit" class="btn btn-primary">{{__('global.browser.button')}}
                                     </button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">{{__('global.close')}}</button>
                                 </div>
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ use App\Http\Controllers\Adm\{AgendamentoController,
     PendencyController,
     UsersController
 };
-use App\Http\Controllers\Auth\{ActivityControlController, DashController};
+use App\Http\Controllers\Auth\{ActivityControlController, DashController, LogoutOtherBrowserSessionsController};
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -94,5 +94,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         return view('auth.profile.profile');
     })->name('user.setting');
 
+    Route::post('/me/browser', [LogoutOtherBrowserSessionsController::class, 'logoutOtherBrowserSessions'])
+        ->name('user.setting.logoutBrowser');
 
 });

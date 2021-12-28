@@ -14,4 +14,8 @@
         @include('profile.two-factor-authentication-form')
     @endif
 
+    @if (config('fortify.features.logoutOtherBrowserSessions'))
+        @include('auth.logout-other-session')
+    @endif
+
 @endsection
