@@ -1,10 +1,9 @@
 <?php
 
 use App\Events\TestEvent;
-use App\Http\Controllers\{HomeController,PushController,Auth\SocialiteController};
-
+use App\Http\Controllers\{Auth\SocialiteController, HomeController, PushController};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Adm\AgendamentoController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,14 +23,12 @@ Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
 });
 
 
-
-Auth::routes();
-
-
 Route::middleware(['auth'])->group(function () {
+    /*
     Route::get('/home', function () {
         return redirect()->route('redirDASH');
     })->name('home');
+    */
 
     Route::get('/user/profile', function () {
         return view('profile');
@@ -54,8 +51,6 @@ Route::group(['prefix' => 'subscriptions'], function () {
     Route::post('/', [PushController::class, 'update']);
     Route::post('/delete', [PushController::class, 'destroy']);
 });
-
-
 
 
 Route::get('manifest.json', function () {
