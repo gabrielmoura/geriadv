@@ -11,10 +11,12 @@ return [
      * Usar DataTable
      */
     'datatable' => true,
-    
+
     /**
      * Força HTTPS
      */
-    'forceHttps'=>env('FORCE_HTTPS',true),
-    'forceCache'=>env('FORCE_CACHE',true),
+    'forceHttps' => env('FORCE_HTTPS', true),
+    'forceCache' => env('FORCE_CACHE', true),
+    // dropZone or fineUpload
+    'libUpload' => 'dropZone',
 ];
