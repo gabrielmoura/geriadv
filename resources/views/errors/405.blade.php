@@ -1,5 +1,5 @@
 @extends('errors::minimal')
 
-@section('title', __('Not Allowed'))
+@section('title', __('error.NotAllowed'))
 @section('code', '405')
-@section('message', __('Not Allowed'))
+@section('message', __('error.NotAllowed'))
