@@ -12,10 +12,10 @@ use App\Http\Controllers\Adm\{AgendamentoController,
     PendencyController,
     UsersController
 };
+use App\Http\Controllers\Adm\UploadController;
 use App\Http\Controllers\Auth\{ActivityControlController, DashController, LogoutOtherBrowserSessionsController};
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -96,5 +96,10 @@ Route::group(['middleware' => 'auth:web'], function () {
 
     Route::post('/me/browser', [LogoutOtherBrowserSessionsController::class, 'logoutOtherBrowserSessions'])
         ->name('user.setting.logoutBrowser');
+
+    Route::group(['prefix' => 'upload'], function () {
+        Route::post('dropzone', [UploadController::class, 'storeMedia'])
+            ->name('upload.dropzone');
+    });
 
 });
