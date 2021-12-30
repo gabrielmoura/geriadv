@@ -255,5 +255,6 @@ return [
         'text' => 'Se necessário, você pode sair de todas as outras sessões em todos os seus dispositivos. Alguns de seus como dispositivos estão listados abaixo; no entanto, esta lista pode ser exaustiva. Se você sente que sua conta foi comprometida, também é recomendavel que atualize sua senha.',
         'button' => 'Sair de outras sessões do navegador',
         'header' => 'Sessões do navegador - gerencie e saia de suas sessões ativas em outros navegadores e dispositivos.',
+        'deleted' => 'Excluido os outros registros de sessões'
     ]
 ];

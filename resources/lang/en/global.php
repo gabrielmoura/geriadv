@@ -255,6 +255,7 @@ return [
         'text' => 'If necessary, you can exit all other sessions on all your devices. Some of their like devices are listed below; however, this list can be exhaustive. If you feel that your account has been compromised, it is also recommended that you update your password.',
         'button' => 'Log Out Other Browser Sessions',
         'header' => 'Browser Sessions - Manage and log out your active sessions on other browsers and devices.',
+        'deleted' => 'Deleted other session records'
 
     ]
 ];

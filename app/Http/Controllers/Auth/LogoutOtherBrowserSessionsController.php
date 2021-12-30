@@ -50,6 +50,14 @@ class LogoutOtherBrowserSessionsController extends Controller
             ->where('user_id', Auth::user()->getAuthIdentifier())
             ->where('id', '!=', request()->session()->getId())
             ->delete();
+        activity()
+            ->inLog('sessions')
+            ->causedBy(Auth::user()->getAuthIdentifier())
+            ->withProperties([
+                'session_id' => request()->session()->getId(),
+                'user_id' => Auth::id()
+            ])
+            ->log(__('global.browser.deleted'));
     }
 
     /**
