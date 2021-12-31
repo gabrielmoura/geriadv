@@ -141,6 +141,7 @@ class Clients extends Model implements HasMedia
         'cpf' => 'encrypted',
         'rg' => 'encrypted',
         'newsletter' => 'boolean',
+        'properties' => 'collection',
     ];
 
     /*

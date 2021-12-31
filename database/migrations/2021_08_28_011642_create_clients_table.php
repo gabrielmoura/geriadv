@@ -61,6 +61,8 @@ class CreateClientsTable extends Migration
             $table->string('district')->comment('Bairro');
             $table->string('city')->comment('Cidade');
             $table->string('state')->comment('Estado');
+
+            $table->json('properties')->nullable()->comment('Propriedades');
         });
     }
 
