@@ -73,9 +73,23 @@
                                 <p class="text-primary m-0 fw-bold">Ferramentas Administrativas</p>
                             </div>
                             <div class="card-body">
-                                {!! Form::open(['route'=>['admin.company.destroy','company'=>$company->id],'method'=>'DELETE','id'=>'delete']) !!}
-                                <a class="btn btn-danger" onclick="document.getElementById('delete').submit();">Deletar Empresa</a>
-                                {!! Form::close() !!}
+                                <div class="row">
+                                    <div class="p-1">
+                                        {!! Form::open(['route'=>['admin.company.destroy','company'=>$company->id],'method'=>'DELETE','id'=>'delete']) !!}
+                                        <a class="btn btn-danger" onclick="document.getElementById('delete').submit();">Deletar
+                                            Empresa</a>
+                                        {!! Form::close() !!}
+                                    </div>
+                                    <div class="p-1">
+                                        @if($company->banned)
+                                            <a class="btn btn-warning" onclick="unban({{$company->id}});">Desbanir
+                                                Empresa</a>
+                                        @else
+                                            <a class="btn btn-warning" onclick="ban({{$company->id}});">Banir
+                                                Empresa</a>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- <div class="card shadow">
@@ -102,7 +116,7 @@
                                          </div>
                                      </div>
                                      <div class="mb-3">
-                                         <!--<button class="btn btn-primary btn-sm" type="submit">Save Settings</button>--
+                                        <button class="btn btn-primary btn-sm" type="submit">Save Settings</button>--
                                      </div>
                                  </form>
                              </div>
@@ -130,7 +144,7 @@
                                              replies</strong></label></div>
                              </div>
                              <div class="mb-3">
-                                 <!--<button class="btn btn-primary btn-sm" type="submit">Save Settings</button>
+                                 <button class="btn btn-primary btn-sm" type="submit">Save Settings</button>
                             </div>
                         </form>
                     </div>
@@ -139,4 +153,19 @@
         </div> -->
     </div>
 @endsection
+@push('js')
+    <script type="text/javascript">
+        let ban = function (companyID) {
+            axios.post('{{route('ajax.ban')}}', {company: companyID})
+                .then(function (response) {
+                    document.location.reload(true);
+                });
+        }, unban = function (companyID) {
+            axios.post('{{route('ajax.unban')}}', {company: companyID})
+                .then(function (response) {
+                    document.location.reload(true);
+                });
+        };
+    </script>
+@endpush
 

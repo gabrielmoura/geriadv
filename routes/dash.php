@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'], 'as' => 'admin.'], function () {
     /*
     |------------------------------------------------------------------------------------
     | Admin
@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.']
     Route::get('/ActivityControl', [ActivityControlController::class, 'index'])->name('ActivityControl');
     Route::post('/ActivityControl', [ActivityControlController::class, 'store'])->name('ActivityControl.store');
 
-    Route::group(['middleware' => ['restrictedToDayLight', 'verifyBanned']], function () {
+    Route::group(['middleware' => ['restrictedToDayLight']], function () {
         Route::resource('/employee', EmployeeController::class)->names('employee')->middleware('role:manager');
         Route::resource('/benefit', BenefitsController::class)->names('benefit');
         Route::resource('/lawyer', LawyerController::class)->names('lawyer');

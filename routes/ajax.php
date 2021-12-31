@@ -37,4 +37,7 @@ Route::middleware(['auth'])->prefix('ajax')->name('ajax.')->group(function () {
     //  Busca informações do calendário
     Route::get('getCalendar', [AjaxController::class, 'getCalendar'])->name('getCalendar');
 
+    Route::post('banCompany', [AjaxController::class, 'banCompany'])->name('ban');
+    Route::post('unBanCompany', [AjaxController::class, 'unbanCompany'])->name('unban');
+
 });

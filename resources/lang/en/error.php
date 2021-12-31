@@ -8,4 +8,5 @@ return [
     'TooManyRequests' => 'Too Many Requests',
     'ServerError' => 'Server Error',
     'ServiceUnavailable' => 'Service Unavailable',
+    'Forbidden' => 'Forbidden',
 ];

@@ -18,7 +18,7 @@ class VerifyBanned
      */
     public function handle(Request $request, Closure $next)
     {
-        if ((bool)$this->hasBanned()) return redirect(config('app.url'));
+        if ((bool)$this->hasBanned()) return abort(403, 'Banido');
         return $next($request);
     }
 

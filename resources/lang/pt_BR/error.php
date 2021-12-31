@@ -8,4 +8,5 @@ return [
     'TooManyRequests' => 'Muitos pedidos',
     'ServerError' => 'Erro do servidor',
     'ServiceUnavailable' => 'Serviço indisponível',
+    'Forbidden' => 'Proibido'
 ];

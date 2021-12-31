@@ -7,6 +7,7 @@ use App\Mail\Client\GenericMail;
 use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\ClientStatus;
+use App\Models\Company;
 use App\Models\Note;
 use App\Models\UserOrder;
 use Cagartner\CorreiosConsulta\Facade as Correios;
@@ -259,5 +260,46 @@ class AjaxController extends Controller
     public function getAgendamento()
     {
         return \App\Models\Calendar::withCount('calendars')->whereMonth('created_at', '=', request('month'))->get();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function banCompany(Request $request)
+    {
+        $this->middleware('role:admin');
+
+        $company = Company::find($request->company);
+        $company->banned = true;
+
+        if ($company->save()) {
+            toastr()->success('Banido com sucesso.');
+            cache()->forget('company:' . $request->company);
+            return response()->json([], 200);
+        }
+        return response()->json([], 422);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function unBanCompany(Request $request)
+    {
+        $this->middleware('role:admin');
+
+        $company = Company::find($request->company);
+        $company->banned = false;
+        if ($company->save()) {
+            toastr()->success('Desbanido com sucesso.');
+            cache()->forget('company:' . $request->company);
+            return response()->json([], 200);
+        }
+        return response()->json([], 422);
+
     }
 }
