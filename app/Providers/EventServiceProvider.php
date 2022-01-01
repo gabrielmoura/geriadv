@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\Client\BirthdayCustomerEvent;
+use App\Events\Company\DeleteCompanyEvent;
 use App\Events\Employee\AccessWrongTimeEvent;
 use App\Listeners\Client\BirthdayCustomerListener;
+use App\Listeners\Company\DeleteCompanyListener;
 use App\Listeners\Employee\AccessedAfterHours;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AccessWrongTimeEvent::class => [
             AccessedAfterHours::class,
+        ],
+        DeleteCompanyEvent::class => [
+            DeleteCompanyListener::class
         ]
     ];
 
