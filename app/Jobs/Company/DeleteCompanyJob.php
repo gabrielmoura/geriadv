@@ -32,17 +32,18 @@ class DeleteCompanyJob implements ShouldQueue
 
     public function handle()
     {
+
         // Deleta os clientes;
-        foreach ($this->company->clients() as $client) {
-            $client->first()->delete();
+        foreach ($this->company->clients()->get() as $client) {
+            $client->delete(); //softDelete
         }
         // Deleta os funcionários e suas contas;
         foreach ($this->company->employees()->get() as $employee) {
+            $employee->forceDelete();
             $employee->user()->first()->delete();
-            $employee->delete();
         }
         // Deleta a empresa;
-        $this->company->delete();
+        $this->company->delete(); //softDelete
 
         // Dispara evento que a empresa foi deletada do Banco de Dados;
         event(new DeleteCompanyEvent($this->company));
