@@ -201,7 +201,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
 
         // Cloudnary Flysystem
-        CarlosOCarvalho\Providers\CloudinaryServiceProvider::class
+        //CarlosOCarvalho\Providers\CloudinaryServiceProvider::class
 
     ],
 
