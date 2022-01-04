@@ -200,6 +200,9 @@ return [
         Yoeunes\Toastr\ToastrServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
 
+        // Cloudnary Flysystem
+        CarlosOCarvalho\Providers\CloudinaryServiceProvider::class
+
     ],
 
     /*
