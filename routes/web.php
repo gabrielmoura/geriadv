@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('cache.headers:public;max_age=2592000;etag');
 
 Route::group(['prefix' => 'auth', 'as' => 'socialite.'], function () {
     Route::get('/{slug}/callback', [SocialiteController::class, 'callback'])->name('callback');
@@ -87,4 +87,4 @@ Route::get('manifest.json', function () {
         return $manifest;
     }
 
-});
+})->middleware('cache.headers:public;max_age=2592000;etag');

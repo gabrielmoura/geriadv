@@ -20,6 +20,7 @@ class TimeBasedRestriction
      */
     public function handle(Request $request, Closure $next)
     {
+        return $next($request);
         if ($this->blockFDS() && $this->blockTimeBased()) {
             // Dispara evento quando usuário acessar fora do horário permitido.
             AccessWrongTimeEvent::dispatch(collect([$request,$this->getCompanyId(),Auth::user()->id]));
