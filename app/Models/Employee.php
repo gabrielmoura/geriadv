@@ -101,6 +101,7 @@ class Employee extends Model
         'city',
         'state',];
     protected $table = 'employees';
+    protected $dates = ['created_at', 'updated_at'];
 
 
     /*

@@ -95,6 +95,7 @@ class Calendar extends Model
     protected $casts = [
         'properties' => 'collection',
     ];
+
     /**
      * @var string
      */

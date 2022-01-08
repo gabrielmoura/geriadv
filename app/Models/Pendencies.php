@@ -59,6 +59,7 @@ class Pendencies extends Model implements HasMedia
         'impossibility_to_sign',
         'note_id'
     ];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

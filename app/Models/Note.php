@@ -33,6 +33,7 @@ class Note extends Model
     use LogsActivity;
 
     protected $fillable = ['client_id', 'body'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

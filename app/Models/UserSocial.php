@@ -60,6 +60,7 @@ class UserSocial extends Model
         'email',
         'avatar',
     ];
+    protected $dates = ['created_at', 'updated_at'];
 
     /*
     |------------------------------------------------------------------------------------

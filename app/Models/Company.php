@@ -66,6 +66,7 @@ class Company extends Model implements HasMedia
     protected $casts = [
         'config' => 'collection'
     ];
+    protected $dates=['created_at', 'updated_at','deleted_at'];
 
     /*
        |------------------------------------------------------------------------------------
