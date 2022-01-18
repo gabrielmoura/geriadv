@@ -77,6 +77,36 @@ return [
                 'secure' => (bool) env('CLOUDINARY_SECURE_URL', true),
             ],
         ],
+        // composer require skydiver/laravel-flysystem-b2
+        'backblaze' => [
+            'driver'          => 'backblaze',
+            'account_id'      => env('B2_APP_ID'),
+            'application_key' => env('B2_APP_KEY'),
+            'bucket'          => env('B2_BUCKET'),
+        ],
+
+        'onedrive' => [
+            'driver'       => 'onedrive',
+            'access_token' => env('ONEDRIVE_ACCESS_TOKEN'),
+
+            // Options only needed for ignited/flysystem-onedrive
+            // 'base_url'     => 'https://api.onedrive.com/v1.0/',
+            // 'use_logger'   => false,
+
+            // Option only used by nicolasbeauvais/flysystem-onedrive
+            // 'root'         => 'root',
+        ],
+        'gdrive' => [
+            'driver'            => 'gdrive',
+            'client_id'         => env('GDRIVE_CLIENT_ID'),
+            'secret'            => env('GDRIVE_SECRET'),
+            'token'             => env('GDRIVE_TOKEN'),
+
+            // Optional GDrive Settings
+            // 'root'              => 'your-root-directory',
+            // 'paths_sheet'       => 'your-paths-sheet',
+            // 'paths_cache_drive' => 'local',
+        ],
 
 
     ],
