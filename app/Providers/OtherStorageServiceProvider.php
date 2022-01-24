@@ -5,9 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Storage;
 use League\Flysystem\Filesystem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 class OtherStorageServiceProvider extends ServiceProvider
 {
-  
+
 
 
     public function boot()
@@ -18,7 +20,7 @@ class OtherStorageServiceProvider extends ServiceProvider
                 return new Filesystem(new \Mhetreramesh\Flysystem\BackblazeAdapter(new \BackblazeB2\Client($config['account_id'], $config['application_key']), $config['bucket']), $config);
             });
         }
-        
+
         // OneDriveAdapter
         if (class_exists('\Ignited\Flysystem\OneDrive\OneDriveAdapter')) {
             Storage::extend('onedrive', function ($app, $config) {

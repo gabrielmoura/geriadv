@@ -13,17 +13,13 @@ class Amount
      */
     public static function getValue($benefit): float
     {
-
-        // Caso não haja Fator retornar valor
-        if (is_null($benefit['wage_factor'])) {
-            return $benefit['wage'];
-        }
-        // Caso Salary especificado, retornar a multiplicação.
-        if ($benefit['wage_type'] == 'salary') {
-            return config('core.minimum.salary') * $benefit['wage_factor'];
+        if (is_null($benefit['wage']) && !is_null($benefit['wage_factor'])) {
+            $value = config('core.minimum.salary') * $benefit['wage_factor'];
+        } elseif (is_null($benefit['wage_factor']) && !is_null($benefit['wage'])) {
+            $value = $benefit['wage'];
         } else {
-            // Caso Percent especificado, retornar a multiplicação.
-            return $benefit['wage_factor'] * $benefit['wage'];
+            $value = $benefit['wage_factor'] * $benefit['wage'];
         }
+        return $value;
     }
 }

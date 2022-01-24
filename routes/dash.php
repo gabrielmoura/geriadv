@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
         Route::resource('/benefit', BenefitsController::class)->names('benefit');
         Route::resource('/lawyer', LawyerController::class)->names('lawyer');
         Route::post('/client/pendency', [PendencyController::class, 'store'])->name('clients.pendency');
+        Route::get('/client/pendency', [PendencyController::class, 'download'])->name('clients.pendency.download');
         Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
         Route::resource('/client', ClientController::class)->names('clients');
 

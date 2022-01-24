@@ -285,7 +285,11 @@
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">
-                    @include('admin.client.pendency')
+                    @if(config('panel.pendencyDownload'))
+                        @include('admin.client.pendencyDownload')
+                    @else
+                        @include('admin.client.pendency')
+                    @endif
                 </div>
 
                 <div class="hr hr10 hr-double"></div>

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Events\Client\Pendency\PendencyDownload;
+use App\Events\Client\Pendency\PendencyStore;
 use App\Http\Controllers\Controller;
 use App\Models\Clients;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PendencyController extends Controller
 {
@@ -41,7 +45,7 @@ class PendencyController extends Controller
             toastr()->error('Erro ao enviar');
             return redirect()->route('admin.clients.show', ['client' => $request->slug]);
         }
-
+        event(new PendencyStore($pendency));
         toastr()->success('Enviado com sucesso');
         return redirect()->route('admin.clients.show', ['client' => $request->slug]);
     }
@@ -66,5 +70,16 @@ class PendencyController extends Controller
 
         toastr()->success('Removido com sucesso');
         return redirect()->route('admin.clients.show', ['client' => $request->slug]);
+    }
+
+    public function download(Request $request)
+    {
+        //Buscar Pendencias pelo Cliente
+        $model = Clients::whereSlug($request->slug)->first()->pendency()->first();
+        $media = $model->getFirstMedia($request->doc);
+        // Baixa apenas a pendencia desejada.
+        event(new PendencyDownload($request));
+        return Storage::disk($media->disk)->download($media->getPath(), $media->file_name);
+
     }
 }

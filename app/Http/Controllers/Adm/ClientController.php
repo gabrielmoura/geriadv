@@ -84,6 +84,12 @@ class ClientController extends Controller
                 ->addColumn('lastupdate', function (Clients $client) {
                     return (!!$client->status) ? $client->status->created_at : '';
                 })
+                ->filter(function ($query) {
+                    if (request()->has('name')) {
+                        $query->where('name', 'like', "%" . request('name') . "%");
+                    }
+
+                },true)
                 ->rawColumns(['action'])
                 ->make(true);
         }
