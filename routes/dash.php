@@ -66,6 +66,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
 
             Route::post('notifications', [NotificationController::class, 'store'])->name('store');
             Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');
+            Route::get('/create', [NotificationController::class, 'create'])->name('create');
+            Route::post('/sent', [NotificationController::class, 'sent'])->name('sent');
             Route::post('/read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
             Route::post('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('markAllRead');
             Route::post('/{id}/dismiss', [NotificationController::class, 'dismiss'])->name('dismiss');

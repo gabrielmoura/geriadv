@@ -42,6 +42,10 @@
                     <td>{{$client->doc}}</td>
                     <td><a href="{{route('admin.clients.show',['client'=>$client->slug])}}"><i
                                 class="fa fa-eye"></i></a>
+@can('edit_client')
+<a href="{{route('admin.clients.edit',['client'=>$client->slug])}}"><i
+    class="fa fa-edit"></i></a>
+@endcan
                     </td>
                 </tr>
             @endforeach

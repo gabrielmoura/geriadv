@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\NotificationRead;
 use App\Events\NotificationReadAll;
+use App\Models\User;
 use App\Notifications\PushDemo;
+use App\Notifications\User\PrivateMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use NotificationChannels\WebPush\PushSubscription;
 
 /**
@@ -31,6 +34,23 @@ class NotificationController extends Controller
     {
         $notifications = Auth::user()->notifications()->get();
         return view('profile.notification', compact('notifications'));
+    }
+
+    public function create(){
+        $form = ['route' => ['admin.notification.sent'], 'method' => 'post'];
+        // Carrega usuários de uma mesma empresa, para notificação.
+        $to=[];
+        return view('profile.createNotification',compact('form','to'));
+    }
+
+    public function sent(Request $request){
+        // Recebe usuário solicitante, titulo e corpo para enviar como MP.
+        $user=User::find($request->userId);
+        Notification::sendNow(
+            $user,
+            new PrivateMessageNotification($request->title,$request->body,'',$request->user())
+        );
+
     }
 
 
