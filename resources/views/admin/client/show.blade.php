@@ -25,12 +25,6 @@
                 </a>
             </li>
 
-            <li>
-                <a data-toggle="tab" href="#pictures">
-                    <i class="pink ace-icon fa fa-picture-o bigger-120"></i>
-                    Pictures
-                </a>
-            </li>
         </ul>
 
         <div class="tab-content no-border padding-24">
@@ -127,7 +121,7 @@
 
                                 <div class="profile-info-value">
                                     <button type="button"
-                                            class="btn btn-">{{($client->benefit()->get()->isEmpty())?'':$client->benefit()->first()->name}}</button>
+                                            class="btn btn-">{{(is_null($client->benefit))?'':$client->benefit->name}}</button>
                                 </div>
                             </div>
 
@@ -136,7 +130,7 @@
 
                                 <div class="profile-info-value">
                                     <button type="button"
-                                            class="btn btn-">{{($client->recommendation()->get()->isEmpty())?'':$client->recommendation()->first()->name}}</button>
+                                            class="btn btn-">{{(is_null($client->recommendation))?'':$client->recommendation->name}}</button>
                                 </div>
                             </div>
 
@@ -210,77 +204,7 @@
             </div><!-- /#home -->
 
             <div id="status" class="tab-pane">
-                <div class="profile-feed row">
-                    <div class="col-sm-6">
-                        @foreach($client->status()->get() as $status)
-                            <div class="profile-activity clearfix">
-                                <div>
-                                    <img class="pull-left" alt="Alex Doe's avatar"
-                                         src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                                    <a class="user" href="#"> {{$status}} </a>
-                                    changed his profile photo.
-                                    <a href="#">Take a look</a>
-
-                                    <div class="time">
-                                        <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                                        an hour ago
-                                    </div>
-                                </div>
-
-                                <div class="tools action-buttons">
-                                    <a href="#" class="blue">
-                                        <i class="ace-icon fa fa-pencil bigger-125"></i>
-                                    </a>
-
-                                    <a href="#" class="red">
-                                        <i class="ace-icon fa fa-times bigger-125"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div><!-- /.col -->
-
-                    <div class="col-sm-6">
-                        @foreach($client->status()->get() as $status)
-                            <div class="profile-activity clearfix">
-                                <div>
-                                    <i class="pull-left thumbicon fa fa-pencil-square-o btn-pink no-hover"></i>
-                                    <a class="user" href="#"> Alex Doe </a>
-                                    published a new blog post.
-                                    <a href="#">Read now</a>
-
-                                    <div class="time">
-                                        <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                                        11 hours ago
-                                    </div>
-                                </div>
-
-                                <div class="tools action-buttons">
-                                    <a href="#" class="blue">
-                                        <i class="ace-icon fa fa-pencil bigger-125"></i>
-                                    </a>
-
-                                    <a href="#" class="red">
-                                        <i class="ace-icon fa fa-times bigger-125"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-
-                <div class="space-12"></div>
-
-                <div class="center">
-                    <button type="button" class="btn btn-sm btn-primary btn-white btn-round">
-                        <i class="ace-icon fa fa-rss bigger-150 middle orange2"></i>
-                        <span class="bigger-110">View more activities</span>
-
-                        <i class="icon-on-right ace-icon fa fa-arrow-right"></i>
-                    </button>
-                </div>
+                @include('admin.client.activity')
             </div><!-- /#status -->
 
             <div id="doc" class="tab-pane">
@@ -296,226 +220,6 @@
 
 
             </div><!-- /#doc -->
-
-            <div id="pictures" class="tab-pane">
-                <ul class="ace-thumbnails">
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-
-                    <li>
-                        <a href="#" data-rel="colorbox">
-                            <img alt="150x150" src="https://via.placeholder.com/200x200/">
-                            <div class="text">
-                                <div class="inner">Sample Caption on Hover</div>
-                            </div>
-                        </a>
-
-                        <div class="tools tools-bottom">
-                            <a href="#">
-                                <i class="ace-icon fa fa-link"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-paperclip"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-pencil"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="ace-icon fa fa-times red"></i>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div><!-- /#pictures -->
         </div>
     </div>
 

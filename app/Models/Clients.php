@@ -103,6 +103,9 @@ class Clients extends Model implements HasMedia
     use SoftDeletes;
     use LogsActivity;
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'user_id'
         /**
@@ -137,12 +140,18 @@ class Clients extends Model implements HasMedia
 
 
     ];
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'cpf' => 'encrypted',
         'rg' => 'encrypted',
         'newsletter' => 'boolean',
         'properties' => 'collection',
     ];
+    /**
+     * @var string[]
+     */
     protected $dates=['created_at', 'updated_at','deleted_at'];
 
     /*
@@ -151,21 +160,31 @@ class Clients extends Model implements HasMedia
     |------------------------------------------------------------------------------------
     */
 
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();
         Clients::observe(ClientObserver::class);
     }
 
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object|null
+     */
     public function user()
     {
         return $this->belongsTo(User::class)->first();
     }
 
+    /**
+     * @return string
+     */
     public function avatar()
     {
         return "https://ui-avatars.com/api/?rounded=true&size=128&name=" . $this->name . ' ' . $this->last_name;
     }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -183,6 +202,9 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Note::class, 'id', 'client_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function pendency()
     {
         return $this->belongsTo(Pendencies::class, 'pendency_id', 'id');
@@ -196,6 +218,9 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Benefits::class, 'benefit_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function testMany()
     {
         return $this->belongsToMany(
@@ -215,18 +240,27 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Recommendation::class, 'recommendation_id', 'id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getDownCPFAttribute()
     {
         //return $this->photos()->first()->full;
         return $this->getMedia('product')->first()->getUrl('full');
     }
 
+    /**
+     * @return mixed
+     */
     public function getDownRGAttribute()
     {
         //return $this->photos()->first()->full;
         return $this->getMedia('product')->first()->getUrl('full');
     }
 
+    /**
+     * @return mixed
+     */
     public function getBirth_certificateAttribute()
     {
         //return $this->photos()->first()->full;
@@ -239,6 +273,9 @@ class Clients extends Model implements HasMedia
         |------------------------------------------------------------------------------------
         */
 
+    /**
+     * @return mixed
+     */
     public function getProof_of_addressAttribute()
     {
         //return $this->photos()->first()->full;
@@ -261,11 +298,19 @@ class Clients extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
+    /**
+     * @return string
+     */
     public function getFullNameAttribute(): string
     {
         return $this->name . ' ' . $this->last_name;
     }
 
+    /**
+     * @return LogOptions
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
