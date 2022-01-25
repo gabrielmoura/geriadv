@@ -101,8 +101,8 @@ class ClientController extends Controller
                     return (!!$client->status) ? $client->status->created_at : null;
                 })
                 ->filterColumn('fullname', function($query, $keyword) {
-                    $sql = "CONCAT(lastname,' ',firstname)  like ?";
-                    $$query->whereRaw($sql, ["%{$keyword}%"]);
+                        $sql = "CONCAT(lastname,' ',firstname)  like ?";
+                        $$query->whereRaw($sql, ["%{$keyword}%"]);
                 })
                 ->rawColumns(['action'])
                 ->smart(true) // Pesquisa inteligente em tempo de execução
