@@ -118,7 +118,7 @@ class ClientController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
-            ->dom('Bfrtip')
+           // ->dom('Bfrtip') Não funciona bem.
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
     }
