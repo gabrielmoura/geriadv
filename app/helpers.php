@@ -143,3 +143,14 @@ if (!function_exists('calculateAmount')) {
         return \App\Actions\Payment\Amount::getValue($obj);
     }
 }
+if (!function_exists('cleanText')) {
+    /**
+     * Remove Html de um texto.
+     * @param $text
+     * @return string
+     */
+    function cleanText($text)
+    {
+        return html_entity_decode(strip_tags($text));
+    }
+}

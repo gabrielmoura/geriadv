@@ -1,6 +1,6 @@
 <div class="profile-feed row">
     <div class="col-sm-6">
-        @foreach($client->status->get() as $status)
+        @foreach($client->status()->get() as $status)
             <div class="profile-activity clearfix">
                 <div>
                     <img class="pull-left" alt="Alex Doe's avatar"
@@ -30,7 +30,7 @@
     </div><!-- /.col -->
 
     <div class="col-sm-6">
-        @foreach($client->status->get() as $status)
+        @foreach($client->status()->get() as $status)
             <div class="profile-activity clearfix">
                 <div>
                     <i class="pull-left thumbicon fa fa-pencil-square-o btn-pink no-hover"></i>

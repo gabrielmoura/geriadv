@@ -73,7 +73,7 @@ class ClientController extends Controller
             return Datatables::of($client)
                 ->addIndexColumn()
                 ->addColumn('action', function (Clients $client) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.clients.show', ['client' => $client->slug]) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-eye"></i></a></div>';
+                    return $this->dataAction('admin.clients', $client->slug);
                 })
                 ->addColumn('fullname', function (Clients $client) {
                     return $client->fullname;
@@ -109,6 +109,26 @@ class ClientController extends Controller
             ->serverSide(true)
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
+    }
+
+    public function dataAction($route, $id, $action = ['view', 'edit'])
+    {
+        $v = '<div class="table-data-feature">';
+        $e = '</div>';
+        if (in_array('view', $action)) {
+            $v .= '<a href="' .
+                route($route . '.show', ['client' => $id])
+                . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Ver"><i class="fa fa-eye"></i></a> ';
+        }
+
+        if (in_array('edit', $action) && $this->hasPermission('edit_client')) {
+            $e = '<a href="'
+                . route($route . '.edit', ['client' => $id])
+                . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a></div>';
+        }
+
+        return $v . $e;
+
     }
 
     /*
@@ -260,8 +280,12 @@ class ClientController extends Controller
     public function edit($slug)
     {
         $clients = Clients::whereSlug($slug)->first();
-        $form = ['route' => ['admin.client.update', $slug], 'method' => 'put'];
-        return view('admin.client.form', compact('clients', 'form'));
+        $form = ['route' => ['admin.clients.update', $slug], 'method' => 'put'];
+        $benefits = [];
+        foreach (Benefits::where('company_id', $this->getCompanyId())->get() as $benefit) {
+            $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
+        }
+        return view('admin.client.form', compact('clients', 'form', 'benefits'));
     }
 
     /**

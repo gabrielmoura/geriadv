@@ -7,6 +7,7 @@ use App\Events\NotificationReadAll;
 use App\Models\User;
 use App\Notifications\PushDemo;
 use App\Notifications\User\PrivateMessageNotification;
+use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -19,6 +20,8 @@ use NotificationChannels\WebPush\PushSubscription;
  */
 class NotificationController extends Controller
 {
+    use CompanySessionTraits;
+
     public function __construct()
     {
         $this->middleware('auth')->except('last', 'dismiss');
@@ -36,21 +39,36 @@ class NotificationController extends Controller
         return view('profile.notification', compact('notifications'));
     }
 
-    public function create(){
-        $form = ['route' => ['admin.notification.sent'], 'method' => 'post'];
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function create()
+    {
+        $form = ['route' => ['admin.notifications.sent'], 'method' => 'post'];
         // Carrega usuários de uma mesma empresa, para notificação.
-        $to=[];
-        return view('profile.createNotification',compact('form','to'));
+        $to = [];
+        //$to[] = ['name' => 'Administrador', 'value' => 1];
+        foreach ($this->getCompany()->users() as $item) {
+            $to[] = ['name' => $item->name, 'value' => $item->id];
+        };
+        return view('profile.createNotification', compact('form', 'to'));
     }
 
-    public function sent(Request $request){
+    /**
+     * @param Request $request
+     */
+    public function sent(Request $request)
+    {
         // Recebe usuário solicitante, titulo e corpo para enviar como MP.
-        $user=User::find($request->userId);
+        $user = User::find($request->to);
         Notification::sendNow(
             $user,
-            new PrivateMessageNotification($request->title,$request->body,'',$request->user())
+            new PrivateMessageNotification($request->title, $request->body, '', $request->user())
         );
-
+        toastr()->success('Enviado com sucesso');
+        return redirect()->route('admin.notifications.create');
     }
 
 

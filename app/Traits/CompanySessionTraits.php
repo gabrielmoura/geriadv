@@ -74,6 +74,10 @@ trait CompanySessionTraits
     {
         return Auth::user()->hasRole($role);
     }
+    public function hasPermission($permission)
+    {
+        return Auth::user()->hasPermissionTo($permission);
+    }
 
     /**
      * Popula sessão

@@ -8,8 +8,9 @@
                 <div class="col">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Notificações</p>
+                            <a class="btn btn-primary" href="{{route('admin.notifications.create')}}">Enviar MP</a>
                         </div>
+
                         <div class="card-body">
                             <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
                                 @foreach($notifications as $notice)
@@ -27,7 +28,7 @@
                                             <div class="peer peer-greed">
                                         <span>
                                             <span class="fw-500">{{$notice->data['title']}}</span>
-                                            <span class="c-grey-600">{{$notice->data['body']}}
+                                            <span class="c-grey-600">{!! $notice->data['body'] !!}
                                             </span>
                                         </span>
                                                 <p class="m-0">
