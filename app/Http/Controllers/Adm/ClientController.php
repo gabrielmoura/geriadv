@@ -100,7 +100,7 @@ class ClientController extends Controller
                 ->addColumn('lastupdate', function (Clients $client) {
                     return (!!$client->status) ? $client->status->created_at : '';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','status','lastupdate'])
                 ->make(true);
         }
 
