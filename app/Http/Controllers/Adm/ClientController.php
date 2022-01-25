@@ -10,10 +10,10 @@ use App\Models\Recommendation;
 use App\Traits\CompanySessionTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Html\Button;
 
 
 class ClientController extends Controller
@@ -43,11 +43,27 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);
+        if ($request->has('month')) {
+            $clients = $clients->whereMonth('created_at', $request->month);
+        }
+        if ($request->has('sex')) {
+            $clients = $clients->whereSex($request->sex);
+        }
+        if ($request->has('status')) {
+            $clients = $clients->whereHas('status', function ($query) use ($request) {
+                $query->where('status', 'like', $request->status);
+            });
+        }
+        if ($request->has('recommendation')) {
+            $clients = $clients->whereHas('recommendation', function ($query) use ($request) {
+                $query->where('name', 'like', $request->recommendation);
+            });
+        }
 
 
         // Caso o Admin também deseje ter acesso a os clientes.
-        $user = Auth::user();
-        if ($user->hasRole('admin') && $user->hasPermissionTo('edit_client')) {
+
+        if ($this->hasRole('admin') && $this->hasPermission('edit_client')) {
             $clients = Clients::query();
         }
         if (config('panel.datatable')) {
@@ -84,17 +100,12 @@ class ClientController extends Controller
                 ->addColumn('lastupdate', function (Clients $client) {
                     return (!!$client->status) ? $client->status->created_at : '';
                 })
-                ->filter(function ($query) {
-                    if (request()->has('name')) {
-                        $query->where('name', 'like', "%" . request('name') . "%");
-                    }
-
-                }, true)
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
         $html = $this->htmlBuilder
+            ->setTableId('clients-table')
             ->addColumn(['data' => 'fullname', 'name' => 'fullname', 'title' => 'Nome'])
             ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
@@ -107,6 +118,7 @@ class ClientController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->dom('Bfrtip')
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
     }
