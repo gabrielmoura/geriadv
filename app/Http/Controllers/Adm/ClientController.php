@@ -42,7 +42,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status'])->select('status.*');;
         if ($request->has('month')) {
             $clients = $clients->whereMonth('created_at', $request->month);
         }
@@ -95,10 +95,10 @@ class ClientController extends Controller
                     return $client->fullname;
                 })
                 ->addColumn('status', function (Clients $client) {
-                    return (!!$client->status) ? __('view.' . $client->status->status) : '';
+                    return (!!$client->status) ? __('view.' . $client->status->status) : null;
                 })
                 ->addColumn('lastupdate', function (Clients $client) {
-                    return (!!$client->status) ? $client->status->created_at : '';
+                    return (!!$client->status) ? $client->status->created_at : null;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -113,8 +113,8 @@ class ClientController extends Controller
             ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
-            ->addColumn(['data' => 'status', 'name' => 'Status', 'title' => 'Status','searchable'=>false])
-            ->addColumn(['data' => 'lastupdate', 'name' => 'Last Update', 'title' => 'Ultima Modificação','searchable'=>false])
+            ->addColumn(['data' => 'status', 'name' => 'status.status', 'title' => 'Status'])
+            ->addColumn(['data' => 'lastupdate', 'name' => 'status.created_at', 'title' => 'Ultima Modificação','searchable'=>false])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
