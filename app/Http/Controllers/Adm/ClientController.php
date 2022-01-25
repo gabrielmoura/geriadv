@@ -42,7 +42,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status'])->select('status.*');;
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);;
         if ($request->has('month')) {
             $clients = $clients->whereMonth('created_at', $request->month);
         }
