@@ -118,6 +118,7 @@ class ClientController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->smart(true) // Pesquisa inteligente em tempo de execução
            // ->dom('Bfrtip') Não funciona bem.
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
