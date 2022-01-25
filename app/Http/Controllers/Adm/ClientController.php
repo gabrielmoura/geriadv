@@ -101,6 +101,7 @@ class ClientController extends Controller
                     return (!!$client->status) ? $client->status->created_at : null;
                 })
                 ->rawColumns(['action'])
+                ->smart(true) // Pesquisa inteligente em tempo de execução
                 ->make(true);
         }
 
@@ -118,7 +119,6 @@ class ClientController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
-            ->smart(true) // Pesquisa inteligente em tempo de execução
            // ->dom('Bfrtip') Não funciona bem.
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
