@@ -100,7 +100,7 @@ class ClientController extends Controller
                 ->addColumn('lastupdate', function (Clients $client) {
                     return (!!$client->status) ? $client->status->created_at : '';
                 })
-                ->rawColumns(['action','status','lastupdate'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
 
@@ -113,8 +113,8 @@ class ClientController extends Controller
             ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
-            ->addColumn(['data' => 'status', 'name' => 'Status', 'title' => 'Status'])
-            ->addColumn(['data' => 'lastupdate', 'name' => 'Last Update', 'title' => 'Ultima Modificação'])
+            ->addColumn(['data' => 'status', 'name' => 'Status', 'title' => 'Status','searchable'=>false])
+            ->addColumn(['data' => 'lastupdate', 'name' => 'Last Update', 'title' => 'Ultima Modificação','searchable'=>false])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
