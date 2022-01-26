@@ -66,13 +66,13 @@ class AgendamentoController extends Controller
         if ($this->hasRole('admin')) {
             $events = Model::withCount('calendars');
         } else {
-            $events = Model::withCount('calendars')->whereCompanyId($this->getCompanyId());
+            $events = Model::withCount('calendars')->with('lawyer')->whereCompanyId($this->getCompanyId());
         }
 
 
         if ($request->has('month')) {
             //Busca agendamentos por data
-            $events->whereMonth('created_at', '=', $request->month);
+            $events = $events->whereMonth('created_at', '=', $request->month);
         }
 
 
@@ -107,7 +107,7 @@ class AgendamentoController extends Controller
                     return Carbon::parse($events->end_time)->format('Y-m-d H:i:s');
                 })
                 ->addColumn('lawyer', function (Model $events) {
-                    return $events->lawyer()->first()->name ?? '';
+                    return $events->lawyer->name ?? '';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -142,7 +142,7 @@ class AgendamentoController extends Controller
             if ($this->hasRole('admin')) {
                 $src = $source['model']::all();
             } else {
-                $src = $source['model']::whereCompanyId($this->getCompanyId())->get();
+                $src = $source['model']::with('lawyer')->whereCompanyId($this->getCompanyId())->get();
             }
             foreach ($src as $model) {
                 $crudFieldValue = $model->getOriginal($source['date_field']);
@@ -152,7 +152,7 @@ class AgendamentoController extends Controller
                 if (!$crudFieldValue) {
                     continue;
                 }
-                $lawyer = '<br>' . $model->lawyer()->first()->name ?? '';
+                $lawyer = '<br>' . $model->lawyer->name ?? '';
                 $events[] = [
                     'title' => trim($source['prefix'] . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
@@ -223,6 +223,7 @@ class AgendamentoController extends Controller
     {
         //abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $lawyer = [];
+        $lawyer[] = ['value' => null, 'name' => 'Nenhum'];
         foreach (Lawyer::whereCompanyId($this->getCompanyId())->get() as $l) {
             $lawyer[] = ['value' => $l->id, 'name' => $l->name];
         }

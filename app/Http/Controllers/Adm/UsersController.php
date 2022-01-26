@@ -35,7 +35,7 @@ class UsersController extends Controller
         $userAuth = Auth::user();
         if ($userAuth->hasRole('admin')) {
             //Deverá retornar todos os usuários rejeitando o que for admin
-            $usuarios = User::all()->reject(function ($user) {
+            $usuarios = User::with('employee','employee.company')->get()->reject(function ($user) {
                 return $user->hasRole('admin');
             });
         }

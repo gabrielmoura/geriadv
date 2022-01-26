@@ -134,7 +134,7 @@ class Calendar extends Model
      */
     public function lawyer()
     {
-        return $this->belongsTo(Lawyer::class, 'lawyer_id');
+        return $this->belongsTo(Lawyer::class, 'lawyer_id')->withDefault();
     }
 
 

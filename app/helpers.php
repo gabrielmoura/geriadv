@@ -127,9 +127,7 @@ if (!function_exists('numberClear')) {
      */
     function numberClear($n)
     {
-        if ($n == null) {
-            return null;
-        }
+        if ($n==null) return null;
         return preg_replace('/[^0-9]/', '', $n);
     }
 }

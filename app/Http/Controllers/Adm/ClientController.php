@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 use Yajra\DataTables\Html\Builder;
-use Yajra\DataTables\Html\Button;
 
 
 class ClientController extends Controller
@@ -100,9 +99,9 @@ class ClientController extends Controller
                 ->addColumn('lastupdate', function (Clients $client) {
                     return (!!$client->status) ? $client->status->created_at : null;
                 })
-                ->filterColumn('fullname', function($query, $keyword) {
-                        $sql = "CONCAT(lastname,' ',firstname)  like ?";
-                        $$query->whereRaw($sql, ["%{$keyword}%"]);
+                ->filterColumn('fullname', function ($query, $keyword) {
+                    $sql = "CONCAT(name,' ',last_name)  like ?";
+                    return $query->whereRaw($sql, ["%{$keyword}%"]);
                 })
                 ->rawColumns(['action'])
                 ->smart(true) // Pesquisa inteligente em tempo de execução
@@ -119,11 +118,10 @@ class ClientController extends Controller
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
             ->addColumn(['data' => 'status', 'name' => 'status.status', 'title' => 'Status'])
-            ->addColumn(['data' => 'lastupdate', 'name' => 'status.created_at', 'title' => 'Ultima Modificação','searchable'=>false])
+            ->addColumn(['data' => 'lastupdate', 'name' => 'status.created_at', 'title' => 'Ultima Modificação', 'searchable' => false])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
-           // ->dom('Bfrtip') Não funciona bem.
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html'));
     }

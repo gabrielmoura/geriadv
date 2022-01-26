@@ -14,7 +14,7 @@
 <!-- #Main ============================ -->
     <div class="page-container">
         <!-- ### $Topbar ### -->
-    @include('layouts.partials.topbar')
+    @include('layouts.partials.topbar',['user'=>auth()->user()])
 
     <!-- ### $App Screen Content ### -->
         <main class='main-content bgc-grey-100'>

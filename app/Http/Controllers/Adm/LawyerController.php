@@ -109,7 +109,7 @@ class LawyerController extends Controller
         $data = new CreateNewLawyer($request);
         $lawyer = Lawyer::find($lawyer)->update($data->update());
         if ($lawyer) {
-            toastInfo('Sucesso ao atualizar');
+            toastSuccess('Sucesso ao atualizar');
         } else {
             toastError('Erro ao atualizar');
         }
@@ -129,7 +129,7 @@ class LawyerController extends Controller
             ->whereCompanyId($this->getCompanyId())->first()
             ->delete();
         if ($lawyer) {
-            toastInfo('Sucesso ao deletar');
+            toastSuccess('Sucesso ao deletar');
         } else {
             toastError('Erro ao deletar');
         }
@@ -149,7 +149,7 @@ class LawyerController extends Controller
         $data = new CreateNewLawyer($request);
         $lawyer = Lawyer::create($data->store());
         if ($lawyer) {
-            toastInfo('Sucesso ao adicionar');
+            toastSuccess('Sucesso ao adicionar');
         } else {
             toastError('Erro ao adicionar');
         }

@@ -21,7 +21,7 @@
 
             <!-- Avisos -->
             <li class="notifications dropdown">
-                <span class="counter bgc-red">{{Auth::user()->unreadNotifications()->get()->count()}}</span>
+                <span class="counter bgc-red">{{$user->unreadNotifications()->count()}}</span>
                 <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">
                     <i class="ti-bell"></i>
                 </a>
@@ -35,7 +35,7 @@
                         <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
 
 
-                            @foreach(Auth::user()->unreadNotifications()->take(5)->get() as $notice)
+                            @foreach($user->unreadNotifications()->take(5)->get() as $notice)
                                 <li>
                                     <a href="{{route('admin.notifications.index')}}"
                                        class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'
@@ -48,7 +48,7 @@
                                         <div class="peer peer-greed">
                                         <span>
                                             <span class="fw-500">{{$notice->data['title']}}</span>
-                                            <span class="c-grey-600">{{resumo($notice->data['body'],50)}}
+                                            <span class="c-grey-600">{{resumo(cleanText($notice->data['body']),50)}}
                                             </span>
                                         </span>
                                             <p class="m-0">
@@ -123,10 +123,10 @@
             <li class="dropdown">
                 <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
                     <div class="peer mR-10">
-                        <img class="w-2r bdrs-50p" src="{{ auth()->user()->avatar }}" alt="">
+                        <img class="w-2r bdrs-50p" src="{{ $user->avatar }}" alt="">
                     </div>
                     <div class="peer">
-                        <span class="fsz-sm c-grey-900">{{ auth()->user()->name }}</span>
+                        <span class="fsz-sm c-grey-900">{{ $user->name }}</span>
                     </div>
                 </a>
                 <ul class="dropdown-menu fsz-sm">

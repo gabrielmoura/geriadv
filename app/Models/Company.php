@@ -96,11 +96,7 @@ class Company extends Model implements HasMedia
      */
     public function users()
     {
-        $data = [];
-        foreach ($this->employees()->get() as $employee) {
-            $data = $employee->user()->get();
-        }
-        return $data;
+        return $this->employees()->with('user');
     }
 
     /**
