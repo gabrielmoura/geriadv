@@ -52,7 +52,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
             ->push($payer)
             ->put('order_id', $order_id)
             ->put('days_due_date', ($days_due_date > 1) ? $days_due_date : $this->config['days_due_date']);
-        $response = $this->api->post('transaction/create/', $c->toArray())->throw();
+        $response = $this->api->post('transaction/create/', $c->toArray())->throw()->json();
         if ($response->successful()) {
             CreatedBilletEvent::dispatch($response);
         }
@@ -71,7 +71,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
         $c = $this->collect
             ->put('transactions', $transactions)
             ->put('type_bank_slip', $type);
-        return $this->api->post('/transaction/multiple_bank_slip', $c->toArray())->throw();
+        return $this->api->post('/transaction/multiple_bank_slip', $c->toArray())->throw()->json();
     }
 
     /**
@@ -96,7 +96,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->put('transaction_id', $transaction_id);
-        return $this->api->post('/transaction/status/', $c->toArray())->throw();
+        return $this->api->post('/transaction/status/', $c->toArray())->throw()->json();
     }
 
     /**
@@ -108,7 +108,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->push($filter);
-        return $this->api->post('/transaction/list/', $c->toArray())->throw();
+        return $this->api->post('/transaction/list/', $c->toArray())->throw()->json();
     }
 
     /**
@@ -117,7 +117,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
      */
     public function fiscalNoteList()
     {
-        return $this->api->post('/invoice/list/', $this->collect->toArray())->throw();
+        return $this->api->post('/invoice/list/', $this->collect->toArray())->throw()->json();
     }
 
     /**
@@ -131,7 +131,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
         $c = $this->collect
             ->put('transaction_id', $transaction_id)
             ->put('notification_id', $notification_id);
-        return $this->api->post('/transaction/notification/', $c->toArray())->throw();
+        return $this->api->post('/transaction/notification/', $c->toArray())->throw()->json();
     }
 
     /**
@@ -149,7 +149,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
             ->push($payer)
             ->put('order_id', $order_id)
             ->put('days_due_date', ($days_due_date > 1) ? $days_due_date : $this->config['days_due_date']);
-        return $this->pix->post('/invoice/create', $c->toArray())->throw();
+        return $this->pix->post('/invoice/create', $c->toArray())->throw()->json();
     }
 
     /**
@@ -162,7 +162,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
         $c = $this->collect
             ->put('transaction_id', $transaction_id)
             ->put('status', 'canceled');
-        return $this->pix->post('/invoice/cancel', $c->toArray())->throw();
+        return $this->pix->post('/invoice/cancel', $c->toArray())->throw()->json();
     }
 
     /**
@@ -174,7 +174,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->put('transaction_id', $transaction_id);
-        return $this->pix->post('/invoice/status', $c->toArray())->throw();
+        return $this->pix->post('/invoice/status', $c->toArray())->throw()->json();
     }
 
     /**
@@ -188,7 +188,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
         $c = $this->collect
             ->put('transaction_id', $transaction_id)
             ->put('notification_id', $notification_id);
-        return $this->pix->post('/invoice/notification', $c->toArray())->throw();
+        return $this->pix->post('/invoice/notification', $c->toArray())->throw()->json();
     }
 
     /**
@@ -200,7 +200,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->push($filter);
-        return $this->api->post('/invoice/list/', $c->toArray())->throw();
+        return $this->api->post('/invoice/list/', $c->toArray())->throw()->json();
     }
 
     /**
@@ -209,7 +209,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
      */
     public function listBankAccounts()
     {
-        return $this->api->post('/bank_accounts/list/', $this->collect->toArray())->throw();
+        return $this->api->post('/bank_accounts/list/', $this->collect->toArray())->throw()->json();
     }
 
     /**
@@ -221,7 +221,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->put('bank_account_id', $bank_account_id);
-        return $this->api->post('/invoice/notification', $c->toArray())->throw();
+        return $this->api->post('/invoice/notification', $c->toArray())->throw()->json();
 
     }
 }
