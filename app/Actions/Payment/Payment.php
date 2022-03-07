@@ -46,12 +46,12 @@ class Payment
 
 
     /**
-     * @return PagHiperGateway
+     * @return GerencianetGateway
      */
-    private function createPaghiperGatewayService(): PagHiperGateway
+    private function createGerencianetGatewayService(): GerencianetGateway
     {
 
-        return new PagHiperGateway($this->app['config']['services.paghiper']);
+        return new GerencianetGateway($this->app['config']['services.gerencianet']);
     }
 
     /**
@@ -65,5 +65,14 @@ class Payment
         $service->setConfig($config);
         // Do the necessary configuration to use the Amazon service
         return $service;
+    }
+
+    /**
+     * @return PagHiperGateway
+     */
+    private function createPaghiperGatewayService(): PagHiperGateway
+    {
+
+        return new PagHiperGateway($this->app['config']['services.paghiper']);
     }
 }

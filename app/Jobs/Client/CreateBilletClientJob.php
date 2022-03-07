@@ -29,7 +29,7 @@ class CreateBilletClientJob implements ShouldQueue
      * @param $item array
      * @param $payer array
      */
-    public function __construct(Collection $collect, $item = ['description', 'price', 'quantity'], $payer = ['name', 'email', 'doc'])
+    public function __construct(Collection $collect, $item = ['description', 'price', 'quantity'], $payer = ['payer_name', 'payer_email', 'payer_cpf_cnpj'])
     {
         $this->collect = $collect->put('item', $item)->put('payer', $payer);
         $this->billet = PaymentFacade::make('paghiper');
@@ -65,7 +65,7 @@ class CreateBilletClientJob implements ShouldQueue
         for ($i = 0; $i < $this->collect->get('parcel'); $i++) {
             usleep(.2 * 1000000); // 200 ms
             $billets[] = Billets::create($this->normalize(
-                collect($this->billet->service()->charge($item->get(), $payer['name'], $payer['email'], $payer['doc'], $order_id, ($i + 1) * 30))
+                collect($this->billet->charge($item->get(), $payer, $order_id, ($i + 1) * 30))
                     ->put('items', $item->get())->put('order_id', $order_id)
                     ->put('company_id', $this->collect->get('company_id') ?? null)
                     ->put('client_id', $this->collect->get('client_id') ?? null)

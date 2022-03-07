@@ -49,7 +49,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->put('item', $item)
-            ->put('payer', $payer)
+            ->push($payer)
             ->put('order_id', $order_id)
             ->put('days_due_date', ($days_due_date > 1) ? $days_due_date : $this->config['days_due_date']);
         $response = $this->api->post('transaction/create/', $c->toArray())->throw();
@@ -146,7 +146,7 @@ class PagHiperGateway extends PagHiperApi implements PaymentInterface, PagHiperI
     {
         $c = $this->collect
             ->put('item', $item)
-            ->put('payer', $payer)
+            ->push($payer)
             ->put('order_id', $order_id)
             ->put('days_due_date', ($days_due_date > 1) ? $days_due_date : $this->config['days_due_date']);
         return $this->pix->post('/invoice/create', $c->toArray())->throw();
