@@ -63,6 +63,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @mixin \Eloquent
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\EmployeeFactory factory(...$parameters)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Employee onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
  */
 class Employee extends Model
 {

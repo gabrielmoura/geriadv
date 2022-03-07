@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+           // \Shetabit\Visitor\Middlewares\LogVisits::class, // Log de acessos
         ],
         'ajax' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -79,5 +80,6 @@ class Kernel extends HttpKernel
         'restrictedToDayLight' => \App\Http\Middleware\TimeBasedRestriction::class,
         'verifyPaid' => \App\Http\Middleware\VerifyPaid::class,
         'verifyBanned' => \App\Http\Middleware\VerifyBanned::class,
+        'LogVisits'=> \Shetabit\Visitor\Middlewares\LogVisits::class,
     ];
 }

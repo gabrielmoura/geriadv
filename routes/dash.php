@@ -10,8 +10,10 @@ use App\Http\Controllers\Adm\{AgendamentoController,
     LawyerController,
     LogActivityController,
     PendencyController,
-    UsersController
+    UsersController,
+    BilletsController
 };
+use \App\Http\Controllers\CompanyConfigController;
 use App\Http\Controllers\Adm\UploadController;
 use App\Http\Controllers\Auth\{ActivityControlController, DashController, LogoutOtherBrowserSessionsController};
 use App\Http\Controllers\NotificationController;
@@ -25,13 +27,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'], 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned', 'LogVisits'], 'as' => 'admin.'], function () {
     /*
     |------------------------------------------------------------------------------------
     | Admin
     |------------------------------------------------------------------------------------
     */
-    Route::get('/', [HomeAdmController::class, 'index'])->name('index');
+    Route::get('/', [HomeAdmController::class, 'index'])->name('index')->middleware('cache.headers:private;');
 
     Route::resource('/usuario', UsersController::class)->names('users');
     Route::resource('/company', CompanyController::class)->names('company');
@@ -50,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
         Route::get('/client/pendency', [PendencyController::class, 'download'])->name('clients.pendency.download');
         Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
         Route::resource('/client', ClientController::class)->names('clients');
+        Route::resource('/billet', BilletsController::class)->names('billets');
 
 
         // Calendário
@@ -96,6 +99,8 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::get('/me/setting', function () {
         return view('auth.profile.profile');
     })->name('user.setting');
+    Route::get('/me/company', [CompanyConfigController::class, 'index'])->name('company.setting')->middleware('role:manager');
+    Route::post('/me/company', [CompanyConfigController::class, 'update'])->name('company.setting.update')->middleware('role:manager');
 
     Route::post('/me/browser', [LogoutOtherBrowserSessionsController::class, 'logoutOtherBrowserSessions'])
         ->name('user.setting.logoutBrowser');

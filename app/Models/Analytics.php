@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Tem por objetivo armazenar informações para compor estatisticas.
- *
+ * 
  * Class Analytics
  *
  * @package App\Models

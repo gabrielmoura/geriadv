@@ -47,6 +47,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Lawyer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lawyer whereUserId($value)
  * @mixin \Eloquent
+ * @property int $company_id Empresa
+ * @method static \Illuminate\Database\Eloquent\Builder|Lawyer whereCompanyId($value)
  */
 class Lawyer extends Model
 {

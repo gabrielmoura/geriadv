@@ -11,7 +11,7 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
-
+use Shetabit\Visitor\Traits\Visitor;
 /**
  * App\Models\User
  *
@@ -66,6 +66,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     use LogsActivity, HasPushSubscriptions;
     use TwoFactorAuthenticatable;
+    use Visitor;
 
     /**
      * The attributes that are mass assignable.

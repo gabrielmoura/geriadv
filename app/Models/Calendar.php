@@ -45,6 +45,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Calendar withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Calendar withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $address Address
+ * @property int|null $lawyer_id Advogado
+ * @property-read \App\Models\Lawyer|null $lawyer
+ * @method static \Illuminate\Database\Eloquent\Builder|Calendar whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Calendar whereLawyerId($value)
  */
 class Calendar extends Model
 {

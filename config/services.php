@@ -29,5 +29,13 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'paghiper' => [
+        // You can set the entity who gets subscribed here.
+        // 'model' => Blx32\LaravelPagHiper\Transactions::class,
+        'api_key' => env('PAGHIPER_KEY'),
+        'token' => env('PAGHIPER_TOKEN'),
+        'type_bank_slip' => 'boletoa4', //boletoCarne
+        'days_due_date' => '3',
+    ]
 
 ];

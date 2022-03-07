@@ -71,8 +71,12 @@ class AgendamentoController extends Controller
 
 
         if ($request->has('month')) {
+            //Busca agendamentos por Mês
+            $events = $events->whereMonth('start_time', '=', $request->month);
+        }
+        if ($request->has('date')) {
             //Busca agendamentos por data
-            $events = $events->whereMonth('created_at', '=', $request->month);
+            $events = $events->where('start_time', '=', Carbon::parse($request->date));
         }
 
 
@@ -108,6 +112,9 @@ class AgendamentoController extends Controller
                 })
                 ->addColumn('lawyer', function (Model $events) {
                     return $events->lawyer->name ?? '';
+                })
+                ->filterColumn('start_time', function ($query, $keyword) {
+                    return $query->where('start_time', Carbon::parse($keyword));
                 })
                 ->rawColumns(['action'])
                 ->make(true);

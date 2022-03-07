@@ -32,6 +32,7 @@
         "mhetreramesh/flysystem-backblaze": "^1.1",
         "nyholm/psr7": "^1.4",
         "pusher/pusher-php-server": "^5.0",
+        "shetabit/visitor": "^3.1",
         "spatie/laravel-activitylog": "^4.1",
         "spatie/laravel-backup": "^7.6",
         "spatie/laravel-medialibrary": "^9.0.0",
@@ -39,6 +40,7 @@
         "spatie/laravel-sluggable": "^2.6",
         "spiral/roadrunner": "v2.0",
         "tightenco/ziggy": "^1.4",
+        "webmasterdro/paghiper-php-sdk": "^3.0",
         "yajra/laravel-datatables-buttons": "^4.13",
         "yoeunes/toastr": "^1.2"
     },

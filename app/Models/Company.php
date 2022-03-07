@@ -53,6 +53,19 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $clients_count
  * @property-read int|null $employees_count
  * @method static \Database\Factories\CompanyFactory factory(...$parameters)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Collection $config Configuração
+ * @property string|null $logo
+ * @property bool $banned Banido
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Query\Builder|Company onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereBanned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereConfig($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Company whereLogo($value)
+ * @method static \Illuminate\Database\Query\Builder|Company withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Company withoutTrashed()
  */
 class Company extends Model implements HasMedia
 {

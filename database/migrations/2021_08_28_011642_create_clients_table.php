@@ -63,6 +63,17 @@ class CreateClientsTable extends Migration
             $table->string('state')->comment('Estado');
 
             $table->json('properties')->nullable()->comment('Propriedades');
+
+            /**
+             * Dados de Pagamento
+             */
+            $table->json('payment')->comment('Pagamento')->default(
+                collect([
+                    'paid' => false,         //Pago
+                    'parcel' => 0,           //Parcelas num
+                    'parcel_value' => 0.0    //Parcelas Valor
+                ])->toJson()
+            );
         });
     }
 

@@ -67,6 +67,15 @@ trait CompanySessionTraits
     }
 
     /**
+     * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function forgetCompany(){
+        return cache()->forget('company:' . $this->getCompanyId());
+    }
+
+    /**
      * @param string|int|array|\Spatie\Permission\Contracts\Role|\Illuminate\Support\Collection $role
      * @return bool
      */

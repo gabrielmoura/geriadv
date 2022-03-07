@@ -168,7 +168,7 @@ class ClientController extends Controller
      */
     public function show($slug)
     {
-        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status'])->whereSlug($slug)
+        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status','billets'])->whereSlug($slug)
             ->where('company_id', $this->getCompanyId())
             ->first();
 

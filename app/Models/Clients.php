@@ -12,7 +12,8 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-
+use Shetabit\Visitor\Traits\Visitable;
+use App\Actions\Payment\PaymentTrait;
 /**
  * App\Models\Clients
  *
@@ -94,14 +95,13 @@ use Spatie\Sluggable\SlugOptions;
  * @property-read int|null $test_many_count
  * @method static \Database\Factories\ClientsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCompanyId($value)
+ * @property \Illuminate\Support\Collection|null $properties Propriedades
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereProperties($value)
  */
 class Clients extends Model implements HasMedia
 {
-    use HasFactory;
-    use InteractsWithMedia;
-    use HasSlug;
-    use SoftDeletes;
-    use LogsActivity;
+    use HasFactory, InteractsWithMedia,PaymentTrait;
+    use HasSlug, SoftDeletes, LogsActivity, Visitable;
 
     /**
      * @var array
@@ -148,11 +148,12 @@ class Clients extends Model implements HasMedia
         'rg' => 'encrypted',
         'newsletter' => 'boolean',
         'properties' => 'collection',
+        'payment' => 'collection'
     ];
     /**
      * @var string[]
      */
-    protected $dates=['created_at', 'updated_at','deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /*
     |------------------------------------------------------------------------------------
@@ -287,6 +288,21 @@ class Clients extends Model implements HasMedia
     | Attributes
     |------------------------------------------------------------------------------------
     */
+
+    public function getPaidAttribute(): bool
+    {
+        return $this->payment->get('paid');
+    }
+
+    public function getParcelAttribute(): int
+    {
+        return $this->payment->get('parcel');
+    }
+
+    public function getParcelValueAttribute(): float
+    {
+        return $this->payment->get('parcel_value');
+    }
 
     /**
      * Get the options for generating the slug.

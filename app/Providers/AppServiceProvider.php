@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 
+use App\Actions\Payment\{Payment, PaymentFacade, PaymentInterface};
 use App\Models\Calendar;
 use App\Observers\CalendarRecurrenceObserver;
 use Illuminate\Queue\Events\JobProcessed;
@@ -36,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
         if (config('panel.forceHttps')) {
             $this->app['request']->server->set('HTTPS', true);
         }
+
+        $this->app->bind(PaymentInterface::class, function ($app) {
+            return new Payment($app);
+        });
+        $this->app->alias('Payment',PaymentFacade::class);
     }
 
     /**

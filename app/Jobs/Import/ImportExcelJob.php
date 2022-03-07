@@ -35,7 +35,10 @@ class ImportExcelJob implements ShouldQueue
     public function handle()
     {
         if ($this->type == 'ContratosAssinados') {
-            return Excel::toArray(new ImportContratosAssinadosExcel(), $this->company->getMedia($this->type));
+            $arr = Excel::toArray(new ImportContratosAssinadosExcel(), $this->company->getMedia($this->type));
+            foreach ($arr->chunk(250) as $a) {
+                ArrayToDBJob::dispatch($a);
+            }
         } else {
             return false;
         }
