@@ -91,31 +91,3 @@ Route::get('manifest.json', function () {
     }
 
 })->middleware('cache.headers:public;max_age=2592000;etag');
-
-//Route::get('/1234a', function () {
-//    $pay = \App\Actions\Payment\PaymentFacade::make('paghiper');
-//    $item = $pay->item()->add('Teste de dESCRIÇAO', 300, 1);
-//    $order_id = Uuid::uuid();
-//    $service = $pay->service()->charge($item->get(), 'Vitor Bruno Drumond', 'xxx.no.32@gmail.com', 55350000608, $order_id);
-//    dd($service);
-//
-//
-//});
-//Route::get('/1234b', function () {
-//    $pay = \App\Actions\Payment\PaymentFacade::make('paghiper');
-//
-//    $service = $pay->service()->chargeStatus('03YKRMMTR67FAE22');
-//    dd($service);
-//
-//
-//});
-//Route::get('/1234c', function () {
-//    $parser = collect([
-//        'parcel' => 5,
-//        'client_id' => 1,
-//    ]);
-//    $dd=\App\Jobs\Client\CreateBilletClientJob::dispatch($parser,
-//        ['description' => 'Teste de dESCRIÇAO', 'price' => 500, 'quantity' => 1]
-//        , ['name' => 'Vitor Bruno Drumond', 'email' => 'xxx.no.32@gmail.com', 'doc' => 55350000608]);
-//    dd($dd);
-//});

@@ -64,7 +64,7 @@ class CreateBilletClientJob implements ShouldQueue
         $billets = [];
         for ($i = 0; $i < $this->collect->get('parcel'); $i++) {
             usleep(.2 * 1000000); // 200 ms
-            $billets[] = Billets::create($this->normalize(
+            Billets::create($this->normalize(
                 collect($this->billet->charge($item->get(), $payer, $order_id, ($i + 1) * 30))
                     ->put('items', $item->get())->put('order_id', $order_id)
                     ->put('company_id', $this->collect->get('company_id') ?? null)

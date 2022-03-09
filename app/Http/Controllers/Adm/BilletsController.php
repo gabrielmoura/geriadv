@@ -33,9 +33,9 @@ class BilletsController extends Controller
     public function index(\Illuminate\Http\Request $request)
     {
 
-        $lawyer = Billets::where('company_id', $this->getCompanyId())->with('clients');
+
         if ($request->ajax()) {
-            return Datatables::of($lawyer)
+            return Datatables::of(Billets::whereCompanyId($this->getCompanyId())->with('clients'))
                 ->addColumn('action', function (Billets $billet) {
                     return '<div class="table-data-feature"><a href="' . route('admin.billets.show', ['billet' => $billet->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
@@ -45,22 +45,26 @@ class BilletsController extends Controller
                 ->addColumn('fullname', function (Billets $billet) {
                     return (!!$billet->clients) ? $billet->clients->fullname : null;
                 })
-                ->filterColumn('fullname', function ($query, $keyword) {
-                    $sql = "CONCAT(name,' ',last_name)  like ?";
-                    return $query->whereRaw($sql, ["%{$keyword}%"]);
-
-//                    return $query->clients->whereRaw($sql, ["%{$keyword}%"]);
-                })
+//                ->filterColumn('fullname', function ($query, $keyword) {
+//                    $sql = "CONCAT(name,' ',last_name)  like ?";
+//                    return $query->whereRaw($sql, ["%{$keyword}%"]);
+//
+////                    return $query->clients->whereRaw($sql, ["%{$keyword}%"]);
+//                })
                 ->rawColumns(['action'])
+                ->smart(true) // Pesquisa inteligente em tempo de execução
                 ->make(true);
         }
         $html = $this->htmlBuilder
-            ->addColumn(['data' => 'fullname', 'name' => 'fullname', 'title' => 'Nome', 'searchable' => false])
+            ->setTableId('billets-table')
+            ->addColumn(['data' => 'fullname', 'name' => 'fullname', 'title' => 'Nome'])
             ->addColumn(['data' => 'value_cents', 'name' => 'value_cents', 'title' => 'Valor em centavos'])
             ->addColumn(['data' => 'status', 'name' => 'status', 'title' => 'status'])
             ->addColumn(['data' => 'due_date', 'name' => 'due_date', 'title' => 'Vencimento'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true);
+            ->responsive(true)
+            ->serverSide(false)
+            ->minifiedAjax();
 
 
         //Exibe todos os boletos
@@ -89,10 +93,11 @@ class BilletsController extends Controller
         $payer = ['payer_name' => $client->fullname, 'payer_email' => $client->email, 'payer_cpf_cnpj' => $client->cpf];
 
         if ($this->sheduled) {
-            CreateBilletClientJob::dispatch($c, $item, $payer);
+            CreateBilletClientJob::dispatch($c, $item, $payer); //Error: Serialization of 'Closure' is not allowed
             toastr()->success('Boletos em processamento', 'Boleto');
         } else {
-            CreateBilletClientJob::dispatchSync($c, $item, $payer);
+            CreateBilletClientJob::dispatchNow($c, $item, $payer);
+            toastr()->success('Boletos em processamento', 'Boleto');
         }
 
         return redirect()->route('admin.billets.index');
