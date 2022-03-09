@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Actions\Payment\PagHiper\Billets;
 use App\Http\Controllers\Controller;
 use App\Models\Benefits;
 use App\Models\Clients;
@@ -168,7 +169,7 @@ class ClientController extends Controller
      */
     public function show($slug)
     {
-        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status','billets'])->whereSlug($slug)
+        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'billets'])->whereSlug($slug)
             ->where('company_id', $this->getCompanyId())
             ->first();
 
@@ -340,5 +341,13 @@ class ClientController extends Controller
             //    ->withProperties(['customProperty' => 'customValue'])
             ->log('Deletou o cliente ' . $client->name . ' ' . $client->last_name);
 
+    }
+
+    public function payments($slug)
+    {
+        // Exbibe pagamentos ou Boletos caso exista.
+        $client = Clients::whereSlug($slug)->get();
+        $billets = Billets::whereUserId($client->id)->get();
+        return view('', compact('client', 'billets'));
     }
 }
