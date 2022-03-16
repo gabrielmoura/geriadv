@@ -354,6 +354,6 @@ class ClientController extends Controller
         // Exbibe pagamentos ou Boletos caso exista.
         $client = Clients::whereSlug($slug)->get();
         $billets = Billets::whereUserId($client->id)->get();
-        return view('admin.client.payments', compact('client', 'billets'));
+        return view('admin.client.payments', compact('client', 'billets','slug'));
     }
 }

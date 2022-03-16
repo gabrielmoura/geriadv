@@ -2,6 +2,7 @@
 @section('page-header') Pagamentos @endsection
 
 @section('content')
+{{--<a href="{{route('admin.client.show',['client'=>$slug])}}"> --}}
 @foreach ($billets as $billet)
     Satatus {{$billet['status']}}
     Valor {{$billet['value_cents']}}
