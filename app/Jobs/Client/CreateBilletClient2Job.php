@@ -12,23 +12,19 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use \Illuminate\Support\Collection;
 use App\Actions\Payment\PagHiperGateway;
+use App\Actions\Payment\PaymentFacade;
 
 class CreateBilletClient2Job implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $billet, $collect;
+    protected $collect;
 
 
-    /**
-     * @param Collection $collect
-     * @param $item array
-     * @param $payer array
-     */
+  
     public function __construct(Collection $collect, $item = ['description', 'price', 'quantity'], $payer = ['payer_name', 'payer_email', 'payer_cpf_cnpj'])
     {
         $this->collect = $collect->put('item', $item)->put('payer', $payer);
-        $this->billet = new PagHiperGateway(config('services.paghiper'));
     }
 
     /**
@@ -37,7 +33,9 @@ class CreateBilletClient2Job implements ShouldQueue
      */
     public function handle()
     {
-        $item = $this->billet->item();
+        $billet=PaymentFacade::make('paghiper');
+        $item = $billet->item();
+        
         // Se array bidimencional foreach para criar varios items
         if (is_array($this->collect->get('item')['description'])) {
             foreach ($this->collect->get('item') as $i) {
@@ -57,17 +55,19 @@ class CreateBilletClient2Job implements ShouldQueue
 
         $payer = $this->collect->get('payer');
         $order_id = Uuid::uuid();
-        $billets = [];
+        
+        
         for ($i = 0; $i < $this->collect->get('parcel'); $i++) {
             usleep(.2 * 1000000); // 200 ms
             Billets::create($this->normalize(
-                collect($this->billet->charge($item->get(), $payer, $order_id, ($i + 1) * 30))
+                collect($billet->charge($item->get(), $payer, $order_id, ($i + 1) * 30))
                     ->put('items', $item->get())->put('order_id', $order_id)
                     ->put('company_id', $this->collect->get('company_id') ?? null)
                     ->put('client_id', $this->collect->get('client_id') ?? null)
                     ->toArray()
             ));
         }
+      
 
     }
 
@@ -76,8 +76,9 @@ class CreateBilletClient2Job implements ShouldQueue
      * @param $billets
      * @return array
      */
-    private function normalize($billets): array
+    public function normalize($billets): array
     {
+        
         return [
             'transaction_id' => $billets['transaction_id'],
             //'created_at' => Carbon::parse($billets['created_date']),
