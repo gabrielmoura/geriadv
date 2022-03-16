@@ -342,12 +342,18 @@ class ClientController extends Controller
             ->log('Deletou o cliente ' . $client->name . ' ' . $client->last_name);
 
     }
-
+    /**
+     * Exibe todas as faturas, status e valores.
+     * @param $slug
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @route admin.client.payments
+     */
+    
     public function payments($slug)
     {
         // Exbibe pagamentos ou Boletos caso exista.
         $client = Clients::whereSlug($slug)->get();
         $billets = Billets::whereUserId($client->id)->get();
-        return view('', compact('client', 'billets'));
+        return view('admin.client.payments', compact('client', 'billets'));
     }
 }

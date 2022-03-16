@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned', 
         Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
         Route::get('/client/payments', [ClientController::class, 'payments'])->name('clients.payments');
         Route::resource('/client', ClientController::class)->names('clients');
+        Route::get('/client/payments/{slug}', [ClientController::class,'payments'])->name('clients.payments');
         Route::resource('/billet', BilletsController::class)->names('billets');
 
 
