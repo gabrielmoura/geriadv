@@ -6,7 +6,7 @@ return [
     'minimum' => [
 
         //Salário minimo
-        'salary' => env('SALARY', 1100),
+        'salary' => env('SALARY', 1200),
 
         //Minimo de idade para se aposentar
         'age_to_retire' => [
@@ -20,4 +20,5 @@ return [
         ],
     ],
     'docs' => ['cras', 'cpf', 'rg', 'birth_certificate', 'proof_of_address'],
+    'ForgetDeletes'=> 'yearly',// yearly monthly weekly
 ];
