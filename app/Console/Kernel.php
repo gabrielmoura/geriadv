@@ -42,6 +42,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('x32:forgetDeletes')->weekends();
 
         // $schedule->command('inspire')->hourly();
+
+        // Limpeda de SoftDeletes que usam o método prunable
+        $schedule->command('db:prune')->daily();
     }
 
     /**
