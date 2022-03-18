@@ -14,6 +14,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Shetabit\Visitor\Traits\Visitable;
 use App\Actions\Payment\PaymentTrait;
+use Illuminate\Database\Eloquent\Prunable;
 /**
  * App\Models\Clients
  *
@@ -101,7 +102,7 @@ use App\Actions\Payment\PaymentTrait;
 class Clients extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia,PaymentTrait;
-    use HasSlug, SoftDeletes, LogsActivity, Visitable;
+    use HasSlug, SoftDeletes, LogsActivity, Visitable,Prunable;
 
     /**
      * @var array
@@ -288,6 +289,30 @@ class Clients extends Model implements HasMedia
     | Attributes
     |------------------------------------------------------------------------------------
     */
+    public function prunable()
+    {
+        $due_date = config('core.ForgetDeletes');
+
+        $this->info('Forgetting SoftDeletes');
+
+        if ($due_date == 'yearly') {
+            $sub_date = now()->subYear();
+        } elseif ($due_date == 'monthly') {
+            $sub_date = now()->subMonth();
+        } elseif ($due_date == 'weekly') {
+            $sub_date = now()->subWeek();
+        } else {
+            $sub_date = now()->subDays(3);
+        }
+      //return static::where('deleted_at', '>=', now()->subWeek());
+      return $this->where('deleted_at', '>=', $sub_date);
+    }
+    
+    //protected function pruning()
+    //{
+        // Remove the associated file from S3 before deleting the model
+        //Storage::disk('s3')->delete($this->filename)
+    //}
 
     public function getPaidAttribute(): bool
     {
