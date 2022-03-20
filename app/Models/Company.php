@@ -81,7 +81,7 @@ class Company extends Model implements HasMedia
     protected $casts = [
         'config' => 'collection'
     ];
-    protected $dates=['created_at', 'updated_at','deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /*
        |------------------------------------------------------------------------------------
@@ -147,15 +147,15 @@ class Company extends Model implements HasMedia
         } else {
             $sub_date = now()->subDays(3);
         }
-      //return static::where('deleted_at', '>=', now()->subWeek());
-      return $this->where('deleted_at', '>=', $sub_date);
+        //return static::where('deleted_at', '>=', now()->subWeek());
+        return $this->where('deleted_at', '>=', $sub_date);
     }
-    
-    //protected function pruning()
-    //{
-        // Remove the associated file from S3 before deleting the model
-        //Storage::disk('s3')->delete($this->filename)
-    //}
+
+//    protected function pruning()
+//    {
+//         Remove the associated file from S3 before deleting the model
+//        Storage::disk('s3')->delete($this->filename)
+//    }
 
     public function getPaid(): bool
     {

@@ -346,14 +346,15 @@ class ClientController extends Controller
      * Exibe todas as faturas, status e valores.
      * @param $slug
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @route admin.client.payments
+     * @route admin.clients.payments
      */
-    
+
     public function payments($slug)
     {
         // Exbibe pagamentos ou Boletos caso exista.
-        $client = Clients::whereSlug($slug)->get();
-        $billets = Billets::whereUserId($client->id)->get();
+
+        $client = Clients::whereSlug($slug)->first();
+        $billets = Billets::whereClientId($client->id)->get();
         return view('admin.client.payments', compact('client', 'billets','slug'));
     }
 }

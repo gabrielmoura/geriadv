@@ -33,6 +33,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'edit_user'], //Adicionar e Remover usuários(funcionários)
             ['name' => 'edit_company'], //Adicionar e Remover usuários(funcionários)
             ['name' => 'edit_employee'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_payment'], //Editar pagamentos
 
         ];
         foreach ($permissions as $permission) {
@@ -46,7 +47,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Responsável por Gerir o sistema: Administrador
         $admin = Role::create(['name' => 'admin']);
         $dataAdmin = [];
-        foreach (Permission::whereNotIn('name', ['edit_scheduling', 'edit_client'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['edit_scheduling', 'edit_client', 'edit_payment'])->get() as $item) {
             $dataAdmin[] = $item->name;
         }
         $admin->givePermissionTo($dataAdmin);
@@ -62,7 +63,7 @@ class RolesAndPermissionsSeeder extends Seeder
         //Responsável por gerir clientes: Funcionários
         $employees = Role::create(['name' => 'employees']);
         $dataEditor = [];
-        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic', 'edit_payment'])->get() as $item) {
             $dataEditor[] = $item->name;
         }
         $employees->givePermissionTo($dataEditor);

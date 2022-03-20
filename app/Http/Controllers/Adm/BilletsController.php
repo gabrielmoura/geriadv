@@ -87,7 +87,7 @@ class BilletsController extends Controller
 
     public function store(Request $request)
     {
-        $c =collect(['parcel' => $request->parcel, 'client_id' => $request->client_id, 'company_id' => $this->getCompanyId()]);
+        $c = collect(['parcel' => $request->parcel, 'client_id' => $request->client_id, 'company_id' => $this->getCompanyId()]);
         $item = ['description' => $request->description, 'price' => $request->price, 'quantity' => $request->quantity];
         $client = Clients::find($request->client_id);
         $payer = ['payer_name' => $client->fullname, 'payer_email' => $client->email, 'payer_cpf_cnpj' => $client->cpf];
@@ -107,6 +107,8 @@ class BilletsController extends Controller
     public function show($id)
     {
         //Mostrar boleto ou mostrar cliente com devidos boletos?
+        return redirect()->route('admin.clients.payments', ['slug' => Billets::find($id)->clients()->first('slug')->slug]);
+
     }
 
 
