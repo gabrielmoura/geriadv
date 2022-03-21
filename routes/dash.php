@@ -52,8 +52,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
         Route::get('/client/pendency', [PendencyController::class, 'download'])->name('clients.pendency.download');
         Route::delete('/client/pendency', [PendencyController::class, 'delete'])->name('clients.pendency.delete');
         Route::get('/client/payments', [ClientController::class, 'payments'])->name('clients.payments');
+        Route::get('/client/{slug}/payments/', [ClientController::class, 'payments'])->middleware(['can:edit_payment'])->name('clients.payments.show');
         Route::resource('/client', ClientController::class)->names('clients');
-        Route::get('/client/{slug}/payments/', [ClientController::class, 'payments'])->middleware(['can:edit_payment'])->name('clients.payments');
         Route::resource('/billet', BilletsController::class)->middleware(['can:edit_payment'])->names('billets');
 
 
