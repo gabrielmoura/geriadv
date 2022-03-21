@@ -128,6 +128,17 @@
     </li>
 @endcan
 
+@role('manager')
+<li class="nav-item">
+    <a class="sidebar-link {{ routeActive('company.setting')}}"
+       href="{{route('company.setting')}}">
+        <span class="icon-holder">
+            <i class="c-brown-500 fa fa-cog"></i>
+        </span>
+        <span class="title" title="Configurações">Configurações</span>
+    </a>
+</li>
+@endrole
 
 
 {{--<li class="nav-item dropdown open"><a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i
