@@ -6,7 +6,9 @@
     "license": "CUSTOM",
     "require": {
         "php": "^8.0",
+        "ext-pcntl": "*",
         "ext-redis": "^5.3",
+        "ext-swoole": "*",
         "acaronlex/laravel-calendar": "^1.3",
         "appstract/laravel-opcache": "^4.0",
         "beyondcode/laravel-websockets": "^1.12",
