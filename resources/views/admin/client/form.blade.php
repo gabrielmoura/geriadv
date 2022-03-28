@@ -116,8 +116,13 @@
 @endsection
 @push('js')
     <script>
-        document.getElementById('Cep').onmouseout = function () {
-            mclients.getCep(document.getElementById('Cep').value);
-        };
+        // document.getElementById('Cep').onmouseout = function () {
+        //     mclients.getCep(document.getElementById('Cep').value);
+        // };
+        document.getElementById('Cep').addEventListener('change', function () {
+            if (document.getElementById('Cep').value.replace(/[^0-9]/, "").length >= 8) {
+                mclients.getCep(document.getElementById('Cep').value);
+            }
+        });
     </script>
 @endpush

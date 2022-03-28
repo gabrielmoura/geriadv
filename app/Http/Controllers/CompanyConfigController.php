@@ -25,23 +25,33 @@ class CompanyConfigController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function update(Request $request)
     {
         $company = $this->getCompany();
+        $data = collect($request->toArray());
         if ($request->hasFile('logo')) {
 
             $url = $request->logo->store('logos');
             $company->logo = Storage::url($url);
             $company->save();
-            ForgetCompanyJob::dispatch($this->getCompanyId());
+            $this->forgetCompany();
+//            ForgetCompanyJob::dispatch($this->getCompanyId());
             return response()->json(null, 204);
         }
-        $company->update($request->toArray());
-        return response()->json(null, 204);
+        if ($request->has('cep')) {
+            $data = $data->replace(['cep' => numberClear($request->cep)]);
+            $data = $data->replace(['number' => numberClear($request->number)]);
+        }
+        if ($company->update($data->toArray())) {
+            $this->forgetCompany();
+            toastr()->success('Atualizado com sucesso.');
+            return redirect()->route('company.setting');
+        }
+        return redirect()->route('company.setting');
 
     }
 }
