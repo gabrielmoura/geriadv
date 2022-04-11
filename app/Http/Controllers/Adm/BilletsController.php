@@ -37,7 +37,7 @@ class BilletsController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Billets::whereCompanyId($this->getCompanyId())->with('clients'))
                 ->addColumn('action', function (Billets $billet) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.billets.show', ['billet' => $billet->id]) . '"><i
+                    return '<div class="table-data-feature"><a href="' . route('admin.payment.billets.show', ['billet' => $billet->id]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
                             href="' . route('admin.billets.edit', ['billet' => $billet->id]) . '"><i
                                 class="fa fa-edit"></i></a></div>';
@@ -73,7 +73,7 @@ class BilletsController extends Controller
 
     public function create()
     {
-        $form = ['route' => ['admin.billets.store'], 'method' => 'post'];
+        $form = ['route' => ['admin.payment.billets.store'], 'method' => 'post'];
         $clients = Clients::where('company_id', $this->getCompanyId())->get()->map(function ($item, $key) {
             return [
                 'name' => $item->fullname,

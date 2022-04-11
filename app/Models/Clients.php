@@ -15,7 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 use Shetabit\Visitor\Traits\Visitable;
 use App\Actions\Payment\PaymentTrait;
 use Illuminate\Database\Eloquent\Prunable;
-
+use App\Models\Invoice;
 /**
  * App\Models\Clients
  *

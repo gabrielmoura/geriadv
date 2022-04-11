@@ -20,6 +20,7 @@
         <ul class="nav-right">
 
             <!-- Avisos -->
+            @can('view_notification')
             <li class="notifications dropdown">
                 <span class="counter bgc-red">{{$user->unreadNotifications()->count()}}</span>
                 <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">
@@ -69,56 +70,57 @@
                     </li>
                 </ul>
             </li>
+            @endcan
             <!-- /Avisos -->
             <!-- Mensagens -->
-            <li class="notifications dropdown">
-                <span class="counter bgc-blue">{{\App\Actions\Message\GetAlert::getMessage()->count()}}</span>
-                <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">
-                    <i class="ti-email"></i>
-                </a>
+{{--            <li class="notifications dropdown">--}}
+{{--                <span class="counter bgc-blue">{{\App\Actions\Message\GetAlert::getMessage()->count()}}</span>--}}
+{{--                <a href="" class="dropdown-toggle no-after" data-toggle="dropdown">--}}
+{{--                    <i class="ti-email"></i>--}}
+{{--                </a>--}}
 
-                <ul class="dropdown-menu">
-                    <li class="pX-20 pY-15 bdB">
-                        <i class="ti-email pR-10"></i>
-                        <span class="fsz-sm fw-600 c-grey-900">Mensagens</span>
-                    </li>
-                    <li>
-                        <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
-                            @foreach(\App\Actions\Message\GetAlert::getMessage() as $message)
-                                <li>
-                                    <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                                        <div class="peer mR-15">
-                                            <img class="w-3r bdrs-50p" src="/images/1.jpg" alt="">
-                                        </div>
-                                        <div class="peer peer-greed">
-                                            <div>
-                                                <div class="peers jc-sb fxw-nw mB-5">
-                                                    <div class="peer">
-                                                        <p class="fw-500 mB-0">John Doe</p>
-                                                    </div>
-                                                    <div class="peer">
-                                                        <small class="fsz-xs">5 mins ago</small>
-                                                    </div>
-                                                </div>
-                                                <span class="c-grey-600 fsz-sm">
-                                                Want to create your own customized data generator for your app...
-                                            </span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    <li class="pX-20 pY-15 ta-c bdT">
-                        <span>
-                            <a href="" class="c-grey-600 cH-blue fsz-sm td-n">Ver todas as Mensagens <i
-                                    class="fs-xs ti-angle-right mL-10"></i>
-                            </a>
-                        </span>
-                    </li>
-                </ul>
-            </li>
+{{--                <ul class="dropdown-menu">--}}
+{{--                    <li class="pX-20 pY-15 bdB">--}}
+{{--                        <i class="ti-email pR-10"></i>--}}
+{{--                        <span class="fsz-sm fw-600 c-grey-900">Mensagens</span>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">--}}
+{{--                            @foreach(\App\Actions\Message\GetAlert::getMessage() as $message)--}}
+{{--                                <li>--}}
+{{--                                    <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>--}}
+{{--                                        <div class="peer mR-15">--}}
+{{--                                            <img class="w-3r bdrs-50p" src="/images/1.jpg" alt="">--}}
+{{--                                        </div>--}}
+{{--                                        <div class="peer peer-greed">--}}
+{{--                                            <div>--}}
+{{--                                                <div class="peers jc-sb fxw-nw mB-5">--}}
+{{--                                                    <div class="peer">--}}
+{{--                                                        <p class="fw-500 mB-0">John Doe</p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="peer">--}}
+{{--                                                        <small class="fsz-xs">5 mins ago</small>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <span class="c-grey-600 fsz-sm">--}}
+{{--                                                Want to create your own customized data generator for your app...--}}
+{{--                                            </span>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+{{--                    <li class="pX-20 pY-15 ta-c bdT">--}}
+{{--                        <span>--}}
+{{--                            <a href="" class="c-grey-600 cH-blue fsz-sm td-n">Ver todas as Mensagens <i--}}
+{{--                                    class="fs-xs ti-angle-right mL-10"></i>--}}
+{{--                            </a>--}}
+{{--                        </span>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </li>--}}
             <!-- /Mensagens -->
             <li class="dropdown">
                 <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">

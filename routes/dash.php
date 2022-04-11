@@ -11,7 +11,8 @@ use App\Http\Controllers\Adm\{AgendamentoController,
     LogActivityController,
     PendencyController,
     UsersController,
-    BilletsController
+    BilletsController,
+    PaymentController
 };
 use \App\Http\Controllers\CompanyConfigController;
 use App\Http\Controllers\Adm\UploadController;
@@ -54,8 +55,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
         Route::get('/client/payments', [ClientController::class, 'payments'])->name('clients.payments');
         Route::get('/client/{slug}/payments/', [ClientController::class, 'payments'])->middleware(['can:edit_payment'])->name('clients.payments.show');
         Route::resource('/client', ClientController::class)->names('clients');
-        Route::resource('/billet', BilletsController::class)->middleware(['can:edit_payment'])->names('billets');
 
+        //  Pagamentos
+        Route::group(['prefix' => '/payment', 'as' => 'payment.'], function () {
+            Route::get('/', [PaymentController::class, 'index'])->middleware(['can:edit_payment'])->name('index');
+            Route::resource('/billet', BilletsController::class)->middleware(['can:edit_payment'])->names('billets');
+        });
 
         // Calendário
         Route::resource('schedules', AgendamentoController::class)->names('calendar');
@@ -81,16 +86,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
     Route::get('test', function () {
         return \App\Models\ClientView::all();
     });
-
-    Route::middleware(['role:admin'])->get('/redirAuth/{user}', function ($user) {
-        \Illuminate\Support\Facades\Auth::loginUsingId($user);
-        \Illuminate\Support\Facades\Log::info('authenticated to another user using special permissions levels.', [
-            'by' => \Illuminate\Support\Facades\Auth::user(),
-            'user' => $user
-        ]);
-        return redirect()->route('home');
-    })->name('auth.redir');
-
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/redirAuth/{user}', function ($user) {
+            \Illuminate\Support\Facades\Auth::loginUsingId($user);
+            \Illuminate\Support\Facades\Log::info('authenticated to another user using special permissions levels.', [
+                'by' => \Illuminate\Support\Facades\Auth::user(),
+                'user' => $user
+            ]);
+            return redirect()->route('home');
+        })->name('auth.redir');
+        Route::resource('/role', \App\Http\Controllers\Auth\PermissionController::class);
+    });
 });
 
 

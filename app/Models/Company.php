@@ -121,6 +121,16 @@ class Company extends Model implements HasMedia
     {
         return $this->hasMany(Employee::class, 'company_id', 'id');
     }
+
+    public function lawyers()
+    {
+        return $this->hasMany(Lawyer::class, 'company_id', 'id');
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class, 'company_id', 'id');
+    }
     /*
     |------------------------------------------------------------------------------------
     | Scopes

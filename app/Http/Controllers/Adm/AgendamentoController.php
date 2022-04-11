@@ -74,9 +74,19 @@ class AgendamentoController extends Controller
             //Busca agendamentos por Mês
             $events = $events->whereMonth('start_time', '=', $request->month);
         }
-        if ($request->has('date')) {
+        if ($request->has('date') && !is_null($request->date)) {
             //Busca agendamentos por data
             $events = $events->where('start_time', '=', Carbon::parse($request->date));
+        }
+        if ($request->has('address') && !is_null($request->address)) {
+            $events = $events->where('address', 'LIKE', '%' . $request->address . '%');
+        }
+
+        if ($request->has('lawyer') && !is_null($request->lawyer)) {
+            $events = $events->whereHas('lawyer', function ($query) use ($request) {
+                return $query->where('name', 'like', $request->lawyer);
+            });
+
         }
 
 
@@ -84,7 +94,7 @@ class AgendamentoController extends Controller
             return $this->datatable($request, $events);
         } else {
             $events = $events->get();
-            return view('admin.calendar.index', compact('events'));
+            return view('admin.calendar.index', compact('events', 'request'));
         }
     }
 
@@ -105,16 +115,16 @@ class AgendamentoController extends Controller
                     return \App\Models\Calendar::RECURRENCE_RADIO[$events->recurrence] ?? '';
                 })
                 ->addColumn('start_time', function (Model $events) {
-                    return Carbon::parse($events->start_time)->format('Y-m-d H:i:s');
+                    return Carbon::parse($events->start_time)->format('Y-m-d H:i:s') ?? '';
                 })
                 ->addColumn('end_time', function (Model $events) {
-                    return Carbon::parse($events->end_time)->format('Y-m-d H:i:s');
+                    return Carbon::parse($events->end_time)->format('Y-m-d H:i:s') ?? '';
                 })
                 ->addColumn('lawyer', function (Model $events) {
                     return $events->lawyer->name ?? '';
                 })
                 ->filterColumn('start_time', function ($query, $keyword) {
-                    return $query->where('start_time', Carbon::parse($keyword));
+                    return $query->where('start_time', Carbon::parse($keyword)) ?? '';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -131,8 +141,9 @@ class AgendamentoController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->searching(false)
             ->minifiedAjax();
-        return view('admin.calendar.datatable', compact('html'));
+        return view('admin.calendar.datatable', compact('html', 'request'));
     }
 
     /**

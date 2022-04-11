@@ -42,19 +42,33 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);;
-        if ($request->has('month')) {
+
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);
+
+        if ($request->has('name') && !is_null($request->name)) {
+            $clients->whereRaw("CONCAT(name,' ',last_name)  like ?", ["%{$request->name}%"]);
+        }
+        if ($request->has('month') && !is_null($request->month)) {
             $clients = $clients->whereMonth('created_at', $request->month);
         }
-        if ($request->has('sex')) {
+        if ($request->has('sex') && !is_null($request->sex)) {
             $clients = $clients->whereSex($request->sex);
         }
-        if ($request->has('status')) {
+        if ($request->has('city') && !is_null($request->city)) {
+            $clients = $clients->whereCity($request->city);
+        }
+        if ($request->has('state') && !is_null($request->state)) {
+            $clients = $clients->whereState($request->state);
+        }
+        if ($request->has('district') && !is_null($request->district)) {
+            $clients = $clients->whereDistrict($request->district);
+        }
+        if ($request->has('status') && !is_null($request->status)) {
             $clients = $clients->whereHas('status', function ($query) use ($request) {
                 $query->where('status', 'like', $request->status);
             });
         }
-        if ($request->has('recommendation')) {
+        if ($request->has('recommendation') && !is_null($request->recommendation)) {
             $clients = $clients->whereHas('recommendation', function ($query) use ($request) {
                 $query->where('name', 'like', $request->recommendation);
             });
@@ -70,7 +84,7 @@ class ClientController extends Controller
             return $this->datatable($request, $clients);
         } else {
             $clients = $clients->get();
-            return view('admin.client.index', compact('clients'));
+            return view('admin.client.index', compact('clients', 'request'));
         }
 
     }
@@ -123,8 +137,9 @@ class ClientController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->searching(false)
             ->minifiedAjax();
-        return view('admin.client.datatable', compact('html'));
+        return view('admin.client.datatable', compact('html', 'request'));
     }
 
     public function dataAction($route, $id, $action = ['view', 'edit'])
@@ -342,6 +357,7 @@ class ClientController extends Controller
             ->log('Deletou o cliente ' . $client->name . ' ' . $client->last_name);
 
     }
+
     /**
      * Exibe todas as faturas, status e valores.
      * @param $slug
@@ -355,6 +371,6 @@ class ClientController extends Controller
 
         $client = Clients::whereSlug($slug)->first();
         $billets = Billets::whereClientId($client->id)->get();
-        return view('admin.client.payments', compact('client', 'billets','slug'));
+        return view('admin.client.payments', compact('client', 'billets', 'slug'));
     }
 }

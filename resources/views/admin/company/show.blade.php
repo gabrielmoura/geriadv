@@ -92,6 +92,77 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <p class="text-primary m-0 fw-bold">Estatisticas</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card textwhite bg-primary text-white shadow">
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <p class="m-0">Total de Clientes</p>
+                                                        <p class="m-0"><strong>{{$company->clients()->count()}}</strong>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card textwhite bg-primary text-white shadow">
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <p class="m-0">Total de Funcionários</p>
+                                                        <p class="m-0">
+                                                            <strong>{{$company->employees()->count()}}</strong></p>
+                                                    </div>
+                                                    <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class="card textwhite bg-primary text-white shadow">
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <p class="m-0">Total de Advogados</p>
+                                                        <p class="m-0"><strong>{{$company->lawyers()->count()}}</strong>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card textwhite bg-primary text-white shadow">
+                                            <div class="card-body">
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <p class="m-0">Total de Agendamentos</p>
+                                                        <p class="m-0">
+                                                            <strong>{{$company->calendars()->count()}}</strong></p>
+                                                    </div>
+                                                    <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="card shadow">
                              <div class="card-header py-3">
                                  <p class="text-primary m-0 fw-bold">Contact Settings</p>

@@ -50,9 +50,15 @@ class NotificationController extends Controller
         // Carrega usuários de uma mesma empresa, para notificação.
         $to = [];
         //$to[] = ['name' => 'Administrador', 'value' => 1];
-        foreach ($this->getCompany()->users as $item) {
-            $to[] = ['name' => $item->user->name, 'value' => $item->user->id];
-        };
+        if ($this->hasRole('admin')) {
+            foreach (User::all() as $item) {
+                $to[] = ['name' => $item->name, 'value' => $item->id];
+            };
+        } else {
+            foreach ($this->getCompany()->users as $item) {
+                $to[] = ['name' => $item->user->name, 'value' => $item->user->id];
+            };
+        }
         return view('profile.createNotification', compact('form', 'to'));
     }
 
