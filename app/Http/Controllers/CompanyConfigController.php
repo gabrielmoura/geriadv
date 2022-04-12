@@ -35,7 +35,7 @@ class CompanyConfigController extends Controller
         $data = collect($request->toArray());
         if ($request->hasFile('logo')) {
 
-            $url = $request->logo->store('logos');
+            $url = $request->file('logo')->storePublicly('logos'); //   Define upload como publico.
             $company->logo = Storage::url($url);
             $company->save();
             $this->forgetCompany();
