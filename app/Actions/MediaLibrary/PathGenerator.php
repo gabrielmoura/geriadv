@@ -46,6 +46,6 @@ class PathGenerator implements BasePathGenerator
         //return md5($media->id . config('app.key'));
         
         //  Este retorna um md5 do ID da Empresa.
-        return md5($this->getCompanyId()).DIRECTORY_SEPARATOR. $media->getKey();
+        return md5($this->getCompanyId()??'master').DIRECTORY_SEPARATOR. $media->getKey();
     }
 }

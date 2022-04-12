@@ -46,7 +46,7 @@ class AjaxController extends Controller
     public function getCep(Request $request)
     {
         $this->validate($request, ['cep' => 'min:8|max:9']);
-        $cep = preg_replace('/[^0-9]/', '', $request->cep); //Apenas números;
+        $cep = numberClear($request->cep); //Apenas números;
         if (strlen($cep) != 8) return abort(400); //Diferente de 8 retorna HTTP400;
         return Cache::remember('cep:' . $cep, now()->addMonths(1), function () use ($cep) {
             return ZipCode::find($cep)->getArray();
