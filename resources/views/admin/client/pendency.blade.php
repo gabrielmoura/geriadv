@@ -9,9 +9,9 @@
                 @php($count=0)
                 @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
                     <input type="hidden" name="slug" value="{{$client->slug}}">
-                    @if((is_null($client->pendency))?true:!$client->pendency->{$name})
+                    @if((is_null($client->pendency))?true:!$client->pendency->{$name['name']})
                         @php($count=+1)
-                        <x-form-file name="{{ $name }}"></x-form-file>
+                        <x-form-file :name="$name['name']" :title="$name['title']"></x-form-file>
                     @endif
                 @endforeach
                 @if($count>0)
@@ -29,12 +29,12 @@
             <div class="card-body">
                 @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
                     @if(!is_null($client->pendency))
-                        @if($client->pendency->{$name})
+                        @if($client->pendency->{$name['name']})
                             <p>
                                 Acessar <a
-                                    href="{{$client->pendency->first()->getMedia($name)[0]->getUrl()}}"
-                                    target="_blank">{{strtoupper($name)}}</a> <a
-                                    href="#" onclick="deletedoc('{{$name}}','{{$client->slug}}');"><i
+                                    href="{{$client->pendency->first()->getMedia($name['name'])[0]->getUrl()}}"
+                                    target="_blank">{{$name['title']}}</a> <a
+                                    href="#" onclick="deletedoc('{{$name['name']}}','{{$client->slug}}');"><i
                                         class="fad fa-trash-alt red"></i></a>
                             </p>
                         @endif
