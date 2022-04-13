@@ -16,6 +16,7 @@ class CreatePendenciesTable extends Migration
         Schema::create('pendencies', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->json('pendency')->comment('Pendencias');
 
             $table->boolean('cras')->comment('CRAS')->nullable();
             $table->boolean('cpf')->comment('CPF')->nullable();

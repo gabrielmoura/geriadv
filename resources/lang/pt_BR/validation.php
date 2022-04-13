@@ -191,7 +191,7 @@ return [
         'birth_date'=>'data de nascimento',
         'birth_certificate'=>'certidão de nascimento',
         'proof_of_address'=>'comprovante de residência',
-        
+        'impossibility_to_sign'=>'Impossibilitado de assina',
     ],
 
 ];

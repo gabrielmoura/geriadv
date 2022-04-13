@@ -22,10 +22,11 @@ class PendencyController extends Controller
         $data = [];
 
         $model = Clients::whereSlug($request->slug)->first();
+        
 
         if ($model->pendency_id == null) {
-
-            $model->pendency_id = $model->pendency()->create(['rg' => false])->id;
+            $pendency=$model->pendency()->create(['pendency' => json_encode([])]);
+            $model->pendency_id = $pendency->id;
             $model->save();
 
         }
@@ -38,7 +39,7 @@ class PendencyController extends Controller
         }
 
 
-        $pendency = $model->pendency()->first()->update($data);
+        $pendency = $model->pendency()->first()->update(['pendency'=>$data]);
 
 
         if (!$pendency) {
@@ -49,7 +50,38 @@ class PendencyController extends Controller
         toastr()->success('Enviado com sucesso');
         return redirect()->route('admin.clients.show', ['client' => $request->slug]);
     }
+    public function storeV2(Request $request)
+    {
+        $data = [];
 
+        $model = Clients::whereSlug($request->slug)->first();
+
+        if ($model->pendency_id == null) {
+
+            $model->pendency_id = $model->pendency()->create(['pendency' => []])->id;
+            $model->save();
+
+        }
+
+
+        foreach ($request->allFiles() as $index => $doc) {
+            $data[$index] = true;
+            $model->pendency()->first()->addMedia($doc)->toMediaCollection($index);
+
+        }
+
+dd($data);
+        $pendency = $model->pendency()->first()->update(['pendency'=>$data]);
+
+
+        if (!$pendency) {
+            toastr()->error('Erro ao enviar');
+            return redirect()->route('admin.clients.show', ['client' => $request->slug]);
+        }
+        event(new PendencyStore($pendency));
+        toastr()->success('Enviado com sucesso');
+        return redirect()->route('admin.clients.show', ['client' => $request->slug]);
+    }
 
     public function delete(Request $request)
     {

@@ -57,7 +57,11 @@ class Pendencies extends Model implements HasMedia
         'birth_certificate',
         'proof_of_address',
         'impossibility_to_sign',
-        'note_id'
+        'note_id',
+        'pendency'
+    ];
+    protected $casts=[
+        'pendency'=>'collection'
     ];
     protected $dates = ['created_at', 'updated_at'];
 
