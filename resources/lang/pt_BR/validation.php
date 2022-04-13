@@ -189,6 +189,9 @@ return [
         'tel0' =>'telefone',
         'district'=>'bairro',
         'birth_date'=>'data de nascimento',
+        'birth_certificate'=>'certidão de nascimento',
+        'proof_of_address'=>'comprovante de residência',
+        
     ],
 
 ];

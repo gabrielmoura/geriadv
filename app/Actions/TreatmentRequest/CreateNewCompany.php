@@ -25,11 +25,10 @@ class CreateNewCompany
         $data['tel0'] = numberClear($this->request['tel0']);
         $data['cnpj'] = numberClear($this->request['cnpj']);
         $data['config'] = collect([
-            'docs' => ['cras', 'cpf', 'rg', 'birth_certificate', 'proof_of_address'],
             'weekend' => false,
             'opening' => '07:00',
             'closing' => '18:00',
-        ]);
+        ])->put('docs',config('core.docs'));
         return $data;
     }
 
@@ -41,11 +40,10 @@ class CreateNewCompany
         $data['tel0'] = numberClear($this->request['tel0']);
         $data['cnpj'] = numberClear($this->request['cnpj']);
         $data['config'] = collect([
-            'docs' => ['cras', 'cpf', 'rg', 'birth_certificate', 'proof_of_address'],
             'weekend' => false,
             'opening' => '07:00',
             'closing' => '18:00',
-        ]);
+        ])->put('docs',config('core.docs'));
         return $data;
     }
 
