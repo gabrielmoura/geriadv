@@ -209,7 +209,7 @@
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">
-                    @if(config('panel.pendencyDownload'))
+                    @if(config('panel.downloadHelper'))
                         @include('admin.client.pendencyDownload')
                     @else
                         @include('admin.client.pendency')

@@ -19,6 +19,5 @@ return [
     'forceCache' => env('FORCE_CACHE', true),
     // dropZone or fineUpload
     'libUpload' => 'dropZone',
-    //Caso não queira exibir um link externo
-    'pendencyDownload' => true,
+    'downloadHelper' => env('DOWNLOAD_HELPER',false), // True caso o download precise de ajudante.
 ];
