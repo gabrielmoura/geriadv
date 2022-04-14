@@ -245,7 +245,7 @@ class ClientController extends Controller
         ]);
 
         $client = DB::transaction(function () use ($request) {
-            $recommendation = Recommendation::create(['name' => $request->recommendation]);
+            $recommendation = (!is_null($request->recommendation)) ?Recommendation::create(['name' => $request->recommendation]):null;
             $clientData = [
                 /**
                  * Dados Pessoais
@@ -276,7 +276,7 @@ class ClientController extends Controller
 
             $clientData['company_id'] = $this->getCompanyId();
 
-            if (isset($recommendation->id)) {
+            if ($recommendation!=null) {
                 $clientData['recommendation_id'] = $recommendation->id;
             }
             if ($request->has('benefit') && isset($request->benefit)) {
@@ -310,13 +310,13 @@ class ClientController extends Controller
      */
     public function edit($slug)
     {
-        $clients = Clients::whereSlug($slug)->first();
+        $client = Clients::whereSlug($slug)->first();
         $form = ['route' => ['admin.clients.update', $slug], 'method' => 'put'];
         $benefits = [];
         foreach (Benefits::where('company_id', $this->getCompanyId())->get() as $benefit) {
             $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
         }
-        return view('admin.client.form', compact('clients', 'form', 'benefits'));
+        return view('admin.client.form', compact('client', 'form', 'benefits','slug'));
     }
 
     /**
@@ -336,26 +336,23 @@ class ClientController extends Controller
         $client = DB::transaction(function () use ($data, $slug) {
             $client = Clients::whereSlug($slug)->first();
             $client->update($data);
-            activity()->performedOn($client)
-                ->causedBy(auth()->user())
-                //    ->withProperties(['customProperty' => 'customValue'])
-                ->log('Atualizou o cliente ' . $client->name . ' ' . $client->last_name);
             return $client;
         });
-        return redirect()->route('admin.client.index')->with('success', 'Cliente:' . $client->name . ' atualizado com sucesso');
+        return redirect()->route('admin.clients.index')->with('success', 'Cliente: ' . $client->name . ' atualizado com sucesso');
     }
 
     /**
      * @param $slug
      */
-    public function delete($slug)
+    public function destroy($slug)
     {
-        $client = Clients::whereSlug($slug)->delete();
-        activity()->performedOn($client)
-            ->causedBy(auth()->user())
-            //    ->withProperties(['customProperty' => 'customValue'])
-            ->log('Deletou o cliente ' . $client->name . ' ' . $client->last_name);
-
+        $client = Clients::whereSlug($slug);
+        if($client->delete()){
+            toastr()->success('Cliente: ' . $client->name . ' removido com sucesso');
+            return redirect()->route('admin.clients.index');
+        }
+        toastr()->error('Falha ao remover');
+        return redirect()->route('admin.clients.index');
     }
 
     /**

@@ -25,11 +25,11 @@ class PendencyController extends Controller
         
 
         if ($model->pendency_id == null) {
-            $pendencyId=$model->pendency()->create(['pendency' => json_encode([])]);
+            $pendencyId=$model->pendency()->create(['pendency' => ['cpf'=>false]]);
             $model->pendency_id = $pendencyId->id;
             $model->save();
-
         }
+
         $pendencyModel=$model->pendency()->first();
         $pendencySet=$pendencyModel->pendency; // Retorna uma Collection
 
@@ -37,7 +37,6 @@ class PendencyController extends Controller
             $data[$index] = true;
             $pendencyModel->addMedia($doc)->toMediaCollection($index);
         }
-
 
         $pendency = $pendencyModel->update(['pendency'=>$pendencySet->merge($data)->toArray()]);
 

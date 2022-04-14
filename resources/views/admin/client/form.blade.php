@@ -4,6 +4,18 @@
     <div class="row mB-40">
         <div class="col-sm-8">
             <div class="bgc-white p-20 bd">
+                @role('manager')
+                @if ($form['method']=='put')
+                {!! Form::open(['route' => ['admin.clients.destroy', $slug], 'method' => 'DELETE']) !!}
+                <fieldset class="col-md-12">
+                    <legend>Atenção</legend>
+                    <div class="row">
+                        <button type="submit" class="btn btn-danger">Deletar Cliente</button>
+                    </div>
+                </fieldset>
+                {!! Form::close() !!}
+                @endif
+  @endrole              
                 {!! Form::open($form) !!}
 
 
@@ -11,9 +23,9 @@
                     <legend>Dados Principais</legend>
                     <div class="row">
                         <x-form-input name="cpf" title="CPF" class="optional col-md-3"
-                                      placeholder="só numeros"></x-form-input>
-                        <x-form-input name="name" title="Nome" class="col-md-2" required></x-form-input>
-                        <x-form-input name="last_name" title="Sobrenome" class="col-md-4" required></x-form-input>
+                                      placeholder="só numeros" :value="$client->cpf??''"></x-form-input>
+                        <x-form-input name="name" title="Nome" class="col-md-2" :value="$client->name??''" required></x-form-input>
+                        <x-form-input name="last_name" title="Sobrenome" class="col-md-4" :value="$client->last_name??''" required></x-form-input>
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
                         <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
                         <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"></x-form-date>
@@ -26,7 +38,7 @@
                     <legend>Dados</legend>
                     <div class="row">
                         <x-form-select name="benefit" title="Beneficio" :selects="$benefits" ></x-form-select>
-                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2"></x-form-input>
+                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2" :value="$client->recommendation??''"></x-form-input>
                     </div>
                 </fieldset>
 
