@@ -34,6 +34,18 @@
     </li>
 @endcan
 
+@role('admin')
+<li class="nav-item">
+    <a class="sidebar-link {{ routeActive('admin.role') }}"
+       href="{{route('admin.role.index')}}">
+    <span class="icon-holder">
+        <i class="c-brown-500 ti-user"></i>
+    </span>
+        <span class="title">Permissões</span>
+    </a>
+</li>
+@endrole
+
 @role('manager')
 <li class="nav-item">
     <a class="sidebar-link {{ routeActive('admin.lawyer') }}"

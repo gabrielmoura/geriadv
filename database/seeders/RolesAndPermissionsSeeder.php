@@ -37,6 +37,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'send_notification', 'description' => 'Enviar Notificações'], //Enviar Notificações
             ['name' => 'view_notification', 'description' => 'Ver Notificações'], //Ver Notificações
             ['name' => 'view_log', 'description' => 'Ver Logs'], //Ver Logs
+            ['name' => 'send_mail', 'description' => 'Enviar Emails'], //Enviar Emails
 
 
         ];
@@ -51,7 +52,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Responsável por Gerir o sistema: Administrador
         $admin = Role::create(['name' => 'admin']);
         $dataAdmin = [];
-        foreach (Permission::whereNotIn('name', ['edit_scheduling', 'edit_client', 'edit_payment', 'view_log'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['edit_scheduling', 'edit_client', 'edit_payment', 'view_log','send_mail'])->get() as $item) {
             $dataAdmin[] = $item->name;
         }
         $admin->givePermissionTo($dataAdmin);
@@ -59,7 +60,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Responsável por Gerir o sistema: Gerente
         $manager = Role::create(['name' => 'manager']);
         $dataManager = [];
-        foreach (Permission::whereNotIn('name', ['edit_user', 'audit_user', 'edit_company', 'send_notification', 'view_log', 'view_notification', 'view_analytic'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['edit_user', 'audit_user', 'edit_company', 'send_notification', 'view_log', 'view_notification', 'view_analytic','send_mail'])->get() as $item) {
             $dataManager[] = $item->name;
         }
         $manager->givePermissionTo($dataManager);
@@ -67,7 +68,7 @@ class RolesAndPermissionsSeeder extends Seeder
         //Responsável por gerir clientes: Funcionários
         $employees = Role::create(['name' => 'employees']);
         $dataEditor = [];
-        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic', 'edit_payment', 'send_notification', 'view_log'])->get() as $item) {
+        foreach (Permission::whereNotIn('name', ['view_analytics', 'edit_user', 'audit_user', 'edit_company', 'edit_employee', 'view_analytic', 'edit_payment', 'send_notification', 'view_log','send_mail'])->get() as $item) {
             $dataEditor[] = $item->name;
         }
         $employees->givePermissionTo($dataEditor);

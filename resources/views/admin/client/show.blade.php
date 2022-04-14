@@ -43,11 +43,13 @@
                                <span class="bigger-110">Add as a friend</span>
                            </a> -->
 
-                        <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal"
+                        @can('send_mail')
+                           <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal"
                            data-target="#MailModal">
                             <i class="ace-icon fa fa-envelope-o bigger-110"></i>
                             <span class="bigger-110">Enviar Email</span>
                         </a>
+                        @endcan
                     </div><!-- /.col -->
 
                     <div class="col-xs-12 col-sm-9">
