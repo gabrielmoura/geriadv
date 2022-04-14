@@ -38,7 +38,7 @@
                     <legend>Dados</legend>
                     <div class="row">
                         <x-form-select name="benefit" title="Beneficio" :selects="$benefits" ></x-form-select>
-                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2" :value="$client->recommendation??''"></x-form-input>
+                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2" :value="$client->recommendation->name??''"></x-form-input>
                     </div>
                 </fieldset>
 
