@@ -25,53 +25,21 @@ class PendencyController extends Controller
         
 
         if ($model->pendency_id == null) {
-            $pendency=$model->pendency()->create(['pendency' => json_encode([])]);
-            $model->pendency_id = $pendency->id;
+            $pendencyId=$model->pendency()->create(['pendency' => json_encode([])]);
+            $model->pendency_id = $pendencyId->id;
             $model->save();
 
         }
-
-
-        foreach ($request->allFiles() as $index => $doc) {
-            $data[$index] = true;
-            $model->pendency()->first()->addMedia($doc)->toMediaCollection($index);
-
-        }
-
-
-        $pendency = $model->pendency()->first()->update(['pendency'=>$data]);
-
-
-        if (!$pendency) {
-            toastr()->error('Erro ao enviar');
-            return redirect()->route('admin.clients.show', ['client' => $request->slug]);
-        }
-        event(new PendencyStore($pendency));
-        toastr()->success('Enviado com sucesso');
-        return redirect()->route('admin.clients.show', ['client' => $request->slug]);
-    }
-    public function storeV2(Request $request)
-    {
-        $data = [];
-
-        $model = Clients::whereSlug($request->slug)->first();
-
-        if ($model->pendency_id == null) {
-
-            $model->pendency_id = $model->pendency()->create(['pendency' => []])->id;
-            $model->save();
-
-        }
-
+        $pendencyModel=$model->pendency()->first();
+        $pendencySet=$pendencyModel->pendency; // Retorna uma Collection
 
         foreach ($request->allFiles() as $index => $doc) {
             $data[$index] = true;
-            $model->pendency()->first()->addMedia($doc)->toMediaCollection($index);
-
+            $pendencyModel->addMedia($doc)->toMediaCollection($index);
         }
 
-dd($data);
-        $pendency = $model->pendency()->first()->update(['pendency'=>$data]);
+
+        $pendency = $pendencyModel->update(['pendency'=>$pendencySet->merge($data)->toArray()]);
 
 
         if (!$pendency) {
@@ -89,12 +57,17 @@ dd($data);
 
         //Buscar Pendencias pelo Cliente
         $model = Clients::whereSlug($request->slug)->first()->pendency()->first();
-        //Remover apenas a pendencia desejada
-        $model->getMedia($request->doc)[0]->delete();
+        
+        //Remover a pendencia desejada caso exista
+        $media=$model->getMedia($request->doc);
+        if($media->isNotEmpty()){
+            $media->first()->delete();    
+        }
 
+        $pendencySet=$model->pendency->replace([$request->doc=>false]);
         // Atualizar tabela de pendencias
-        $pendency = $model->update([$request->doc => false]);
-
+        $pendency = $model->update(['pendency'=>$pendencySet->toArray()]);
+        
         if (!$pendency) {
             toastr()->error('Erro ao enviar');
             return redirect()->route('admin.clients.show', ['client' => $request->slug]);

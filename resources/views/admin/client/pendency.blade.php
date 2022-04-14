@@ -10,7 +10,7 @@
                 @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
                     <input type="hidden" name="slug" value="{{$client->slug}}">
                     
-                    @if((is_null($client->pendency))?true:!$client->pendency->pendency->get($name['name']))
+                    @if((is_null($pendency))?true:!$pendency->pendency->get($name['name']))
                         @php($count=+1)
                         <x-form-file :name="$name['name']" :title="$name['title']"></x-form-file>
                     @endif
@@ -29,11 +29,12 @@
             </div>
             <div class="card-body">
                 @foreach(cache('company:'.session()->get('company.id'))->config['docs'] as $name)
-                    @if(!is_null($client->pendency))
-                        @if($client->pendency->pendency->get($name['name']))
+                    @if(!is_null($pendency))
+                        @if($pendency->pendency->get($name['name']))
+                        @php($media=$pendency->first()->getMedia($name['name']))
                             <p> 
-                                Acessar <a
-                                    href="{{$client->pendency->first()->getMedia($name['name'])[0]->getUrl()}}"
+                                Acessar <a {{($media->isEmpty())?'class=isDisabled':''}}
+                                    href="{{($media->isNotEmpty())?$media->first()->getUrl():'#'}}"
                                     target="_blank">{{$name['title']}}</a> <a
                                     href="#" onclick="deletedoc('{{$name['name']}}','{{$client->slug}}');"><i
                                         class="fad fa-trash-alt red"></i></a>
@@ -68,4 +69,18 @@
             document.getElementById('deleteDoc').submit();
         };
     </script>
+@endpush
+@push('css')
+    <style>
+        .isDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.isDisabled > a {
+  color: currentColor;
+  display: inline-block;  /* For IE11/ MS Edge bug */
+  pointer-events: none;
+  text-decoration: none;
+}
+</style>
 @endpush
