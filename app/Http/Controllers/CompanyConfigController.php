@@ -33,10 +33,17 @@ class CompanyConfigController extends Controller
     {
         $company = $this->getCompany();
         $data = collect($request->toArray());
-        if ($request->hasFile('logo')) {
 
-            $url = $request->file('logo')->storePublicly('logos'); //   Define upload como publico.
-            $company->logo = Storage::url($url);
+        if ($request->hasFile('logo')) {
+            //  Caso exista deletar, evitar duplicidade
+            $getMedia = $company->getMedia('logos');
+            if ($getMedia->isNotEmpty()) {
+                $getMedia->first()->delete();
+            }
+            //  Enviar e salvar
+            $media = $company->addMedia($request->file('logo'))
+                ->toMediaCollection('logos');
+            $company->logo = $media->getUrl();
             $company->save();
             $this->forgetCompany();
 //            ForgetCompanyJob::dispatch($this->getCompanyId());
