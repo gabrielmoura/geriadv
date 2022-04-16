@@ -26,6 +26,10 @@ class AgendamentoController extends Controller
     use CompanySessionTraits;
 
     /**
+     * @var string
+     */
+    public $format = 'd/m/Y';
+    /**
      * @var \string[][]
      */
     public $sources = [
@@ -76,7 +80,7 @@ class AgendamentoController extends Controller
         }
         if ($request->has('date') && !is_null($request->date)) {
             //Busca agendamentos por data
-            $events = $events->where('start_time', '=', Carbon::parse($request->date));
+            $events = $events->where('start_time', '=', Carbon::createFromFormat($this->format, $request->date));
         }
         if ($request->has('address') && !is_null($request->address)) {
             $events = $events->where('address', 'LIKE', '%' . $request->address . '%');
