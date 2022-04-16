@@ -123,7 +123,7 @@
 {{--            </li>--}}
             <!-- /Mensagens -->
             <li class="dropdown">
-                <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
+                <a href="#" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
                     <div class="peer mR-10">
                         <img class="w-2r bdrs-50p" src="{{ $user->avatar ??'/images/photos/gravatar.svg'}}" style="max-width: 100px;max-height: 100px" alt="">
                     </div>
