@@ -38,6 +38,8 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'view_notification', 'description' => 'Ver Notificações'], //Ver Notificações
             ['name' => 'view_log', 'description' => 'Ver Logs'], //Ver Logs
             ['name' => 'send_mail', 'description' => 'Enviar Emails'], //Enviar Emails
+            ['name' => 'send_file', 'description' => 'Enviar Arquivos'], //Enviar Arquivos
+            ['name' => 'edit_file', 'description' => 'Enviar Emails'], //Editar Arquivos
 
 
         ];
