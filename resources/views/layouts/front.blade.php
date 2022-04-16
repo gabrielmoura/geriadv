@@ -49,20 +49,21 @@
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">First Item</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
-                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                                                     data-bs-toggle="dropdown" href="#">Dropdown </a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a
-                                class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third
-                                Item</a></div>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="#start">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#info">Informações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Recursos</a></li>
+                    {{--                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"--}}
+                    {{--                                                     data-bs-toggle="dropdown" href="#">Dropdown </a>--}}
+                    {{--                        <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a--}}
+                    {{--                                class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third--}}
+                    {{--                                Item</a></div>--}}
+                    {{--                    </li>--}}
                 </ul>
                 <span class="navbar-text actions">
                      @if (Route::has('login'))
 
-                            <a class="btn btn-light action-button" role="button" href="{{ url('/login') }}"
-                               style="background: rgba(9,162,255,0.85);">{{__('view.login')}}</a>
+                        <a class="btn btn-light action-button" role="button" href="{{ url('/login') }}"
+                           style="background: rgba(9,162,255,0.85);">{{__('view.login')}}</a>
 
                     @endif
                 </span>

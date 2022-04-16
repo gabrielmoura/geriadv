@@ -15,7 +15,7 @@
                 </fieldset>
                 {!! Form::close() !!}
                 @endif
-  @endrole              
+  @endrole
                 {!! Form::open($form) !!}
 
 
@@ -23,7 +23,7 @@
                     <legend>Dados Principais</legend>
                     <div class="row">
                         <x-form-input name="cpf" title="CPF" class="optional col-md-3"
-                                      placeholder="só numeros" :value="$client->cpf??''"></x-form-input>
+                                      placeholder="só numeros" :value="$client->cpf??''" inputClass="cpf"></x-form-input>
                         <x-form-input name="name" title="Nome" class="col-md-2" :value="$client->name??''" required></x-form-input>
                         <x-form-input name="last_name" title="Sobrenome" class="col-md-4" :value="$client->last_name??''" required></x-form-input>
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])

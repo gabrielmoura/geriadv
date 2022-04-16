@@ -22,5 +22,8 @@ return [
     'logout' => 'Sair',
     'login' => 'Entrar',
     'setting' => 'Configuração',
+    'roles' => 'Funções',
+    'role' => 'Função',
+    'roles_and_permissions' => 'Funções e permissões',
 
 ];

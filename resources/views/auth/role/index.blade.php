@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Roles & Permissions')
+@section('title', __('view.roles_and_permissions'))
 
 @section('content')
     <!-- Modal -->
@@ -12,7 +12,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="roleModalLabel">Role</h4>
+                    <h4 class="modal-title" id="roleModalLabel">{{__('view.role')}}</h4>
                 </div>
                 <div class="modal-body">
                     <!-- name Form Input -->
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__('Close')}}</button>
 
                     <!-- Submit Form Button -->
                     {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
@@ -35,7 +35,7 @@
 
     <div class="row">
         <div class="col-md-5">
-            <h3>Roles</h3>
+            <h3>{{__('view.roles')}}</h3>
         </div>
         <div class="col-md-7 page-action text-right">
             @can('add_roles')

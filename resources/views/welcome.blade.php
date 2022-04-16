@@ -1,6 +1,6 @@
 @extends('layouts.front')
 @section('content')
-    <section class="clean-block clean-hero"
+    <section class="clean-block clean-hero" id="start"
              style="background-image:url(&quot;images/tech/image4.jpg&quot;);color:rgba(9, 162, 255, 0.85);"><a
             class="d-md-flex justify-content-md-center align-items-md-center pulse animated infinite" id="wp"
             target="_blank"
@@ -9,10 +9,10 @@
         <div class="text">
             <h2>GeriADV.</h2>
             <p>Gerente Virtual para seu escritório.</p>
-            <button class="btn btn-outline-light btn-lg" type="button">Learn More</button>
+
         </div>
     </section>
-    <section class="clean-block clean-info dark">
+    <section class="clean-block clean-info dark" id="info">
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Informação</h2>
@@ -32,7 +32,7 @@
             </div>
         </div>
     </section>
-    <section class="clean-block features">
+    <section class="clean-block features" id="features">
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Features</h2>

@@ -4,14 +4,14 @@ import 'jquery-datetimepicker/build/jquery.datetimepicker.min.css';
 
 export default (function () {
 
-  $.datetimepicker.setLocale('pt-BR');
+    $.datetimepicker.setLocale('pt-BR');
 
   $('.date').datetimepicker({
     timepicker:false,
-    format:'Y-m-d'
+    format:'d/m/Y'
   }).attr('autocomplete', "off");
 
   $('.date-time').datetimepicker({
-    format:'Y-m-d H:i:s'
+    format:'d/m/Y H:i:s'
   }).attr('autocomplete', "off");
 }())

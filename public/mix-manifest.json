@@ -1,8 +1,8 @@
 {
-    "/js/app.js": "/js/app.js?id=1bf72d0c075198e7ffe6",
+    "/js/app.js": "/js/app.js?id=5d98986acf520021f1e1",
     "/css/app.css": "/css/app.css?id=f5eb2993883c5d34532c",
     "/css/rtl.css": "/css/rtl.css?id=6211d1ef36e5b0b05a01",
-    "/js/app.js.map": "/js/app.js.map?id=16a05219da5371da7395",
+    "/js/app.js.map": "/js/app.js.map?id=fdccdd0fa7448cc416ab",
     "/css/app.css.map": "/css/app.css.map?id=133cccc408c83928363f",
     "/css/rtl.css.map": "/css/rtl.css.map?id=39b6f9ed5d73bf611da5",
     "/js/manifest.js": "/js/manifest.js?id=89712bc6d8c588400cae",
@@ -10,6 +10,6 @@
     "/js/vendor.js": "/js/vendor.js?id=57d2fbdd8325e52b0eb5",
     "/js/vendor.js.map": "/js/vendor.js.map?id=0feb1975acb3d610c634",
     "/sw.js": "/sw.js?id=6ada4c03bf6b4eafe1f7",
-    "/js/webPush.js": "/js/webPush.js?id=68fcf0fd747d270c8053",
+    "/js/webPush.js": "/js/webPush.js?id=4af02e6207b4df4e1372",
     "/css/client.css": "/css/client.css?id=38e31489d046b4de21af"
 }
