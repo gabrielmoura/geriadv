@@ -1,11 +1,10 @@
-<meta name="author" content="{{config('metadata.author')}}"/>
-<meta itemprop="name" content="{{config('metadata.name')}}"/>
-<meta itemprop="email" content="{{config('metadata.email')}}"/>
-<meta itemprop="telephone" content="{{config('metadata.telephone')}}"/>
-<link itemprop="url" href="{{config('metadata.url')}}"/>
-<meta name="theme-color" content="{{config('metadata.theme-color')}}"/>
-<script type="application/ld+json">
-   {!! collect(config('metadata.header'))->toJson() !!}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{config('core.googleTag')}}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{config('core.googleTag')}}');
 </script>
 
 

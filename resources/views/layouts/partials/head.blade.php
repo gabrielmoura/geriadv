@@ -35,5 +35,6 @@
       ]) !!};
         </script>
     @endif
+    @include('layouts.front.meta')
 </head>
 

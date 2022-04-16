@@ -6,8 +6,6 @@
         <div class="container">
             <div class="block-heading">
                 <h2 class="text-info">Log In</h2>
-                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in,
-                    mattis vitae leo.</p> -->
             </div>
             <div class="row">
 
@@ -57,11 +55,8 @@
                     <div class="peers ai-c jc-sb fxw-nw">
                         <div class="peer">
                             <a class="btn btn-link" href="{{ route('password.request') }}">
-                                Forgot Your Password?
+                                {{__('passwords.forget')}}
                             </a>
-                        </div>
-                        <div class="peer">
-                            <a href="{{ route('register') }}" class="btn btn-link">Create new account</a>
                         </div>
                     </div>
                 </form>

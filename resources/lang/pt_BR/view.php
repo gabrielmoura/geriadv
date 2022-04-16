@@ -19,4 +19,8 @@ return [
     'hour' => [
         'outside' => 'Acesso fora da hora ou data permitida.',
     ],
+    'logout' => 'Sair',
+    'login' => 'Entrar',
+    'setting' => 'Configuração',
+
 ];

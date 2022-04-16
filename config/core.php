@@ -21,11 +21,12 @@ return [
     ],
     //  Padrão de Documentos
     'docs' => [
-        ['name'=>'cras','title'=>'CRAS'],
-        ['name'=>'cpf','title'=>'CPF'],
-        ['name'=>'rg','title'=>'RG'],
-        ['name'=>'birth_certificate','title'=>'Certidão de Nascimento'],
-        ['name'=>'proof_of_address','title'=>'Comprovante de Residência'],
+        ['name' => 'cras', 'title' => 'CRAS'],
+        ['name' => 'cpf', 'title' => 'CPF'],
+        ['name' => 'rg', 'title' => 'RG'],
+        ['name' => 'birth_certificate', 'title' => 'Certidão de Nascimento'],
+        ['name' => 'proof_of_address', 'title' => 'Comprovante de Residência'],
     ],
-    'ForgetDeletes'=> 'yearly',// yearly monthly weekly
+    'ForgetDeletes' => 'yearly',// yearly monthly weekly
+    'googleTag' => env('GOOGLE_TAG'), // Google Tag
 ];

@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="{{url('css/front/Whatsapp_Button.css')}}">
     <link rel="stylesheet" href="{{url('css/front/Navigation-with-Button.css')}}">
     <link rel="stylesheet" href="{{url('css/front/vanilla-zoom.min.css')}}">
+    @include('layouts.front.meta')
 </head>
 
 <body>
@@ -59,14 +60,10 @@
                 </ul>
                 <span class="navbar-text actions">
                      @if (Route::has('login'))
-                        @auth
-                            <a class="btn btn-light action-button" role="button" href="{{ url('/home') }}"
-                               style="background: rgba(9,162,255,0.85);">Entrar</a>
-                        @else
-                            <a class="login" href="{{ route('login') }}">Log In</a>
-                            <a class="btn btn-light action-button" role="button" href="{{ route('register') }}"
-                               style="background: rgba(9,162,255,0.85);">Sign Up</a>
-                        @endauth
+
+                            <a class="btn btn-light action-button" role="button" href="{{ url('/login') }}"
+                               style="background: rgba(9,162,255,0.85);">{{__('view.login')}}</a>
+
                     @endif
                 </span>
             </div>
@@ -81,8 +78,7 @@
                 <h5>Get started</h5>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Sign Up</a></li>
+                    <li><a href="{{ route('login') }}">{{__('view.login')}}</a></li>
                 </ul>
             </div>
             <div class="col-sm-3">
@@ -112,7 +108,7 @@
         </div>
     </div>
     <div class="footer-copyright">
-        <p>© 2021 Copyright Text</p>
+        <p>&copy; {{now()->year}} Desenvolvido por SrMoura. Todos os direitos reservados.</p>
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
