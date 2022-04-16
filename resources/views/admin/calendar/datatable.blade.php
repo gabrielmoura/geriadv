@@ -1,5 +1,7 @@
 @extends('layouts.default')
-@section('page-header') Eventos @endsection
+@section('page-header')
+    Eventos
+@endsection
 @section('content')
     @hasrole('manager|employees')
     <a class="btn btn-success" href="{{ route("admin.calendar.create") }}">
@@ -15,14 +17,31 @@
             <div class="card-body">
                 {!! Form::open(['route'=>['admin.calendar.index'],'method'=>'GET']) !!}
                 <div class="form-group row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <x-form-date name="date" value="{{$request->date??''}}" title="Data"></x-form-date>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
+                        @php($selects=[['name'=>'Nenhum','value'=>null],
+ ['name'=>'Janeiro','value'=>1],
+  ['name'=>  'Fevereiro','value'=>2],
+  ['name'=>  'Março','value'=>3],
+  ['name'=>  'Abril','value'=>4],
+  ['name'=>  'Maio','value'=>5],
+ ['name'=>   'Junho','value'=>6],
+  ['name'=>  'Julho','value'=>7],
+  ['name'=>  'Agosto','value'=>8],
+  ['name'=>  'Setembro','value'=>9],
+  ['name'=>  'Outubro','value'=>10],
+ ['name'=>   'Novembro','value'=>11],
+  ['name'=>  'Dezembro','value'=>12],
+])
+                        <x-form-select name="month" title="Mês" :selects="$selects"></x-form-select>
+                    </div>
+                    <div class="col-3">
                         <x-form-input name="address" value="{{$request->address??''}}"
                                       title="Endereço"></x-form-input>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <x-form-input name="lawyer" value="{{$request->lawyer??''}}"
                                       title="Advogado"></x-form-input>
                     </div>

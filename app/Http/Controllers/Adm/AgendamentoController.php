@@ -25,10 +25,15 @@ class AgendamentoController extends Controller
 {
     use CompanySessionTraits;
 
+
     /**
      * @var string
      */
-    public $format = 'd/m/Y';
+    public $formatDate = 'd/m/Y';
+    /**
+     * @var string
+     */
+    public $formatDateTime = 'd/m/Y H:i:s';
     /**
      * @var \string[][]
      */
@@ -74,13 +79,13 @@ class AgendamentoController extends Controller
         }
 
 
-        if ($request->has('month')) {
+        if ($request->has('month')&& !is_null($request->month)) {
             //Busca agendamentos por Mês
             $events = $events->whereMonth('start_time', '=', $request->month);
         }
         if ($request->has('date') && !is_null($request->date)) {
             //Busca agendamentos por data
-            $events = $events->where('start_time', '=', Carbon::createFromFormat($this->format, $request->date));
+            $events = $events->where('start_time', 'LIKE', Carbon::createFromFormat($this->formatDate, $request->date));
         }
         if ($request->has('address') && !is_null($request->address)) {
             $events = $events->where('address', 'LIKE', '%' . $request->address . '%');
@@ -119,10 +124,10 @@ class AgendamentoController extends Controller
                     return \App\Models\Calendar::RECURRENCE_RADIO[$events->recurrence] ?? '';
                 })
                 ->addColumn('start_time', function (Model $events) {
-                    return Carbon::parse($events->start_time)->format('Y-m-d H:i:s') ?? '';
+                    return Carbon::parse($events->start_time)->format($this->formatDateTime) ?? '';
                 })
                 ->addColumn('end_time', function (Model $events) {
-                    return Carbon::parse($events->end_time)->format('Y-m-d H:i:s') ?? '';
+                    return Carbon::parse($events->end_time)->format($this->formatDateTime) ?? '';
                 })
                 ->addColumn('lawyer', function (Model $events) {
                     return $events->lawyer->name ?? '';
@@ -178,9 +183,9 @@ class AgendamentoController extends Controller
                 $events[] = [
                     'title' => trim($source['prefix'] . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
-                    'start' => $crudFieldValue->format('Y-m-d H:i:s'),
+                    'start' => $crudFieldValue->format($this->formatDateTime),
                     //'end' => $model->{$source['end_field']},
-                    'end' => $model->{$source['end_field']}->format('Y-m-d H:i:s'),
+                    'end' => $model->{$source['end_field']}->format($this->formatDateTime),
                     'description' => $model->description . $lawyer ?? '',
                     'url' => route($source['route'], $model->id),
                 ];
@@ -263,8 +268,8 @@ class AgendamentoController extends Controller
     {
 
         $data = $request->all();
-        $data['start_time'] = Carbon::parse($request->start_time);
-        $data['end_time'] = Carbon::parse($request->end_time);
+        $data['start_time'] = Carbon::createFromFormat($this->formatDateTime, $request->start_time);
+        $data['end_time'] = Carbon::createFromFormat($this->formatDateTime, $request->end_time);
         $data['company_id'] = $this->getCompanyId();
         $data['lawyer_id'] = numberClear($request->lawyer_id);
 
@@ -300,8 +305,8 @@ class AgendamentoController extends Controller
     public function update(UpdateCalendarRequest $request, Model $event)
     {
         $data = $request->all();
-        $data['start_time'] = Carbon::parse($request->start_time);
-        $data['end_time'] = Carbon::parse($request->end_time);
+        $data['start_time'] = Carbon::createFromFormat($this->formatDateTime, $request->start_time);
+        $data['end_time'] = Carbon::createFromFormat($this->formatDateTime, $request->end_time);
         $data['company_id'] = $this->getCompanyId();
         $data['lawyer_id'] = numberClear($request->lawyer_id);
         if ($event->update($data)) {
