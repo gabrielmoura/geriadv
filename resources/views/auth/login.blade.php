@@ -5,7 +5,7 @@
     <section class="clean-block clean-form dark">
         <div class="container">
             <div class="block-heading">
-                <h2 class="text-info">Log In</h2>
+                <h2 class="text-info">{{__('Log In')}}</h2>
             </div>
             <div class="row">
 
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="peer">
-                                <button class="btn btn-primary">Login</button>
+                                <button class="btn btn-primary">{{__('Login')}}</button>
                             </div>
                         </div>
                     </div>
