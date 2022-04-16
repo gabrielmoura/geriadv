@@ -8,7 +8,7 @@
                         <div class="peers ai-c fxw-nw">
                             <div class="peer">
                                 <div class="logo">
-                                    <img src="{{session()->get('company.logo')??url('/images/logo.png')}}" alt="">
+                                    <img src="{{session()->get('company.logo')??asset('/images/logo.png')}}" alt="">
                                 </div>
                             </div>
                             <div class="peer peer-greed">

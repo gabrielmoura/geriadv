@@ -27,17 +27,17 @@
     <meta name="description" content="Gerente Virtual para seu escritório.">
     <meta property="og:image" content="images/geriadv.png">
     <meta name="twitter:title" content="GeriADV">
-    <link rel="icon" type="image/png" sizes="500x500" href="images/geriadv.png">
-    <link rel="stylesheet" href="{{url('css/front/bootstrap.min.css')}}">
+    <link rel="icon" type="image/png" sizes="500x500" href="{{asset('images/geriadv.png')}}">
+    <link rel="stylesheet" href="{{asset('css/front/bootstrap.min.css')}}">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="{{url('css/front/Whatsapp_Button.css')}}">
-    <link rel="stylesheet" href="{{url('css/front/Navigation-with-Button.css')}}">
-    <link rel="stylesheet" href="{{url('css/front/vanilla-zoom.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/front/Whatsapp_Button.css')}}">
+    <link rel="stylesheet" href="{{asset('css/front/Navigation-with-Button.css')}}">
+    <link rel="stylesheet" href="{{asset('css/front/vanilla-zoom.min.css')}}">
     @include('layouts.front.meta')
 </head>
 
@@ -113,10 +113,10 @@
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{url('js/front/bs-init.js')}}"></script>
+<script src="{{asset('js/front/bs-init.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-<script src="{{url('js/front/vanilla-zoom.js')}}"></script>
-<script src="{{url('js/front/theme.js')}}"></script>
+<script src="{{asset('js/front/vanilla-zoom.js')}}"></script>
+<script src="{{asset('js/front/theme.js')}}"></script>
 </body>
 
 </html>
