@@ -17,17 +17,8 @@ class CreatePendenciesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->json('pendency')->comment('Pendencias');
-
-            $table->boolean('cras')->comment('CRAS')->nullable();
-            $table->boolean('cpf')->comment('CPF')->nullable();
-            $table->boolean('rg')->comment('RG')->nullable();
-            $table->boolean('birth_certificate')->comment('Certidão de Nascimento')->nullable();
-            $table->boolean('proof_of_address')->comment('Comprovante de Residencia')->nullable();
-            $table->boolean('impossibility_to_sign')->comment('Impossibilitado de assinar')->nullable();
-
            // $table->unsignedBigInteger('note_id')->nullable()->comment('Observações associadas');
            // $table->foreign('note_id')->references('id')->on('notes');
-
         });
     }
 
