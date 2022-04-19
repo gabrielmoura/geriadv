@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ReCAPTCHAv3Google;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactRequest extends FormRequest
@@ -26,11 +27,11 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => ''
-            , 'email' => 'required|email'
-            , 'tel' => ''
-            , 'body' => 'required|min:30'
-            , 'g-recaptcha-response' => 'required|captcha'
+            'name' =>'required|max:255',
+            'tel' => 'numeric|required_without:email', //   Deve retornar required caso email esteja vazio
+            'email' => 'email|required_without:tel', // Deve retornar required caso tel esteja vazio
+            'body' => 'required',
+            'grecaptcha' => ['required',new ReCAPTCHAv3Google]
         ];
     }
 

@@ -55,7 +55,7 @@ Route::group(['prefix' => 'subscriptions'], function () {
     Route::post('/delete', [PushController::class, 'destroy']);
 });
 
-
+Route::post('/mensagem-contato',[\App\Http\Controllers\ContactController::class,'store'])->name('message.contact');
 Route::get('manifest.json', function () {
 
 

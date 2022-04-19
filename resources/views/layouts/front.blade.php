@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="{{asset('css/front/Navigation-with-Button.css')}}">
     <link rel="stylesheet" href="{{asset('css/front/vanilla-zoom.min.css')}}">
     @include('layouts.front.meta')
+    @stack('css')
+    @stack('head')
 </head>
 
 <body>
@@ -117,6 +119,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
 <script src="{{asset('js/front/vanilla-zoom.js')}}"></script>
 <script src="{{asset('js/front/theme.js')}}"></script>
+@stack('js')
 </body>
 
 </html>
