@@ -40,6 +40,10 @@ class CreateLawyersTable extends Migration
 
 
         });
+        Schema::table('clients', function (Blueprint $table) {
+            $table->unsignedBigInteger('lawyer_id')->nullable()->comment('Advogado');
+            $table->foreign('lawyer_id')->references('id')->on('lawyers');
+        });
     }
 
     /**
@@ -49,6 +53,9 @@ class CreateLawyersTable extends Migration
      */
     public function down()
     {
+        Schema::table('clients', function (Blueprint $table) {
+            $table->dropColumn('lawyer_id');
+        });
         Schema::dropIfExists('lawyers');
     }
 }
