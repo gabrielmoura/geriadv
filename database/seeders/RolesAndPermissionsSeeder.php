@@ -30,9 +30,9 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'edit_pendency', 'description' => 'Adiciona e Remove Pendencias'], //Adiciona e Remove Pendencias
             ['name' => 'audit_user', 'description' => 'Audita Usuários'], //Audita Usuários
             ['name' => 'view_analytic', 'description' => 'Quantidades de Vendas e Valores'], //Quantidades de Vendas e Valores
-            ['name' => 'edit_user', 'description' => 'Adicionar e Remover usuários(funcionários)'], //Adicionar e Remover usuários(funcionários)
-            ['name' => 'edit_company', 'description' => 'Adicionar e Remover usuários(funcionários)'], //Adicionar e Remover usuários(funcionários)
-            ['name' => 'edit_employee', 'description' => 'Adicionar e Remover usuários(funcionários)'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_user', 'description' => 'Adicionar e Remover usuários'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_company', 'description' => 'Adicionar e Remover Empresas'], //Adicionar e Remover usuários(funcionários)
+            ['name' => 'edit_employee', 'description' => 'Adicionar e Remover Funcionários'], //Adicionar e Remover usuários(funcionários)
             ['name' => 'edit_payment', 'description' => 'Editar pagamentos'], //Editar pagamentos
             ['name' => 'send_notification', 'description' => 'Enviar Notificações'], //Enviar Notificações
             ['name' => 'view_notification', 'description' => 'Ver Notificações'], //Ver Notificações
