@@ -73,7 +73,36 @@ class ClientView extends Model
 {
     //use HasFactory;
 
-    //protected $fillable = [];
+    protected $fillable = [
+        'client_id',
+         'cpf',
+         'last_name',
+         'name',
+         'rg',
+         'email',
+         'tel0',
+         'sex',
+         'birth_date',
+         'cep',
+         'address',
+         'number',
+         'complement',
+         'district',
+         'city',
+         'state',
+         'benefit',
+         'status',
+         'note',
+         'recommendation',
+         'tel1',
+         'slug',
+         'pendency',
+         'company_name',
+         'company_id',
+         'lawyer_id',
+         'lawyer_name',
+         'lawyer_last_name',
+    ];
     protected $table = 'client_views';
     protected $casts = [
         'cpf' => 'encrypted',

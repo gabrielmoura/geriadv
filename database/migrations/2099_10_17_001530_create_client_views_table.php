@@ -15,7 +15,7 @@ class CreateClientViewsTable extends Migration
         DB::statement("
          CREATE VIEW client_views AS
 
-          SELECT clients.id,
+           SELECT clients.id AS client_id,
     clients.cpf,
     clients.last_name,
     clients.name,
@@ -38,7 +38,11 @@ class CreateClientViewsTable extends Migration
     clients.tel1,
     clients.slug,
     pendencies.pendency,
-    companies.name AS company_name
+    companies.name AS company_name,
+    companies.id AS company_id,
+    lawyers.id AS lawyer_id,
+    lawyers.name AS lawyer_name,
+    lawyers.last_name AS lawyer_last_name
    FROM clients
      JOIN benefits ON benefits.id = clients.benefit_id
      LEFT JOIN client_statuses ON client_statuses.client_id = clients.id AND client_statuses.id = (( SELECT max(client_statuses_1.id) AS max
@@ -50,6 +54,7 @@ class CreateClientViewsTable extends Migration
           WHERE notes_1.client_id = clients.id))
      LEFT JOIN recommendations ON clients.recommendation_id = recommendations.id
      JOIN companies ON benefits.company_id = companies.id AND clients.company_id = companies.id
+     LEFT JOIN lawyers ON companies.id = lawyers.company_id AND clients.lawyer_id = lawyers.id
         ");
     }
 
