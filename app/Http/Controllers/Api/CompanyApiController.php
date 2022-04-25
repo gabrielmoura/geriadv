@@ -12,7 +12,36 @@ class CompanyApiController extends Controller
     {
         return Company::all();
     }
-    public function show($id){
+
+    public function show($id)
+    {
         return Company::find($id);
+    }
+
+    public function ban(Request $request)
+    {
+        $this->middleware('role:admin');
+
+        $company = Company::where('email', $request->email)->orWhere('id', $request->company_id)->first();
+        $company->banned = true;
+
+        if ($company->save()) {
+            cache()->forget('company:' . $request->company);
+            return response()->json([], 200);
+        }
+        return response()->json([], 422);
+    }
+
+    public function unBan(Request $request)
+    {
+        $this->middleware('role:admin');
+
+        $company = Company::where('email', $request->email)->orWhere('id', $request->company_id)->first();
+        $company->banned = false;
+        if ($company->save()) {
+            cache()->forget('company:' . $request->company);
+            return response()->json([], 200);
+        }
+        return response()->json([], 422);
     }
 }
