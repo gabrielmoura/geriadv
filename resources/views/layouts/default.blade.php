@@ -40,14 +40,11 @@
 <script src="{{ mix('/js/vendor.js') }}"></script>
 <script src="{{ mix('/js/app.js') }}"></script>
 
+@routes
 
-<!-- Global js content -->
-
-<!-- End of global js content-->
-
-<!-- Specific js content placeholder -->
+<x-poke />
 @stack('js')
-<!-- End of specific js content placeholder -->
+
 @toastr_render
 @if(config('webpush.enable'))
     <script>

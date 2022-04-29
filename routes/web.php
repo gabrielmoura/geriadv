@@ -6,6 +6,7 @@ use App\Http\Controllers\{Auth\SocialiteController, HomeController, PushControll
 use Faker\Provider\Uuid;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Actions\Poke\PokeRouteConstructor;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ Route::group(['prefix' => 'subscriptions'], function () {
     Route::post('/delete', [PushController::class, 'destroy']);
 });
 
-Route::post('/mensagem-contato',[\App\Http\Controllers\ContactController::class,'store'])->name('message.contact');
+Route::post('/mensagem-contato', [\App\Http\Controllers\ContactController::class, 'store'])->name('message.contact');
 Route::get('manifest.json', function () {
 
 
@@ -91,3 +92,4 @@ Route::get('manifest.json', function () {
     }
 
 })->middleware('cache.headers:public;max_age=2592000;etag');
+PokeRouteConstructor::construct();
