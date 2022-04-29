@@ -42,7 +42,6 @@
 
 @routes
 
-<x-poke />
 @stack('js')
 
 @toastr_render

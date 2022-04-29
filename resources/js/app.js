@@ -12,6 +12,10 @@ require('./0custom/client');
 if(process.env.MIX_WEBPUSH_ENABLE===true) {
     require('./web-push1/main');
 }
+if(isNumber(process.env.MIX_POKE_TIMES)) {
+    require('./0custom/poke');
+}
+
 //window.toUint8Array = require('base64-to-uint8array');
 // window.Vue = require('vue');
 import Vue from 'vue'
