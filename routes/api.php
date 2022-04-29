@@ -29,25 +29,32 @@ Route::get('/test', function () {
 });
 
 Route::post('/auth', function (Request $request) {
-    $auth = auth();
-    if ($auth->attempt($request->only('email', 'password'))) {
-        if (!$auth->user()->hasPermissionTo('use_api')) return response(null, 401);
-        $request->validate(['ability'=>'min:3','token_name'=>'required']);
-        $token = $auth->user()->createToken($request->token_name, explode(',', $request->ability) ?? ['not']);
-        return ['token' => $token->plainTextToken];
+    try {
+        $auth = auth();
+        if ($auth->attempt($request->only('email', 'password'))) {
+            if (!$auth->user()->hasPermissionTo('use_api')) return response(null, 401);
+            $request->validate(['ability'=>'min:3','token_name'=>'required']);
+            $token = $auth->user()->createToken($request->token_name, explode(',', $request->ability) ?? ['not']);
+            return ['token' => $token->plainTextToken];
+        }
+    }catch (Exception $e){
+        return response()->json(['error'=>$e->getMessage()],$e->getCode());
     }
-    return response(null, 401);
 });
 
 
 Route::middleware('auth:sanctum')->group(function () {
     //  Autoriza usuário[email,id] a solicitar token
     Route::middleware(['ability:admin'])->post('permissionTo', function (Request $request) {
-        $permission = Permission::where('name', 'use_api')->get();
-        $user = User::where('id', $request->user_id)
-            ->orWhere('email', $request->email)
-            ->first();
-        return $user->syncPermissions($permission);
+        try {
+            $permission = Permission::where('name', 'use_api')->get();
+            $user = User::where('id', $request->user_id)
+                ->orWhere('email', $request->email)
+                ->first();
+            return $user->syncPermissions($permission);
+        }catch (Exception $e){
+            return response()->json(['error'=>$e->getMessage()],$e->getCode());
+        }
     });
 
     //  Retorna todos os dados do usuário atual
