@@ -41,7 +41,7 @@
 <script src="{{ mix('/js/app.js') }}"></script>
 
 @routes
-
+<x-poke />
 @stack('js')
 
 @toastr_render

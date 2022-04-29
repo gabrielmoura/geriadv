@@ -12,8 +12,6 @@ require('./0custom/client');
 if(process.env.MIX_WEBPUSH_ENABLE===true) {
     require('./web-push1/main');
 }
-// Importa Poke
-require('./0custom/poke');
 
 //window.toUint8Array = require('base64-to-uint8array');
 // window.Vue = require('vue');
