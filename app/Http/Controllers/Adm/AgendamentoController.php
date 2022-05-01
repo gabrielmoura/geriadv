@@ -151,6 +151,7 @@ class AgendamentoController extends Controller
             ->responsive(true)
             ->serverSide(true)
             ->searching(false)
+            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
             ->minifiedAjax();
         return view('admin.calendar.datatable', compact('html', 'request'));
     }

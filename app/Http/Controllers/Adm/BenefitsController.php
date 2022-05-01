@@ -71,6 +71,7 @@ class BenefitsController extends Controller
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
             ->minifiedAjax();
 
 

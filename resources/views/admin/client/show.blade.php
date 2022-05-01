@@ -11,12 +11,12 @@
                 </a>
             </li>
 
-            <li>
-                <a data-toggle="tab" href="#status">
-                    <i class="orange ace-icon fa fa-rss bigger-120"></i>
-                    Status
-                </a>
-            </li>
+{{--            <li>--}}
+{{--                <a data-toggle="tab" href="#status">--}}
+{{--                    <i class="orange ace-icon fa fa-rss bigger-120"></i>--}}
+{{--                    Status--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
             <li>
                 <a data-toggle="tab" href="#doc">
@@ -205,9 +205,9 @@
                 </div>
             </div><!-- /#home -->
 
-            <div id="status" class="tab-pane">
-                @include('admin.client.activity')
-            </div><!-- /#status -->
+{{--            <div id="status" class="tab-pane">--}}
+{{--                @include('admin.client.activity')--}}
+{{--            </div><!-- /#status -->--}}
 
             <div id="doc" class="tab-pane">
                 <div class="profile-users clearfix">

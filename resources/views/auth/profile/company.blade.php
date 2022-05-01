@@ -41,12 +41,12 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         <p class="m-0">Criado em</p>
-                                        <p class="m-0"><strong>{{$company->created_at}}</strong></p>
+                                        <p class="m-0">
+                                            <strong>{{date_format($company->created_at,'d/m/Y h:i')??''}}</strong></p>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
                                 </div>
-                                <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i> 5% since last
-                                    month</p>
+                                <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i></p>
                             </div>
                         </div>
                     </div>
@@ -56,90 +56,90 @@
                                 <div class="row mb-2">
                                     <div class="col">
                                         <p class="m-0">Modificado em</p>
-                                        <p class="m-0"><strong>{{$company->updated_at}}</strong></p>
+                                        <p class="m-0">
+                                            <strong>{{date_format($company->updated_at,'d/m/Y h:i')??''}}</strong></p>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-rocket fa-2x"></i></div>
                                 </div>
-                                <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i> 5% since last
-                                    month</p>
+                                <p class="text-white-50 small m-0"><i class="fas fa-arrow-up"></i></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow">
-                            <div class="card-header py-3">
-                                <p class="text-primary m-0 fw-bold">Informações Básicas</p>
-                            </div>
-                            <div class="card-body">
-                                {!! Form::open(['route'=>['company.setting.update'],'id'=>"infoF"]) !!}
+                {{--                <div class="row">--}}
+                {{--                    <div class="col">--}}
+                {{--                        <div class="card shadow">--}}
+                {{--                            <div class="card-header py-3">--}}
+                {{--                                <p class="text-primary m-0 fw-bold">Informações Básicas</p>--}}
+                {{--                            </div>--}}
+                {{--                            <div class="card-body">--}}
+                {{--                                {!! Form::open(['route'=>['company.setting.update'],'id'=>"infoF"]) !!}--}}
 
-                                    <div class="mb-3"><label class="form-label"
-                                                             for="name"><strong>Nome</strong></label><input
-                                            type="text" class="form-control" id="name"
-                                            placeholder="123 LTDA" name="name" value="{{$company->name??''}}"/></div>
+                {{--                                    <div class="mb-3"><label class="form-label"--}}
+                {{--                                                             for="name"><strong>Nome</strong></label><input--}}
+                {{--                                            type="text" class="form-control" id="name"--}}
+                {{--                                            placeholder="123 LTDA" name="name" value="{{$company->name??''}}"/></div>--}}
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="tel0"><strong>Telefone</strong></label><input
-                                                    type="text" class="form-control tel" id="tel0"
-                                                    placeholder="(12)3456-7891" name="tel0"
-                                                    value="{{$company->tel0??''}}"/></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="email"><strong>Email</strong></label><input
-                                                    type="email" class="form-control email" id="email"
-                                                    placeholder="Email"
-                                                    name="email" value="{{$company->email??''}}"/></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="cnpj"><strong>Doc</strong></label><input
-                                                    type="text" class="form-control cpf_cnpj" id="cnpj"
-                                                    placeholder="cnpj" name="cnpj" value="{{$company->cnpj??''}}"/>
-                                            </div>
-                                        </div>
-                                    </div>
+                {{--                                    <div class="row">--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="tel0"><strong>Telefone</strong></label><input--}}
+                {{--                                                    type="text" class="form-control tel" id="tel0"--}}
+                {{--                                                    placeholder="(12)3456-7891" name="tel0"--}}
+                {{--                                                    value="{{$company->tel0??''}}"/></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="email"><strong>Email</strong></label><input--}}
+                {{--                                                    type="email" class="form-control email" id="email"--}}
+                {{--                                                    placeholder="Email"--}}
+                {{--                                                    name="email" value="{{$company->email??''}}"/></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="cnpj"><strong>Doc</strong></label><input--}}
+                {{--                                                    type="text" class="form-control cpf_cnpj" id="cnpj"--}}
+                {{--                                                    placeholder="cnpj" name="cnpj" value="{{$company->cnpj??''}}"/>--}}
+                {{--                                            </div>--}}
+                {{--                                        </div>--}}
+                {{--                                    </div>--}}
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="cep"><strong>CEP</strong></label><input
-                                                    type="text" class="form-control cep" id="Cep"
-                                                    placeholder="CEP" name="cep" value="{{$company->cep??''}}"/></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="number"><strong>Numero</strong></label><input
-                                                    type="number" class="form-control" id="number" placeholder="number"
-                                                    name="number" value="{{$company->number??''}}"/></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                                     for="complement"><strong>Complemento</strong></label><input
-                                                    type="text" class="form-control" id="complement"
-                                                    placeholder="complement"
-                                                    name="complement" value="{{$company->complement??''}}"/></div>
-                                        </div>
-                                        <div class="d-none">
-                                            <input type="text" name="address" id="Street">
-                                            <input type="text" name="district" id="District">
-                                            <input type="text" name="city" id="City">
-                                            <input type="text" name="state" id=State">
-                                        </div>
-                                    </div>
+                {{--                                    <div class="row">--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="cep"><strong>CEP</strong></label><input--}}
+                {{--                                                    type="text" class="form-control cep" id="Cep"--}}
+                {{--                                                    placeholder="CEP" name="cep" value="{{$company->cep??''}}"/></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="number"><strong>Numero</strong></label><input--}}
+                {{--                                                    type="number" class="form-control" id="number" placeholder="number"--}}
+                {{--                                                    name="number" value="{{$company->number??''}}"/></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <div class="col">--}}
+                {{--                                            <div class="mb-3"><label class="form-label"--}}
+                {{--                                                                     for="complement"><strong>Complemento</strong></label><input--}}
+                {{--                                                    type="text" class="form-control" id="complement"--}}
+                {{--                                                    placeholder="complement"--}}
+                {{--                                                    name="complement" value="{{$company->complement??''}}"/></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <div class="d-none">--}}
+                {{--                                            <input type="text" name="address" id="Street">--}}
+                {{--                                            <input type="text" name="district" id="District">--}}
+                {{--                                            <input type="text" name="city" id="City">--}}
+                {{--                                            <input type="text" name="state" id=State">--}}
+                {{--                                        </div>--}}
+                {{--                                    </div>--}}
 
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary btn-sm" type="submit">Salvar</button>
-                                    </div>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{--                                    <div class="mb-3">--}}
+                {{--                                        <button class="btn btn-primary btn-sm" type="submit">Salvar</button>--}}
+                {{--                                    </div>--}}
+                {{--                                {!! Form::close() !!}--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
             </div>
 

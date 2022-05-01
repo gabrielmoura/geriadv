@@ -6,10 +6,7 @@
     @endhasrole
 
     <div class="col-xl-12 ui-sortable">
-
         <div class=" " data-sortable-id="form-stuff-4">
-
-
             <div class="card-body">
                 {!! Form::open(['route'=>['admin.clients.index'],'method'=>'GET']) !!}
                 <div class="form-group row">
@@ -68,14 +65,13 @@
                     </div>
                     <div class="col-4">
                         <label for="cidade_id">Cidade</label>
-                        <select class="form-control selectLoad" id="cidade_id" data-tabela="bairros"
-                                data-chave="cidade_id" data-campo-retorno="bairro_id" name="city"></select>
+                        <input class="form-control " id="cidade_id" data-tabela="bairros"
+                                data-chave="cidade_id" data-campo-retorno="bairro_id" name="city" />
                     </div>
                     <div class="col-4">
                         <label for="bairro_id">Bairro</label>
-                        <select class="form-control" id="bairro_id" name="district">
-                            <option value="" selected="selected">Selecione</option>
-                        </select>
+                        <input class="form-control" id="bairro_id" name="district" />
+
                     </div>
                 </div>
 
