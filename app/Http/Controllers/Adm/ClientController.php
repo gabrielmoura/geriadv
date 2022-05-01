@@ -43,7 +43,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
 
-        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status']);
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status','benefit']);
 
         if ($request->has('name') && !is_null($request->name)) {
             $clients->whereRaw("CONCAT(name,' ',last_name)  like ?", ["%{$request->name}%"]);
@@ -108,11 +108,14 @@ class ClientController extends Controller
                 ->addColumn('fullname', function (Clients $client) {
                     return $client->fullname;
                 })
+                ->addColumn('benefit', function (Clients $client) {
+                    return (!!$client->benefit) ? __( $client->benefit->name) : null;
+                })
                 ->addColumn('status', function (Clients $client) {
                     return (!!$client->status) ? __('view.' . $client->status->status) : null;
                 })
                 ->addColumn('lastupdate', function (Clients $client) {
-                    return (!!$client->status) ? $client->status->created_at : null;
+                    return (!!$client->status) ? date_format($client->status->created_at,'d/m/Y h:i') : null;
                 })
                 ->filterColumn('fullname', function ($query, $keyword) {
                     $sql = "CONCAT(name,' ',last_name)  like ?";
@@ -129,14 +132,15 @@ class ClientController extends Controller
             ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
             ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
             ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])
-            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
             ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
             ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'benefit', 'name' => 'benefit', 'title' => 'Beneficio'])
             ->addColumn(['data' => 'status', 'name' => 'status.status', 'title' => 'Status'])
             ->addColumn(['data' => 'lastupdate', 'name' => 'status.created_at', 'title' => 'Ultima Modificação', 'searchable' => false])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
             ->responsive(true)
             ->serverSide(true)
+            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
             ->searching(false)
             ->minifiedAjax();
         return view('admin.client.datatable', compact('html', 'request'));

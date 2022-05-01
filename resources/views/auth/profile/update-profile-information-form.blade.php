@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Update profile information</div>
+                <div class="card-header">{{__('auth.setting.user-profile-information.header')}}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('user-profile-information.update') }}">
                         @csrf
@@ -30,7 +30,8 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">{{ __('Update Profile') }}</button>
+                                <button type="submit"
+                                        class="btn btn-primary">{{ __('auth.setting.user-profile-information.button') }}</button>
                             </div>
                         </div>
 

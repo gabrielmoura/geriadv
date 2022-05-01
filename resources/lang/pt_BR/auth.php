@@ -16,5 +16,18 @@ return [
     'failed' => 'Essas credenciais não foram encontradas em nossos registros.',
     'password' => 'A senha informada está incorreta.',
     'throttle' => 'Muitas tentativas de login. Tente novamente em :seconds segundos.',
-
+    'setting' => [
+        'two-factor' => [
+            'header' => 'Autenticação de dois fatores',//'Two factor authentication'
+            'button' => 'Ativar dois fatores', //'Enable Two-Factor'
+        ],
+        'user-password' => [
+            'header' => 'Atualizar senha',//'Update password'
+            'button' => 'Atualizar senha',//'Update password'
+        ],
+        'user-profile-information' => [
+            'header' => 'Atualizar informações do perfil', //Update profile information
+            'button' => 'Atualizar perfil', //Update Profile
+        ],
+    ],
 ];

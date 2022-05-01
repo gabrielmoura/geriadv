@@ -2,14 +2,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Two factor authentication</div>
+                <div class="card-header">{{__('auth.setting.two-factor.header')}}</div>
                 <div class="card-body">
                     @if(!auth()->user()->two_factor_secret)
                         {{-- Enable 2FA --}}
                         <form method="POST" action="{{ url('user/two-factor-authentication') }}">
                             @csrf
                             <button type="submit" class="btn btn-primary btn-block">
-                                {{ __('Enable Two-Factor') }}
+                                {{ __('auth.setting.two-factor.button') }}
                             </button>
                         </form>
                     @else
