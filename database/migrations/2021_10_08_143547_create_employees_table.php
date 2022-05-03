@@ -27,7 +27,7 @@ class CreateEmployeesTable extends Migration
              /**
              * Dados Pessoais
              */
-            $table->string('name')->nullable();
+            $table->string('name')->nullable()->index();
             $table->string('last_name')->nullable();
 
             $table->string('cpf')->nullable();

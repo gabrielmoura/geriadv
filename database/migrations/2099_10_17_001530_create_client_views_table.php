@@ -44,7 +44,7 @@ class CreateClientViewsTable extends Migration
     lawyers.name AS lawyer_name,
     lawyers.last_name AS lawyer_last_name
    FROM clients
-     JOIN benefits ON benefits.id = clients.benefit_id
+     LEFT JOIN benefits ON benefits.id = clients.benefit_id
      LEFT JOIN client_statuses ON client_statuses.client_id = clients.id AND client_statuses.id = (( SELECT max(client_statuses_1.id) AS max
            FROM client_statuses client_statuses_1
           WHERE client_statuses_1.client_id = clients.id))

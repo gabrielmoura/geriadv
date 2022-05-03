@@ -31,20 +31,20 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('benefit_id')->nullable()->comment('Benefícios');
             $table->foreign('benefit_id')->references('id')->on('benefits');
 
-            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa')->index();
             $table->foreign('company_id')->references('id')->on('companies');
 
 
             /**
              * Dados Pessoais
              */
-            $table->string('name')->nullable();
-            $table->string('last_name')->nullable();
+            $table->string('name')->nullable()->index();
+            $table->string('last_name')->nullable()->index();
 
             $table->string('cpf');
             $table->string('rg')->nullable();
             $table->string('email')->nullable();
-            $table->string('tel0')->comment('telefone')->nullable();
+            $table->string('tel0')->comment('telefone')->nullable()->index();
             $table->string('tel1')->nullable();
 
             $table->enum('sex', ['m', 'f'])->nullable()->comment('Sexo');

@@ -18,7 +18,7 @@ class CreateCalendarsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string('idEx')->nullable()->comment('ID externo');
-            $table->string('name')->comment('Titulo');
+            $table->string('name')->comment('Titulo')->index();
             $table->dateTime('start_time')->comment('Inicio');
             $table->dateTime('end_time')->comment('Fim');
             $table->string('address')->nullable()->comment('Address');
@@ -27,10 +27,10 @@ class CreateCalendarsTable extends Migration
             $table->enum('recurrence', ['daily', 'weekly', 'monthly', 'none'])->default('none');
 
 
-            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa');
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa')->index();
             $table->foreign('company_id')->references('id')->on('companies');
 
-            $table->unsignedBigInteger('lawyer_id')->nullable()->comment('Advogado');
+            $table->unsignedBigInteger('lawyer_id')->nullable()->comment('Advogado')->index();
             $table->foreign('lawyer_id')->references('id')->on('lawyers');
 
             $table->unsignedInteger('calendar_id')->nullable(); // foreign key to itself
