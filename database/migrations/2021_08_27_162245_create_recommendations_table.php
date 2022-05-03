@@ -19,7 +19,7 @@ class CreateRecommendationsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->string('name')->comment('Nome');
+            $table->string('name')->comment('Nome')->index();
         });
     }
 

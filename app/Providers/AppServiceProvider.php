@@ -4,6 +4,7 @@ namespace App\Providers;
 
 
 use App\Actions\Payment\{Payment, PaymentFacade, PaymentInterface};
+use Illuminate\Support\Facades\DB;
 use App\Models\Calendar;
 use App\Observers\CalendarRecurrenceObserver;
 use Illuminate\Queue\Events\JobProcessed;
@@ -11,8 +12,8 @@ use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use RichardStyles\EloquentEncryption\Casts\Encrypted;
-use RichardStyles\EloquentEncryption\EloquentEncryption;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PaymentInterface::class, function ($app) {
             return new Payment($app);
         });
-        $this->app->alias('Payment',PaymentFacade::class);
+        $this->app->alias('Payment', PaymentFacade::class);
     }
 
     /**
@@ -55,17 +56,22 @@ class AppServiceProvider extends ServiceProvider
         $this->forceHttps();
         //include_once base_path('resources/macros/form.php');
 
-
+        Queue::failing(function (JobFailed $event) {
+            Log::error('Job failed: ' . $event->job->resolveName() . '(' . $event->exception->getMessage() . ')');
+        });
         Queue::before(function (JobProcessing $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
+            Log::info('Job ready: ' . $event->job->resolveName());
+            Log::info('Job startet: ' . $event->job->resolveName());
         });
 
         Queue::after(function (JobProcessed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
+            Log::notice('Job done: ' . $event->job->resolveName());
+        });
+
+        Queue::looping(function () {
+            while (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
         });
 
         Blade::component('form-input', \App\View\Components\Form\Input::class);

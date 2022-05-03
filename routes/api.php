@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\{
     EmployerApiController,
     AnalyticsApiController
 };
+use App\Http\Controllers\Import\ImportCCAController;
 use Spatie\Permission\Models\Permission;
 
 /*
@@ -107,4 +108,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/company/{id}/ban', [CompanyApiController::class, 'ban']);
         Route::post('/company/{id}/unban', [CompanyApiController::class, 'unBan']);
     });
+    Route::post('/import',[ImportCCAController::class,'store']);
 });

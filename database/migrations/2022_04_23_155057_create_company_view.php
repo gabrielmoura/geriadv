@@ -39,7 +39,7 @@ class CreateCompanyView extends Migration
     pendencies.pendency,
     benefits.name AS benefit
    FROM companies
-     JOIN clients ON companies.id = clients.company_id
+     LEFT JOIN clients ON companies.id = clients.company_id
      LEFT JOIN lawyers ON companies.id = lawyers.company_id AND clients.lawyer_id = lawyers.id
      LEFT JOIN recommendations ON clients.recommendation_id = recommendations.id
      LEFT JOIN pendencies ON clients.pendency_id = pendencies.id
