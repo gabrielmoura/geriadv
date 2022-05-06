@@ -14,4 +14,16 @@ trait ApiTrait
             return response()->json(['error'=>$e->getMessage()],$e->getCode());
         }
     }
+    public function sendResponse($result, string $message): \Illuminate\Http\JsonResponse
+    {
+        $response = [
+            'success' => true,
+            'status'  => 200,
+            'code'    => 'success',
+            'message' => $message,
+            'data'    => $result,
+        ];
+
+        return response()->json($response, 200);
+    }
 }

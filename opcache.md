@@ -12,15 +12,15 @@ opcache.save_comments=1
 ## Uso
 Limpar OPcache:
 ```bash
-php artesão opcache:clear
+php artisan opcache:clear
 ```
 Mostrar configuração do OPcache:
 ```bash
-php artesão opcache:config
+php artisan opcache:config
 ```
 Mostrar status do OPcache:
 ```bash
-php artesão opcache:status
+php artisan opcache:status
 ```
 Pré-compile o código do seu aplicativo:
 ```bash

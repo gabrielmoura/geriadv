@@ -18,3 +18,5 @@ rr
 *.bkp
 .rr.yaml
 ray.php
+/app/Http/Controllers/Api/API.har
+/app/Http/Controllers/Api/HTML/

@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Beneficios')
 @section('page-header')Cadastrar Beneficio @endsection
 @section('content')
     <div class="row mB-40">

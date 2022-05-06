@@ -41,7 +41,7 @@ Route::post('/auth', function (Request $request) {
     }catch (Exception $e){
         return response()->json(['error'=>$e->getMessage()],$e->getCode());
     }
-});
+})->block();
 
 
 Route::middleware('auth:sanctum')->group(function () {

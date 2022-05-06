@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Usuários')
 @section('page-header')Usuário @endsection
 @section('content')
     <div class="row mB-40">

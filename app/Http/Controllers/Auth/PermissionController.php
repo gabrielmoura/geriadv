@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission\Permission;
+use App\Models\Permission\Role;
 
 class PermissionController extends Controller
 {
@@ -15,8 +15,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-        $permissions = Permission::all();
+        $roles = Role::get();
+        $permissions = Permission::get();
         return view('auth.role.index', compact('roles', 'permissions'));
     }
 

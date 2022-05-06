@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Empresas')
 @section('page-header') Empresa @endsection
 @section('content')
 

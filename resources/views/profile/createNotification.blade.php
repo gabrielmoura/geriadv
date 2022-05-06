@@ -1,5 +1,6 @@
 @extends('layouts.default')
-@section('page-header') Notificações @endsection
+@section('title', 'Notificações')
+@section('page-header','Notificações')
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
         {!! Form::open($form) !!}

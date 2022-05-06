@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Advogados')
 @section('page-header')Advogado @endsection
 @section('content')
     <div class="row mB-40">

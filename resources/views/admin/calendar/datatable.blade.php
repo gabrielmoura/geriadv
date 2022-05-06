@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Agendamento')
 @section('page-header')
     Eventos
 @endsection

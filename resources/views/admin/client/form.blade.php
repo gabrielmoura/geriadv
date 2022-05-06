@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Clientes')
 @section('page-header')Cliente @endsection
 @section('content')
     <div class="row mB-40">

@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>{{ config('app.name', 'GeriADV') }} - @yield('title')</title>
     <meta name="theme-color" content="rgb(9,162,255)">
     <meta name="twitter:description" content="Gerente Virtual para seu escritório.">
     <meta name="twitter:image" content="images/geriadv.png">
@@ -29,7 +29,7 @@
     <meta name="twitter:title" content="GeriADV">
     <link rel="icon" type="image/png" sizes="500x500" href="{{asset('images/geriadv.png')}}">
     <link rel="stylesheet" href="{{asset('css/front/bootstrap.min.css')}}">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="{{asset('manifest.json')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
@@ -78,28 +78,28 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <h5>Get started</h5>
+                <h5>Links</h5>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{{url('/')}}">Home</a></li>
                     <li><a href="{{ route('login') }}">{{__('view.login')}}</a></li>
                 </ul>
             </div>
-            <div class="col-sm-3">
-                <h5>About us</h5>
-                <ul>
-                    <li><a href="#">Company Information</a></li>
-                    <li><a href="#">Contact us</a></li>
-                    <li><a href="#">Reviews</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-3">
-                <h5>Support</h5>
-                <ul>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Help desk</a></li>
-                    <li><a href="#">Forums</a></li>
-                </ul>
-            </div>
+            {{--            <div class="col-sm-3">--}}
+            {{--                <h5>About us</h5>--}}
+            {{--                <ul>--}}
+            {{--                    <li><a href="#">Company Information</a></li>--}}
+            {{--                    <li><a href="#">Contact us</a></li>--}}
+            {{--                    <li><a href="#">Reviews</a></li>--}}
+            {{--                </ul>--}}
+            {{--            </div>--}}
+            {{--            <div class="col-sm-3">--}}
+            {{--                <h5>Support</h5>--}}
+            {{--                <ul>--}}
+            {{--                    <li><a href="#">FAQ</a></li>--}}
+            {{--                    <li><a href="#">Help desk</a></li>--}}
+            {{--                    <li><a href="#">Forums</a></li>--}}
+            {{--                </ul>--}}
+            {{--            </div>--}}
             <div class="col-sm-3">
                 <h5>Legal</h5>
                 <ul>
@@ -111,7 +111,7 @@
         </div>
     </div>
     <div class="footer-copyright">
-        <p>&copy; {{now()->year}} Desenvolvido por SrMoura. Todos os direitos reservados.</p>
+        <p>&copy; {{now()->year}} Todos os direitos reservados.</p>
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>

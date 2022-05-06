@@ -1,4 +1,5 @@
 @extends('layouts.front')
+@section('title',__('Bem Vindo'))
 @section('content')
     <section class="clean-block clean-hero" id="start"
              style="background-image:url(&quot;images/tech/image4.jpg&quot;);color:rgba(9, 162, 255, 0.85);"><a
@@ -258,6 +259,6 @@
     {{--                </div>--}}
     {{--            </div>--}}
     {{--        </section>--}}
-    @include('front.contact')
+
 @endsection
 

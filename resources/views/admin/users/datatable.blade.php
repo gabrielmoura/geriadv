@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Usuários')
 @section('page-header')Usuários @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">

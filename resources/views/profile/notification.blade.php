@@ -1,5 +1,5 @@
 @extends('layouts.default')
-
+@section('title', 'Notificações')
 @section('content')
     <div class="container-fluid">
         <h3 class="text-dark mb-4">Avisos</h3>

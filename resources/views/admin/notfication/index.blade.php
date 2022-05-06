@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Notificações')
 @section('page-header') Notificações @endsection
 @section('content')
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
@@ -20,9 +21,9 @@
             <tbody>
             @foreach($notifications as $notification)
                 <tr>
-                    <td>{{$notification->created_at}}</td>    
-                    <td>{{$notification->data['title']}}</td>    
-                    <td>{{$notification->data['body']}}</td>    
+                    <td>{{$notification->created_at}}</td>
+                    <td>{{$notification->data['title']}}</td>
+                    <td>{{$notification->data['body']}}</td>
                 </tr>
             @endforeach
             </tbody>

@@ -48,7 +48,7 @@ class ImportExcelCAJob implements ShouldQueue
             return;
         }
         $company_id = $this->company_id;
-        $times = 25;
+        $times = 20;
 
         $collect = LazyCollection::make(function () {
             $handle = fopen($this->path, 'r');

@@ -17,7 +17,8 @@
                                 </div>
                                 <div class="peer">
                                     <span
-                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">{{$status['monthly']['client_count']}}</span>
+                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
+                                        {{$status['client_count']}}</span>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +38,8 @@
                                 </div>
                                 <div class="peer">
                                     <span
-                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">{{$status['monthly']['requirement_count']}}</span>
+                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">
+                                        {{$status['requirement_count']}}</span>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +59,7 @@
                                 </div>
                                 <div class="peer">
                                     <span
-                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{$status['monthly']['deferred_count']}}</span>
+                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{$status['deferred_count']}}</span>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +79,7 @@
                                 </div>
                                 <div class="peer">
                                     <span
-                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">{{$status['now']['new_entry']}}</span>
+                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">{{$status['new_entry']}}</span>
                                 </div>
                             </div>
                         </div>
@@ -607,6 +609,6 @@
         @endsection
         @push('js')
             <script>
-                let status ={!! $status !!};
+                let status = {!! $status !!};
             </script>
     @endpush

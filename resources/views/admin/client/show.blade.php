@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Clientes')
 @section('page-header') Clientes @endsection
 @section('content')
 

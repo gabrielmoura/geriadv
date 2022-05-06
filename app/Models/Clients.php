@@ -16,6 +16,7 @@ use Shetabit\Visitor\Traits\Visitable;
 use App\Actions\Payment\PaymentTrait;
 use Illuminate\Database\Eloquent\Prunable;
 use App\Models\Invoice;
+use Laravel\Scout\Searchable;
 /**
  * App\Models\Clients
  *
@@ -104,7 +105,7 @@ class Clients extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, PaymentTrait;
     use HasSlug, SoftDeletes, LogsActivity, Visitable, Prunable;
-
+    use Searchable;
     /**
      * @var array
      */
@@ -294,7 +295,7 @@ class Clients extends Model implements HasMedia
     {
         $due_date = config('core.ForgetDeletes');
 
-        $this->info('Forgetting SoftDeletes');
+//        $this->info('Forgetting SoftDeletes');
 
         if ($due_date == 'yearly') {
             $sub_date = now()->subYear();

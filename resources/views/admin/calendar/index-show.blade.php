@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Agendamento')
 @section('content')
 
     <div style="margin-bottom: 10px;" class="row">

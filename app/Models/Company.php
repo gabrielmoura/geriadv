@@ -146,7 +146,7 @@ class Company extends Model implements HasMedia
     {
         $due_date = config('core.ForgetDeletes');
 
-        $this->info('Forgetting SoftDeletes');
+//        $this->info('Forgetting SoftDeletes');
 
         if ($due_date == 'yearly') {
             $sub_date = now()->subYear();

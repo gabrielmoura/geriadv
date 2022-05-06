@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Advogados')
 @section('page-header') Funcionário @endsection
 @section('content')
 

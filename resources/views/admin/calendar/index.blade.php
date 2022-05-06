@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'Agendamento')
 @section('content')
     {{-- CAN event_create --}}
     <div style="margin-bottom: 10px;" class="row">
