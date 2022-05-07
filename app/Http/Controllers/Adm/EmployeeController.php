@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Company\WelcomeCompanyMail;
 use App\Models\Employee;
 use App\Models\User;
 use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
@@ -112,7 +114,7 @@ class EmployeeController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
-        $employee = DB::transaction(function () use ($request) {
+        $transaction = DB::transaction(function () use ($request) {
             $user = User::create(['name' => $request->name
                 , 'email' => $request->email
                 , 'password' => Hash::make($request->password)
@@ -126,10 +128,11 @@ class EmployeeController extends Controller
                 , 'cpf' => numberClear($request->cpf)
                 , 'tel0' => numberClear($request->tel0)
             ]);
-            return $employee;
+            return [$employee,$user];
         });
 
-        if ($employee) {
+        if ($transaction[0]) {
+            Mail::to($transaction[1])->send(new WelcomeCompanyMail($this->getCompanyId(), $transaction[1]));
             toastr()->success('Funcionário criado com sucesso.');
         }
         return redirect()->route('admin.employee.index');

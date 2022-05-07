@@ -15,8 +15,8 @@ use Spatie\Sluggable\SlugOptions;
 use Shetabit\Visitor\Traits\Visitable;
 use App\Actions\Payment\PaymentTrait;
 use Illuminate\Database\Eloquent\Prunable;
-use App\Models\Invoice;
 use Laravel\Scout\Searchable;
+
 /**
  * App\Models\Clients
  *
@@ -106,6 +106,7 @@ class Clients extends Model implements HasMedia
     use HasFactory, InteractsWithMedia, PaymentTrait;
     use HasSlug, SoftDeletes, LogsActivity, Visitable, Prunable;
     use Searchable;
+
     /**
      * @var array
      */
@@ -222,18 +223,6 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Benefits::class, 'benefit_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function testMany()
-    {
-        return $this->belongsToMany(
-            User::class,
-            'trophies_users',
-            'trophy_id',
-            'user_id');
-
-    }
 
     /**
      * Retorna Indicação do Cliente
@@ -244,47 +233,6 @@ class Clients extends Model implements HasMedia
         return $this->belongsTo(Recommendation::class, 'recommendation_id', 'id');
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDownCPFAttribute()
-    {
-        //return $this->photos()->first()->full;
-        return $this->getMedia('product')->first()->getUrl('full');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDownRGAttribute()
-    {
-        //return $this->photos()->first()->full;
-        return $this->getMedia('product')->first()->getUrl('full');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBirth_certificateAttribute()
-    {
-        //return $this->photos()->first()->full;
-        return $this->getMedia('product')->first()->getUrl('full');
-    }
-
-    /*
-        |------------------------------------------------------------------------------------
-        | Scopes
-        |------------------------------------------------------------------------------------
-        */
-
-    /**
-     * @return mixed
-     */
-    public function getProof_of_addressAttribute()
-    {
-        //return $this->photos()->first()->full;
-        return $this->getMedia('product')->first()->getUrl('full');
-    }
 
     /*
     |------------------------------------------------------------------------------------
@@ -359,5 +307,10 @@ class Clients extends Model implements HasMedia
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+
+    public function searchableAs(): string
+    {
+        return 'clients_index';
     }
 }

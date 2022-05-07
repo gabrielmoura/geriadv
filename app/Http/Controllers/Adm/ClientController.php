@@ -11,6 +11,7 @@ use App\Models\Recommendation;
 use App\Traits\CompanySessionTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 use Yajra\DataTables\Html\Builder;
@@ -43,10 +44,14 @@ class ClientController extends Controller
     public function index(Request $request)
     {
 
-        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status','benefit']);
+        $clients = Clients::where('company_id', $this->getCompanyId())->with(['status', 'benefit']);
+        $clientx = null;
 
         if ($request->has('name') && !is_null($request->name)) {
             $clients->whereRaw("CONCAT(name,' ',last_name)  like ?", ["%{$request->name}%"]);
+        }
+        if ($request->has('namex') && !is_null($request->name)) {
+            $clientx = Clients::search($request->name)->where('company_id', 1)->get()->load(['status', 'benefit']);
         }
         if ($request->has('month') && !is_null($request->month)) {
             $clients = $clients->whereMonth('created_at', $request->month);
@@ -67,6 +72,10 @@ class ClientController extends Controller
             $clients = $clients->whereHas('status', function ($query) use ($request) {
                 $query->where('status', 'like', $request->status);
             });
+            if (is_null($clientx)) {
+                $clientx = $clientx->where('status', $request->status);
+            }
+
         }
         if ($request->has('recommendation') && !is_null($request->recommendation)) {
             $clients = $clients->whereHas('recommendation', function ($query) use ($request) {
@@ -81,11 +90,59 @@ class ClientController extends Controller
             $clients = Clients::query();
         }
         if (config('panel.datatable')) {
-            return $this->datatable($request, $clients);
+            if (is_null($clientx)) {
+                return $this->datatable($request, $clients);
+            }
+            return $this->searchScout($request, $clientx);
         } else {
             $clients = $clients->get();
             return view('admin.client.index', compact('clients', 'request'));
         }
+
+    }
+
+    protected function searchScout($request, Collection $collection)
+    {
+        if ($request->ajax()) {
+            return Datatables::of($collection)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    return $this->dataAction('admin.clients', $data->slug);
+                })
+                ->addColumn('fullname', function ($data) {
+                    return $data->fullname;
+                })
+                ->addColumn('benefit', function ($data) {
+                    return (!!$data->benefit) ? __($data->benefit->name) : null;
+                })
+                ->addColumn('status', function ($data) {
+                    return (!!$data->status) ? __('view.' . $data->status->status) : null;
+                })
+                ->addColumn('lastupdate', function ($data) {
+                    return (!!$data->status) ? date_format($data->status->created_at, 'd/m/Y h:i') : null;
+                })
+                ->rawColumns(['action'])
+                ->smart(true) // Pesquisa inteligente em tempo de execução
+                ->make(true);
+        }
+        $html = $this->htmlBuilder
+            ->setTableId('clients-table')
+            ->addColumn(['data' => 'fullname', 'name' => 'fullname', 'title' => 'Nome'])
+            ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
+            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
+            ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])
+            ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
+            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
+            ->addColumn(['data' => 'benefit', 'name' => 'benefit', 'title' => 'Beneficio'])
+            ->addColumn(['data' => 'status', 'name' => 'status.status', 'title' => 'Status'])
+            ->addColumn(['data' => 'lastupdate', 'name' => 'status.created_at', 'title' => 'Ultima Modificação', 'searchable' => false])
+            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
+            ->responsive(true)
+            ->serverSide(true)
+            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
+            ->searching(false)
+            ->minifiedAjax();
+        return view('admin.client.datatable', compact('html', 'request'));
 
     }
 
@@ -102,20 +159,20 @@ class ClientController extends Controller
         if ($request->ajax()) {
             return Datatables::of($client)
                 ->addIndexColumn()
-                ->addColumn('action', function (Clients $client) {
+                ->addColumn('action', function ($client) {
                     return $this->dataAction('admin.clients', $client->slug);
                 })
-                ->addColumn('fullname', function (Clients $client) {
+                ->addColumn('fullname', function ($client) {
                     return $client->fullname;
                 })
-                ->addColumn('benefit', function (Clients $client) {
-                    return (!!$client->benefit) ? __( $client->benefit->name) : null;
+                ->addColumn('benefit', function ($client) {
+                    return (!!$client->benefit) ? __($client->benefit->name) : null;
                 })
-                ->addColumn('status', function (Clients $client) {
+                ->addColumn('status', function ($client) {
                     return (!!$client->status) ? __('view.' . $client->status->status) : null;
                 })
-                ->addColumn('lastupdate', function (Clients $client) {
-                    return (!!$client->status) ? date_format($client->status->created_at,'d/m/Y h:i') : null;
+                ->addColumn('lastupdate', function ($client) {
+                    return (!!$client->status) ? date_format($client->status->created_at, 'd/m/Y h:i') : null;
                 })
                 ->filterColumn('fullname', function ($query, $keyword) {
                     $sql = "CONCAT(name,' ',last_name)  like ?";
@@ -188,11 +245,11 @@ class ClientController extends Controller
      */
     public function show($slug)
     {
-        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'billets','media'])->whereSlug($slug)
+        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'billets', 'media'])->whereSlug($slug)
             ->where('company_id', $this->getCompanyId())
             ->first();
-            $pendency=$client->pendency;
-        return view('admin.client.show', compact('client','pendency'));
+        $pendency = $client->pendency;
+        return view('admin.client.show', compact('client', 'pendency'));
     }
 
     /**
@@ -249,7 +306,7 @@ class ClientController extends Controller
         ]);
 
         $client = DB::transaction(function () use ($request) {
-            $recommendation = (!is_null($request->recommendation)) ?Recommendation::create(['name' => $request->recommendation]):null;
+            $recommendation = (!is_null($request->recommendation)) ? Recommendation::create(['name' => $request->recommendation]) : null;
             $clientData = [
                 /**
                  * Dados Pessoais
@@ -280,7 +337,7 @@ class ClientController extends Controller
 
             $clientData['company_id'] = $this->getCompanyId();
 
-            if ($recommendation!=null) {
+            if ($recommendation != null) {
                 $clientData['recommendation_id'] = $recommendation->id;
             }
             if ($request->has('benefit') && isset($request->benefit)) {
@@ -320,7 +377,7 @@ class ClientController extends Controller
         foreach (Benefits::where('company_id', $this->getCompanyId())->get() as $benefit) {
             $benefits[] = ['name' => $benefit->name, 'value' => $benefit->id];
         }
-        return view('admin.client.form', compact('client', 'form', 'benefits','slug'));
+        return view('admin.client.form', compact('client', 'form', 'benefits', 'slug'));
     }
 
     /**
@@ -351,7 +408,7 @@ class ClientController extends Controller
     public function destroy($slug)
     {
         $client = Clients::whereSlug($slug);
-        if($client->delete()){
+        if ($client->delete()) {
             toastr()->success('Cliente: ' . $client->name . ' removido com sucesso');
             return redirect()->route('admin.clients.index');
         }
