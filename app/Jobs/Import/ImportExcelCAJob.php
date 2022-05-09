@@ -51,7 +51,9 @@ class ImportExcelCAJob implements ShouldQueue
         $times = 20;
 
         $collect = LazyCollection::make(function () {
-            $handle = fopen($this->path, 'r');
+            $path = (string)storage_path('app/tmp/') . $this->path;
+            $handle = fopen($path, 'r');
+
             while (($line = fgets($handle)) !== false) {
                 yield str_getcsv($line, ';');
             }

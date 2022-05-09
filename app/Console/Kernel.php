@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Jobs\Client\BirthdayCustomerJob;
+use App\Jobs\Tool\DeleteTemporaryFileJob;
+use App\Jobs\Tool\UpdateStatusJob;
 use App\Models\User;
 use App\Notifications\User\PrivateMessageNotification;
 use Illuminate\Console\Scheduling\Schedule;
@@ -52,10 +54,11 @@ class Kernel extends ConsoleKernel
         // Executa ForgetSoftDeletes aos fins de semanas.
         //$schedule->command('x32:forgetDeletes')->weekends();
 
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('inspire')->hourly();
 
         // Limpar filas diariamente.
         $schedule->command('queue:prune-batches')->daily();
+        $schedule->command('queue:prune-failed')->daily();
 
         // Limpar tokens expirados todo mes
         $schedule->command('sanctum:prune-expired')->monthly();
@@ -63,9 +66,14 @@ class Kernel extends ConsoleKernel
         // Limpar SoftDeletes de ano em ano
         $schedule->command('model:prune')->yearly();
 
-        $schedule->command('auth:clear-resets')->everyFifteenMinutes();
+        $schedule->command('auth:clear-resets')->hourly();
 
-        //$schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('horizon:purge')->daily();
+
+        //  Remove arquivos acessados(atime) a mais de 1h, de h em h
+        $schedule->job(DeleteTemporaryFileJob::class)->hourly();
+        $schedule->job(UpdateStatusJob::class)->daily();
     }
 
     /**

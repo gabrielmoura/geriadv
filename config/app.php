@@ -203,6 +203,8 @@ return [
 
         //  Poke
         \App\Providers\PokeServiceProvider::class,
+        //  Horizon
+        \App\Providers\HorizonServiceProvider::class,
 
     ],
 

@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class ImportCSVJob implements ShouldQueue
 {
@@ -55,24 +56,31 @@ class ImportCSVJob implements ShouldQueue
             //  https://josephsilber.com/posts/2020/07/29/lazy-collections-in-laravel
             //  https://laravel-news.com/firstornew-firstorcreate-firstor-updateorcreate
             //  https://freek.dev/1734-how-to-group-queued-jobs-using-laravel-8s-new-batch-class
-            $benefit = $this->newBenefit($row, $this->company_id);
-            $recommendation = $this->newRecommendation($row);
-            $client = Clients::create([
-                'name' => $this->firstName($row[1])
-                , 'last_name' => $this->lastName($row[1])
-                , 'tel0' => $this->getTel($row)[0]
-                , 'tel1' => $this->getTel($row)[1]
-                , 'cpf' => numberClear($row[7] ?? null) ?? 999
-                , 'email' => $row[10] ?? null
-                , 'number' => 999
-                , 'district' => $row[3] ?? ' '
-                , 'city' => 'null'
-                , 'state' => 'Rio de Janeiro'
-                , 'recommendation_id' => $recommendation ?? null
-                , 'benefit_id' => $benefit ?? null
-                , 'company_id' => $this->company_id
-            ]);
-            Note::create(['body' => $row[6] ?? 'Importado Automaticamente', 'client_id' => $client->id ?? null]);
+            DB::beginTransaction();
+            try {
+                $benefit = $this->newBenefit($row, $this->company_id);
+                $recommendation = $this->newRecommendation($row);
+                $client = Clients::create([
+                    'name' => $this->firstName($row[1])
+                    , 'last_name' => $this->lastName($row[1])
+                    , 'tel0' => $this->getTel($row)[0]
+                    , 'tel1' => $this->getTel($row)[1]
+                    , 'cpf' => numberClear($row[7] ?? null) ?? 999
+                    , 'email' => $row[10] ?? null
+                    , 'number' => 999
+                    , 'district' => $row[3] ?? ' '
+                    , 'city' => 'null'
+                    , 'state' => 'Rio de Janeiro'
+                    , 'recommendation_id' => $recommendation ?? null
+                    , 'benefit_id' => $benefit ?? null
+                    , 'company_id' => $this->company_id
+                ]);
+                Note::create(['body' => $row[6] ?? 'Importado Automaticamente', 'client_id' => $client->id ?? null]);
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                logger()->error($e->getMessage(), $e->getTrace());
+            }
         }
     }
 

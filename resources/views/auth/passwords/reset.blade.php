@@ -7,7 +7,7 @@
                 <h2 class="text-info">{{__('Reset Password')}}</h2>
             </div>
             <div class="row">
-                <form class="form-horizontal " method="POST" action="{{ route('password.request') }}">
+                <form class="form-horizontal " method="POST" action="{{ route('password.update') }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="token" value="{{ request('token')??'' }}">
 

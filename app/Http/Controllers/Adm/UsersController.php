@@ -67,10 +67,10 @@ class UsersController extends Controller
         return view('admin.users.form', compact('form', 'company'));
     }
 
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
      * @throws \Throwable
      */
     public function store(Request $request)
@@ -82,7 +82,9 @@ class UsersController extends Controller
         $data = $request->all();
         $pass = Str::random(16);
         $data['password'] = Hash::make($pass);
-        $user = DB::transaction(function () use ($request, $data) {
+
+        DB::beginTransaction();
+        try {
             $user = User::create($data);
             $user->assignRole('manager');
             Employee::create([
@@ -91,12 +93,19 @@ class UsersController extends Controller
                 'user_id' => $user->id,
                 'company_id' => $request->company
             ]);
-            return $user;
-        });
-        Mail::to($user)->send(new WelcomeCompanyMail($request->company, $user));
+            DB::commit();
 
-        toastr()->success('Usuário: ' . $user->name . ' criado com sucesso');
-        return redirect()->route('admin.users.index');
+            Mail::to($user)->send(new WelcomeCompanyMail($request->company, $user));
+
+            toastr()->success('Usuário: ' . $user->name . ' criado com sucesso');
+            return redirect()->route('admin.users.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            logger()->error($e->getMessage(), $e->getTrace());
+            toastr()->error('Falha ao criar usuário');
+            return redirect()->route('admin.users.index');
+        }
+
         //return redirect()->route('admin.users.index')->with('success', 'Usuário:' . $user->name . ' criado com sucesso');
     }
 

@@ -42,8 +42,12 @@ class WelcomeCompanyMail extends Mailable implements ShouldQueue
     public function build()
     {
         $token = Password::createToken($this->user);
-        $urlReset = route('password.reset', ['token' => $token]);
+        $urlReset = route('password.reset', ['token' => $token, 'email' => $this->user->email]);
         $c = Company::find($this->company_id);
-        return $this->markdown('emails.company.welcome', ['company' => $c, 'urlReset' => $urlReset])->onQueue('high')->subject('Email de Boas Vindas');
+        return $this->markdown('emails.company.welcome', [
+            'company' => $c,
+            'urlReset' => $urlReset
+        ])->onQueue('high')
+            ->subject('Email de Boas Vindas');
     }
 }
