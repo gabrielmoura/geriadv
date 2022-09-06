@@ -20,6 +20,7 @@
 * Sessões ativas
 * Gerenciar agendamentos
 * Exibir Calendário
+* Envio de MP(Mensagem privada) entre os colaboradores de uma mesma empresa.
 * Controle de acesso por horário (Em andamento)
 * Envio de evento em caso de aniverssário (Em andamento)
 * Emitir Boletos (Em andamento)
