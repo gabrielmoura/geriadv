@@ -12,6 +12,17 @@
 
 * Escalabilidade
 * Segurança 
+* MultiTenancy
+* Gerenciar Clientes
+* Gerenciar Pendências de documentos
+* Gerenciar Arquivos usando S3
+* Gerenciar Funcionários
+* Sessões ativas
+* Gerenciar agendamentos
+* Exibir Calendário
+* Controle de acesso por horário (Em andamento)
+* Envio de evento em caso de aniverssário (Em andamento)
+* Emitir Boletos (Em andamento)
 
 
 ## Niveis de Permissões
@@ -43,6 +54,9 @@
 * [Lodash](https://lodash.com/)
 * [Ziggy](https://github.com/tighten/ziggy)
 * [WebSocket](https://github.com/beyondcode/laravel-websockets)
+* [S3](https://aws.amazon.com/pt/s3)
+* [Roadrunner](https://roadrunner.dev)
+* [Redis](https://redis.io)
 
 ### Requisitos
 
