@@ -3,15 +3,16 @@ version: '3'
 services:
     laravel.test:
         build:
-            context: ./docker/8.0
+            context: ./vendor/laravel/sail/runtimes/8.1
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.0/app
+        image: sail-8.1/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -22,39 +23,39 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
+            - pgsql
             - redis
             - minio
-    mysql:
-        image: 'mysql:8.0'
+    pgsql:
+        image: 'postgres:14'
         ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+            - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'sailmysql:/var/lib/mysql'
+            - 'sail-pgsql:/var/lib/postgresql/data'
+            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail
         healthcheck:
-          test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
-          retries: 3
-          timeout: 5s
+            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+            retries: 3
+            timeout: 5s
     redis:
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'sailredis:/data'
+            - 'sail-redis:/data'
         networks:
             - sail
         healthcheck:
-          test: ["CMD", "redis-cli", "ping"]
-          retries: 3
-          timeout: 5s
+            test: ["CMD", "redis-cli", "ping"]
+            retries: 3
+            timeout: 5s
     minio:
         image: 'minio/minio:latest'
         ports:
@@ -64,21 +65,21 @@ services:
             MINIO_ROOT_USER: 'sail'
             MINIO_ROOT_PASSWORD: 'password'
         volumes:
-            - 'sailminio:/data/minio'
+            - 'sail-minio:/data/minio'
         networks:
             - sail
         command: minio server /data/minio --console-address ":8900"
         healthcheck:
-          test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-          retries: 3
-          timeout: 5s
+            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+            retries: 3
+            timeout: 5s
 networks:
     sail:
         driver: bridge
 volumes:
-    sailmysql:
+    sail-pgsql:
         driver: local
-    sailredis:
+    sail-redis:
         driver: local
-    sailminio:
+    sail-minio:
         driver: local
