@@ -8,6 +8,13 @@
 	🚧  GeriADV 🚀 Em construção...  🚧
 </h4>
 
+## Testar:
+```
+Url: https://geriadv.herokuapp.com/login
+Email: admin@example.com
+Senha: admin
+```
+
 ## Objetivos:
 
 * Escalabilidade
