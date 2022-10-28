@@ -60,6 +60,9 @@ use Shetabit\Visitor\Traits\Visitor;
  * @property-read int|null $push_subscriptions_count
  * @property-read \App\Models\Company $company
  * @property-read \App\Models\Employee $employee
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Shetabit\Visitor\Models\Visit[] $visits
+ * @property-read int|null $visits_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User online(int $seconds = 180)
  */
 class User extends Authenticatable
 {
@@ -88,6 +91,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    protected $with = [
+        'roles',
+        'roles.permissions',
+        'permissions'
+    ];
 
     /**
      * The attributes that should be cast.
@@ -97,7 +105,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    protected $with = ['roles', 'permissions'];
 
     /**
      * @return string

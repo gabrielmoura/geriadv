@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\ClientObserver;
+use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -100,11 +101,21 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCompanyId($value)
  * @property \Illuminate\Support\Collection|null $properties Propriedades
  * @method static \Illuminate\Database\Eloquent\Builder|Clients whereProperties($value)
+ * @property \Illuminate\Support\Collection $payment Pagamento
+ * @property int|null $lawyer_id Advogado
+ * @property-read bool $paid
+ * @property-read int $parcel
+ * @property-read float $parcel_value
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Shetabit\Visitor\Models\Visit[] $visitLogs
+ * @property-read int|null $visit_logs_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereLawyerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePayment($value)
  */
 class Clients extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, PaymentTrait;
-    use HasSlug, SoftDeletes, LogsActivity, Visitable, Prunable;
+    use SoftDeletes, LogsActivity, Visitable, Prunable;
     use Searchable;
 
     /**
@@ -172,6 +183,9 @@ class Clients extends Model implements HasMedia
     {
         parent::boot();
         Clients::observe(ClientObserver::class);
+        self::creating(function ($model) {
+            $model->slug = Cuid::cuid();
+        });
     }
 
     /**
@@ -279,15 +293,6 @@ class Clients extends Model implements HasMedia
         return $this->payment->get('parcel_value');
     }
 
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('last_name')
-            ->saveSlugsTo('slug');
-    }
 
     /**
      * @return string

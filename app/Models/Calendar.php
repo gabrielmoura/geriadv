@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -187,4 +188,11 @@ class Calendar extends Model
                 return $this->save();
             });
         } */
+    protected static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->pid = Cuid::slug();
+        });
+    }
 }

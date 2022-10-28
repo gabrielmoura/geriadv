@@ -16,6 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
+    'dw_default'=> env('DW_CONNECTION', 'dw_pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,6 +76,20 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'schema' => env('DATABASE_SCHEMA', 'public'),
+            'sslmode' => 'prefer',
+        ],
+        'dw_pgsql' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'DW',
             'sslmode' => 'prefer',
         ],
 

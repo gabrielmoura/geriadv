@@ -15,6 +15,7 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('pid')->comment('Public Id');
             $table->timestamps();
             $table->softDeletes();
 

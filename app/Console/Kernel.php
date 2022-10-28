@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\Client\BirthdayCustomerJob;
+use App\Jobs\Company\ClientAnalyticsJob;
 use App\Jobs\Tool\DeleteTemporaryFileJob;
 use App\Jobs\Tool\UpdateStatusJob;
 use App\Models\User;
@@ -31,8 +32,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //$schedule->command('queue:restart')->hourly();
-        $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low,process')->runInBackground()->withoutOverlapping()->everyMinute();
-
+        // $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low,process')->runInBackground()->withoutOverlapping()->everyMinute();
+        $schedule->job(new ClientAnalyticsJob())->thursdays()->at('00:00');
 
         $schedule->command('backup:run --only-db')->daily()->at('18:00')
             ->onFailure(function ($e) {
@@ -64,8 +65,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('sanctum:prune-expired')->monthly();
 
         // Limpar SoftDeletes de ano em ano
-        $schedule->command('model:prune')->yearly();
-
+//        $schedule->command('model:prune')->yearly();
+//
         $schedule->command('auth:clear-resets')->hourly();
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();

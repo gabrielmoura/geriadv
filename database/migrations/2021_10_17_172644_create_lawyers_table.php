@@ -15,6 +15,7 @@ class CreateLawyersTable extends Migration
     {
         Schema::create('lawyers', function (Blueprint $table) {
             $table->id();
+            $table->string('pid')->comment('Public Id');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');

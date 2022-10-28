@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Observers\CompanyObserver;
+use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -67,6 +69,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Company whereLogo($value)
  * @method static \Illuminate\Database\Query\Builder|Company withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Company withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Calendar[] $calendars
+ * @property-read int|null $calendars_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lawyer[] $lawyers
+ * @property-read int|null $lawyers_count
  */
 class Company extends Model implements HasMedia
 {
@@ -183,5 +189,8 @@ class Company extends Model implements HasMedia
     {
         parent::boot();
         Company::observe(CompanyObserver::class);
+        self::creating(function ($model) {
+            $model->pid = Str::ulid();
+        });
     }
 }

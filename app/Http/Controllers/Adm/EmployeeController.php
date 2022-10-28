@@ -42,6 +42,8 @@ class EmployeeController extends Controller
     {
         //Apenas o gerente deve acessar
         $employees = Employee::where('company_id', $this->getCompanyId());
+//        $employees = DB::table('employees')->where('company_id','=',$this->getCompanyId());
+
 
         if (config('panel.datatable')) {
             return $this->datatable($request, $employees);
@@ -63,9 +65,9 @@ class EmployeeController extends Controller
         if ($request->ajax()) {
             return Datatables::of($employees)
                 ->addColumn('action', function (Employee $employee) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.employee.show', ['employee' => $employee->id]) . '"><i
+                    return '<div class="table-data-feature"><a href="' . route('admin.employee.show', ['employee' => $employee->pid]) . '"><i
                                 class="fa fa-eye"></i></a>|<a
-                            href="' . route('admin.employee.edit', ['employee' => $employee->id]) . '"><i
+                            href="' . route('admin.employee.edit', ['employee' => $employee->pid]) . '"><i
                                 class="fa fa-edit"></i></a></div>';
                 })
                 ->rawColumns(['action'])
@@ -103,7 +105,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::where('pid',$id)->first();
         return view('admin.employee.show', compact('employee'));
     }
 
@@ -140,10 +142,9 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
-        // $request->validade();
+
         $data = $request->all();
-        //dd($data);
-        $employee = Employee::find($request->id);
+        $employee = Employee::where('pid',$request->id)->first();
         if ($request->has('cep')) {
             $data['cep'] = numberClear($request->cep);
         }
@@ -175,7 +176,7 @@ class EmployeeController extends Controller
     {
         $form = ['route' => ['admin.employee.update', $id], 'method' => 'put'];
 
-        $employee = Employee::find($id);
+        $employee = Employee::where('pid',$id)->first();
         return view('admin.employee.form', compact('form', 'employee'));
     }
 

@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Benefits;
 use App\Models\Calendar;
 use App\Models\Clients;
+use App\Models\DW\ClientAnalytics;
 use App\Traits\CompanySessionTraits;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\LazyCollection;
 
 /**
  * Class AnalyticsController
@@ -32,7 +34,8 @@ class AnalyticsController extends Controller
         } else {
             $status = $this->manager();
         }
-
+        dd(ClientAnalytics::all());
+//        dd($status);
         return view('admin.analytics.index', compact('status'));
     }
 

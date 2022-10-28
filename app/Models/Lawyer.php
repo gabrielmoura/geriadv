@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -105,5 +107,12 @@ class Lawyer extends Model
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->pid = Str::ulid();
+        });
     }
 }

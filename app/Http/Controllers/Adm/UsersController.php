@@ -36,15 +36,25 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $userAuth = Auth::user();
+        $db=DB::table('companies')
+            ->join('employees', 'companies.id', '=', 'employees.company_id');
         if ($userAuth->hasRole('admin')) {
             //Deverá retornar todos os usuários rejeitando o que for admin
             $usuarios = User::with('employee', 'employee.company')->get()->reject(function ($user) {
                 return $user->hasRole('admin');
             });
+//            $usuarios = $db->get()->collect()->reject(function ($user) {
+//                return $user->hasRole('admin');
+//            });
         }
         if ($userAuth->hasRole('manager')) {
             $usuarios = [];
-            foreach (Company::find($this->getCompanyId())->employees()->get() as $emp) {
+
+
+            $employees=$db
+                ->where('companies.id','=',$this->getCompanyId())->get();
+//            Company::find($this->getCompanyId())->employees()->get()
+                foreach ($employees as $emp) {
                 $usuarios[] = $emp->user()->first();
             }
         }

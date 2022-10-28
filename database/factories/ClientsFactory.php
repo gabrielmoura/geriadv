@@ -7,6 +7,7 @@ use App\Models\Clients;
 use App\Models\Company;
 use App\Models\Model;
 use App\Models\Pendencies;
+use App\Models\Recommendation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClientsFactory extends Factory
@@ -50,7 +51,7 @@ class ClientsFactory extends Factory
             //, 'country'
             //, 'newsletter'
 
-            //, 'recommendation_id'
+            , 'recommendation_id' => $this->recommendation()
 
             , 'benefit_id' => $this->benefit()
             , 'company_id' => $this->company()
@@ -79,15 +80,24 @@ class ClientsFactory extends Factory
     private function pendency()
     {
         $p = Pendencies::create([
-            'cras' => collect([true, false])->random()
-            , 'cpf' => collect([true, false])->random()
-            , 'rg' => collect([true, false])->random()
-            , 'birth_certificate' => collect([true, false])->random()
-            , 'proof_of_address' => collect([true, false])->random()
-            , 'impossibility_to_sign' => collect([true, false])->random()
-            // , 'note_id' => null
-        ]);
+            'pendency' => [
+                'cras' => collect([true, false])->random()
+                , 'cpf' => collect([true, false])->random()
+                , 'rg' => collect([true, false])->random()
+                , 'birth_certificate' => collect([true, false])->random()
+                , 'proof_of_address' => collect([true, false])->random()
+                , 'impossibility_to_sign' => collect([true, false])->random()
+                // , 'note_id' => null
+            ]]);
         return $p->id;
+    }
+
+    private function recommendation()
+    {
+        $r = Recommendation::create([
+            'name' => $this->faker->firstName
+        ]);
+        return $r->id;
     }
 
     private function numberClear($number)

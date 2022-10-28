@@ -245,7 +245,7 @@ class ClientController extends Controller
      */
     public function show($slug)
     {
-        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'billets', 'media'])->whereSlug($slug)
+        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'media'])->whereSlug($slug)
             ->where('company_id', $this->getCompanyId())
             ->first();
         $pendency = $client->pendency;
@@ -372,6 +372,9 @@ class ClientController extends Controller
     public function edit($slug)
     {
         $client = Clients::whereSlug($slug)->first();
+        if ($client->company_id != $this->getCompanyId()) {
+            return abort(403,'Nenhum Resultado Encontrado');
+        }
         $form = ['route' => ['admin.clients.update', $slug], 'method' => 'put'];
         $benefits = [];
         foreach (Benefits::where('company_id', $this->getCompanyId())->get() as $benefit) {
@@ -396,6 +399,9 @@ class ClientController extends Controller
 
         $client = DB::transaction(function () use ($data, $slug) {
             $client = Clients::whereSlug($slug)->first();
+            if ($client->company_id != $this->getCompanyId()) {
+                return abort(403);
+            }
             $client->update($data);
             return $client;
         });

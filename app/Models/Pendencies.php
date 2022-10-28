@@ -41,6 +41,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $activities_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property \Illuminate\Support\Collection $pendency Pendencias
+ * @method static \Illuminate\Database\Eloquent\Builder|Pendencies wherePendency($value)
  */
 class Pendencies extends Model implements HasMedia
 {

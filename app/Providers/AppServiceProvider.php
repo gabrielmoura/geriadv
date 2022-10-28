@@ -39,10 +39,15 @@ class AppServiceProvider extends ServiceProvider
             $this->app['request']->server->set('HTTPS', true);
         }
 
-        $this->app->bind(PaymentInterface::class, function ($app) {
-            return new Payment($app);
-        });
-        $this->app->alias('Payment', PaymentFacade::class);
+//        $this->app->bind(PaymentInterface::class, function ($app) {
+//            return new Payment($app);
+//        });
+//        $this->app->alias('Payment', PaymentFacade::class);
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class,);
+        }
     }
 
     /**

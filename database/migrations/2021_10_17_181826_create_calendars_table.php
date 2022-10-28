@@ -17,7 +17,7 @@ class CreateCalendarsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->string('idEx')->nullable()->comment('ID externo');
+            $table->string('pid')->comment('Public Id');
             $table->string('name')->comment('Titulo')->index();
             $table->dateTime('start_time')->comment('Inicio');
             $table->dateTime('end_time')->comment('Fim');
