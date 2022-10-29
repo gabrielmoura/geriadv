@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -50,7 +51,7 @@ class Benefits extends Model
     use LogsActivity;
 
 
-    protected $fillable = ['name', 'description', 'company_id', 'wage', 'wage_factor', 'wage_type'];
+    protected $fillable = ['name', 'description', 'company_id', 'wage', 'wage_factor', 'wage_type','pid'];
 
 
     public function clients()
@@ -66,5 +67,12 @@ class Benefits extends Model
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->pid = Str::ulid();
+        });
     }
 }

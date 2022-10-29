@@ -7,6 +7,7 @@ use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -184,7 +185,7 @@ class Clients extends Model implements HasMedia
         parent::boot();
         Clients::observe(ClientObserver::class);
         self::creating(function ($model) {
-            $model->slug = Cuid::cuid();
+            $model->slug = Str::ulid();
         });
     }
 

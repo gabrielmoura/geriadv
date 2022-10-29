@@ -58,7 +58,7 @@ if (!function_exists('inObject')) {
     function inObject($name, $object)
     {
         return collect($object)->contains(function ($value, $key) use ($name) {
-            $value == $name || $key == name;
+            $value == $name || $key == $name;
         });
     }
 }

@@ -15,7 +15,7 @@ class CreateLawyersTable extends Migration
     {
         Schema::create('lawyers', function (Blueprint $table) {
             $table->id();
-            $table->string('pid')->comment('Public Id');
+            $table->ulid('pid')->comment('Public ID');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');
@@ -30,7 +30,7 @@ class CreateLawyersTable extends Migration
             $table->string('last_name')->nullable();
 
             $table->string('cpf')->nullable();
-            $table->integer('oab')->comment('Inscrição OAB')->nullable();
+            $table->string('oab')->comment('Inscrição OAB')->nullable();
             $table->string('rg')->nullable();
             $table->string('email')->nullable();
             $table->string('tel0')->comment('telefone')->nullable();

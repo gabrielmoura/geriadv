@@ -10,15 +10,15 @@
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <x-form-input name="cnpj" title="CNPJ" class="optional col-md-3" inputClass="cnpj"
+                        <x-form.input name="cnpj" title="CNPJ" class="optional col-md-3" inputClass="cnpj"
                                       :value="$company->cnpj??''"
-                                      placeholder="só numeros"></x-form-input>
-                        <x-form-input name="name" title="Nome" class="col-md-2" :value="$company->name??''"
-                                      required></x-form-input>
-                        <x-form-input type="email" class="col-md-5 email" name="email" :value="$company->email??''"
-                                      title="E-mail"></x-form-input>
-                        <x-form-input class="col-md-3" title="Telefone" name="tel0" :value="$company->tel0??''"
-                                      inputClass="tel"></x-form-input>
+                                      placeholder="só numeros"></x-form.input>
+                        <x-form.input name="name" title="Nome" class="col-md-2" :value="$company->name??''"
+                                      required></x-form.input>
+                        <x-form.input type="email" class="col-md-5 email" name="email" :value="$company->email??''"
+                                      title="E-mail"></x-form.input>
+                        <x-form.input class="col-md-3" title="Telefone" name="tel0" :value="$company->tel0??''"
+                                      inputClass="tel"></x-form.input>
 
                     </div>
                 </fieldset>
@@ -29,9 +29,9 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
+                        <x-form.input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
                                       :value="$company->cep??''"
-                                      inputClass="cep"></x-form-input>
+                                      inputClass="cep"></x-form.input>
 
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
                                 class="control-label string optional"

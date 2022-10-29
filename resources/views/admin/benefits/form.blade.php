@@ -15,9 +15,9 @@
                     <legend>Dados Principais</legend>
                     <div class="row">
 
-                        <x-form-input name="name" title="Nome" :value="$benefit['name']??''" required></x-form-input>
-                        <x-form-input name="description" title="Descrição"
-                                      :value="$benefit['description']??''"></x-form-input>
+                        <x-form.input name="name" title="Nome" :value="$benefit['name']??''" required></x-form.input>
+                        <x-form.input name="description" title="Descrição"
+                                      :value="$benefit['description']??''"></x-form.input>
 
                     </div>
                 </fieldset>
@@ -35,11 +35,11 @@
                     </p>
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
-                        <x-form-input type="number" name="wage" title="Remuneração" :value="$benefit['wage']??''"
-                        ></x-form-input>
-                        <x-form-input type="number" name="wage_factor" title="Fator de Remuneração"
+                        <x-form.input type="number" name="wage" title="Remuneração" :value="$benefit['wage']??''"
+                        ></x-form.input>
+                        <x-form.input type="number" name="wage_factor" title="Fator de Remuneração"
                                       :value="$benefit['wage_factor']??''"
-                                      step=".01"></x-form-input>
+                                      step=".01"></x-form.input>
 
                     </div>
                 </fieldset>

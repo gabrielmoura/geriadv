@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Actions\TreatmentRequest\CreateNewLawyer;
+use App\DataTables\LawyerDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Lawyer;
 use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
@@ -14,54 +16,14 @@ class LawyerController extends Controller
 {
     use CompanySessionTraits;
 
-    /**
-     * @var Builder
-     */
-    protected $htmlBuilder;
 
     /**
-     * LawyerController constructor.
-     * @param Builder $htmlBuilder
+     * @param LawyerDataTable $dataTable
+     * @return mixed
      */
-    public function __construct(Builder $htmlBuilder)
+    public function index(LawyerDataTable $dataTable)
     {
-        $this->htmlBuilder = $htmlBuilder;
-
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function index(Request $request)
-    {
-
-        $lawyer = Lawyer::where('company_id', $this->getCompanyId());
-        if ($request->ajax()) {
-            return Datatables::of($lawyer)
-                ->addColumn('action', function (Lawyer $lawyer) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.lawyer.show', ['lawyer' => $lawyer->id]) . '"><i
-                                class="fa fa-eye"></i></a>|<a
-                            href="' . route('admin.lawyer.edit', ['lawyer' => $lawyer->id]) . '"><i
-                                class="fa fa-edit"></i></a></div>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        $html = $this->htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nome'])
-            ->addColumn(['data' => 'last_name', 'last_name' => 'last_name', 'title' => 'Sobrenome'])
-            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
-            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
-            ->addColumn(['data' => 'oab', 'name' => 'oab', 'title' => 'OAB'])
-            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
-            ->responsive(true);
-
-
-        return view('admin.lawyers.index', compact('html'));
+        return $dataTable->render('admin.lawyers.index');
     }
 
     /**
@@ -73,7 +35,7 @@ class LawyerController extends Controller
     public function edit($lawyer)
     {
         $form = ['route' => ['admin.lawyer.update', ['lawyer' => $lawyer]], 'method' => 'put'];
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId($this->getCompanyId())->first();
+        $lawyer = Lawyer::wherePid($lawyer)->whereCompanyId($this->getCompanyId())->first();
         return view('admin.lawyers.form', compact('form', 'lawyer'));
     }
 
@@ -94,7 +56,7 @@ class LawyerController extends Controller
      */
     public function show($lawyer)
     {
-        $lawyer = Lawyer::whereId($lawyer)->whereCompanyId($this->getCompanyId())->first();
+        $lawyer = Lawyer::wherePid($lawyer)->whereCompanyId($this->getCompanyId())->first();
         return view('admin.lawyers.show', compact('lawyer'));
     }
 
@@ -108,7 +70,10 @@ class LawyerController extends Controller
     public function update($lawyer, Request $request)
     {
         $data = new CreateNewLawyer($request);
-        $lawyer = Lawyer::find($lawyer)->update($data->update());
+        $lawyer = Lawyer::wherePid($lawyer)
+            ->get()
+            ->first()
+            ->update($data->update());
         if ($lawyer) {
             toastSuccess('Sucesso ao atualizar');
         } else {
@@ -126,7 +91,7 @@ class LawyerController extends Controller
      */
     public function delete($lawyer)
     {
-        $lawyer = Lawyer::whereId($lawyer)
+        $lawyer = Lawyer::wherePid($lawyer)
             ->whereCompanyId($this->getCompanyId())->first()
             ->delete();
         if ($lawyer) {

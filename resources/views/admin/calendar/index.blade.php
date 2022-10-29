@@ -48,12 +48,12 @@
                     </thead>
                     <tbody>
                     @foreach($events as $key => $event)
-                        <tr data-entry-id="{{ $event->id }}">
+                        <tr data-entry-id="{{ $event->pid }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $event->id ?? '' }}
+                                {{ $event->pid ?? '' }}
                             </td>
                             <td>
                                 {{ $event->name ?? '' }}
@@ -73,19 +73,19 @@
                             <td>
                                 <!-- event_show -->
 
-                                <a class="btn btn-xs btn-primary" href="{{ route('admin.calendar.show', $event->id) }}">
+                                <a class="btn btn-xs btn-primary" href="{{ route('admin.calendar.show', $event->pid) }}">
                                     {{ __('global.view') }}
                                 </a>
 
                                 <!-- event_edit -->
 
-                                <a class="btn btn-xs btn-info" href="{{ route('admin.calendar.edit', $event->id) }}">
+                                <a class="btn btn-xs btn-info" href="{{ route('admin.calendar.edit', $event->pid) }}">
                                     {{ __('global.edit') }}
                                 </a>
 
                                 <!-- event_delete -->
 
-                                <form action="{{ route('admin.calendar.destroy', $event->id) }}"
+                                <form action="{{ route('admin.calendar.destroy', $event->pid) }}"
                                       method="POST"
                                       onsubmit="return confirm('{{ $event->events_count || $event->event ? 'Do you want to delete future recurring events, too?' : __('global.areYouSure') }}');"
                                       style="display: inline-block;"

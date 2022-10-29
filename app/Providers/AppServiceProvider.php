@@ -79,13 +79,13 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Blade::component('form-input', \App\View\Components\Form\Input::class);
-        Blade::component('form-select', \App\View\Components\Form\Select::class);
-        Blade::component('form-textarea', \App\View\Components\Form\TextArea::class);
-        Blade::component('form-tinymce', \App\View\Components\Form\Tinymce::class);
-        Blade::component('form-file', \App\View\Components\Form\File::class);
-        Blade::component('form-date', \App\View\Components\Form\Date::class);
-        Blade::component('bootstrap-modal', \App\View\Components\Bootstrap\Modal::class);
+//        Blade::component('form-input', \App\View\Components\Form\Input::class);
+//        Blade::component('form-select', \App\View\Components\Form\Select::class);
+////        Blade::component('form-textarea', \App\View\Components\Form\TextArea::class);
+//        Blade::component('form-tinymce', \App\View\Components\Form\Tinymce::class);
+////        Blade::component('form-file', \App\View\Components\Form\File::class);
+//        Blade::component('form-date', \App\View\Components\Form\Date::class);
+////        Blade::component('bootstrap-modal', \App\View\Components\Bootstrap\Modal::class);
 
         Calendar::observe(CalendarRecurrenceObserver::class);
 

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
+
 use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Spatie\Activitylog\Models\Activity;
 
 
 class LogActivityController extends Controller

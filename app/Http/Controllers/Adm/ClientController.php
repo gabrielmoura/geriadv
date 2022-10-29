@@ -45,7 +45,7 @@ class ClientController extends Controller
     {
 
         $clients = Clients::where('company_id', $this->getCompanyId())->with(['status', 'benefit']);
-        $clientx = null;
+        $clientx=null;
 
         if ($request->has('name') && !is_null($request->name)) {
             $clients->whereRaw("CONCAT(name,' ',last_name)  like ?", ["%{$request->name}%"]);
@@ -72,7 +72,8 @@ class ClientController extends Controller
             $clients = $clients->whereHas('status', function ($query) use ($request) {
                 $query->where('status', 'like', $request->status);
             });
-            if (is_null($clientx)) {
+
+            if (!is_null($clientx)) {
                 $clientx = $clientx->where('status', $request->status);
             }
 
@@ -395,6 +396,7 @@ class ClientController extends Controller
     {
         $data = $request->all();
         $data['company_id'] = $this->getCompanyId();
+        $data['cep'] = numberClear($request->cep);
 
 
         $client = DB::transaction(function () use ($data, $slug) {

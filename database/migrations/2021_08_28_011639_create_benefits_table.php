@@ -15,6 +15,7 @@ class CreateBenefitsTable extends Migration
     {
         Schema::create('benefits', function (Blueprint $table) {
             $table->id();
+            $table->ulid('pid')->index();
             $table->timestamps();
 
             $table->string('name')->index();

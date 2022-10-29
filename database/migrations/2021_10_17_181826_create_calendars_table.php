@@ -17,10 +17,10 @@ class CreateCalendarsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->string('pid')->comment('Public Id');
+            $table->ulid('pid')->comment('Public ID');
             $table->string('name')->comment('Titulo')->index();
             $table->dateTime('start_time')->comment('Inicio');
-            $table->dateTime('end_time')->comment('Fim');
+            $table->dateTime('end_time')->nullable()->comment('Fim');
             $table->string('address')->nullable()->comment('Address');
 
 

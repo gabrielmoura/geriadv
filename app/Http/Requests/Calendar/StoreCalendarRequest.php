@@ -16,7 +16,7 @@ class StoreCalendarRequest extends FormRequest
      */
     public function authorize()
     {
-       // abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -33,9 +33,6 @@ class StoreCalendarRequest extends FormRequest
                 'required',
             ],
             'start_time' => [
-                'required',
-            ],
-            'end_time' => [
                 'required',
             ],
             'recurrence' => [

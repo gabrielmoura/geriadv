@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Adm\{AgendamentoController,
+use App\Http\Controllers\Adm\{AppointmentsController,
     AnalyticsController,
     BenefitsController,
     ClientController,
@@ -63,10 +63,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web', 'verifyBanned'],
         });
 
         // Calendário
-        Route::resource('schedules', AgendamentoController::class)->names('calendar');
+        Route::resource('schedules', AppointmentsController::class)->names('calendar');
         Route::group(['as' => 'calendar.'], function () {
-            Route::delete('schedules/destroy', [AgendamentoController::class, 'massDestroy'])->name('massDestroy');
-            Route::get('schedule/calendar', [AgendamentoController::class, 'indexShow'])->name('systemCalendar');
+            Route::delete('schedules/destroy', [AppointmentsController::class, 'massDestroy'])->name('massDestroy');
+            Route::get('schedule/calendar', [AppointmentsController::class, 'indexShow'])->name('systemCalendar');
         });
 
         // Notifications

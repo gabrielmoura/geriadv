@@ -185,15 +185,15 @@
     </div>
             -->
 
-    <x-bootstrap-modal title="Editar Informações" name="companyModal">
-        <x-form-input inputClass="cnpj" name="cnpj" title="CNPJ" :value="$company->cnpj??''"></x-form-input>
-        <x-form-input name="address" title="Address" :value="$company->address??''"></x-form-input>
-        <x-form-input inputClass="tel" name="tel0" title="Telefone" :value="$company->tel0??''"></x-form-input>
-        <x-form-input inputClass="email" name="email" title="Email" :value="$company->email??''"></x-form-input>
-    </x-bootstrap-modal>
-    <x-bootstrap-modal title="Editar Logo" name="logoModal">
-        <x-form-file name="logo" title="Logo"></x-form-file>
-    </x-bootstrap-modal>
+    <x-bootstrap.modal title="Editar Informações" name="companyModal">
+        <x-form.input inputClass="cnpj" name="cnpj" title="CNPJ" :value="$company->cnpj??''"></x-form.input>
+        <x-form.input name="address" title="Address" :value="$company->address??''"></x-form.input>
+        <x-form.input inputClass="tel" name="tel0" title="Telefone" :value="$company->tel0??''"></x-form.input>
+        <x-form.input inputClass="email" name="email" title="Email" :value="$company->email??''"></x-form.input>
+    </x-bootstrap.modal>
+    <x-bootstrap.modal title="Editar Logo" name="logoModal">
+        <x-form.file name="logo" title="Logo"></x-form.file>
+    </x-bootstrap.modal>
 @endsection
 @push('css')
     <!-- <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
@@ -202,11 +202,11 @@
 @endpush
 @push('js')
     <script>
-        document.getElementById('Cep').addEventListener('change', function () {
-            if (document.getElementById('Cep').value.replace(/[^0-9]/, "").length >= 8) {
-                mclients.getCep(document.getElementById('Cep').value);
-            }
-        })
+        // document.getElementById('Cep').addEventListener('change', event=> {
+        //     if (document.getElementById('Cep').value.replace(/[^0-9]/, "").length >= 8) {
+        //         mclients.getCep(document.getElementById('Cep').value);
+        //     }
+        // })
         $('#CompanyModal-submit').click(function () {
             axios.post('{{route('company.setting.update')}}', {
                 cnpj: document.getElementById('Cnpj').value,

@@ -23,23 +23,23 @@
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <x-form-input name="cpf" title="CPF" class="optional col-md-3"
-                                      placeholder="só numeros" :value="$client->cpf??''" inputClass="cpf"></x-form-input>
-                        <x-form-input name="name" title="Nome" class="col-md-2" :value="$client->name??''" required></x-form-input>
-                        <x-form-input name="last_name" title="Sobrenome" class="col-md-4" :value="$client->last_name??''" required></x-form-input>
+                        <x-form.input name="cpf" title="CPF" class="optional col-md-3"
+                                      placeholder="só numeros" :value="$client->cpf??''" inputClass="cpf"></x-form.input>
+                        <x-form.input name="name" title="Nome" class="col-md-2" :value="$client->name??''" required></x-form.input>
+                        <x-form.input name="last_name" title="Sobrenome" class="col-md-4" :value="$client->last_name??''" required></x-form.input>
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
-                        <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
-                        <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"></x-form-date>
-                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail" :value="$client->email??''"></x-form-input>
-                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel" :value="$client->tel0??''"></x-form-input>
+                        <x-form.select :selects="$selects" name="sex" title="Sexo"></x-form.select>
+                        <x-form.date class="col-md-3" name="birth_date" title="Data de Nascimento"></x-form.date>
+                        <x-form.input type="email" class="col-md-5 email" name="email" title="E-mail" :value="$client->email??''"></x-form.input>
+                        <x-form.input class="col-md-3" title="Telefone" name="tel0" inputClass="tel" :value="$client->tel0??''"></x-form.input>
 
                     </div>
                 </fieldset>
                 <fieldset class="col-md-12">
                     <legend>Dados</legend>
                     <div class="row">
-                        <x-form-select name="benefit" title="Beneficio" :selects="$benefits" ></x-form-select>
-                        <x-form-input name="recommendation" title="Recomendação" class="col-md-2" :value="$client->recommendation->name??''"></x-form-input>
+                        <x-form.select name="benefit" title="Beneficio" :selects="$benefits" ></x-form.select>
+                        <x-form.input name="recommendation" title="Recomendação" class="col-md-2" :value="$client->recommendation->name??''"></x-form.input>
                     </div>
                 </fieldset>
 
@@ -48,8 +48,8 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep" value="{{$client->cep??old('cep')}}"
-                                      inputClass="cep"></x-form-input>
+                        <x-form.input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep" value="{{$client->cep??old('cep')}}"
+                                      inputClass="cep"></x-form.input>
 
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
                                 class="control-label string optional"

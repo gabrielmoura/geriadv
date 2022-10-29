@@ -22,38 +22,47 @@
                   media='print'/>
 
             <div id='calendar'></div>
-
-
         </div>
     </div>
 @endsection
 @push('js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/moment@2/min/moment.min.js"></script>
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@3.10.3/dist/fullcalendar.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/locale-all.min.js'></script>
+
+
+
+    {{--    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>--}}
     <script>
         $(document).ready(function () {
 
             // page is now ready, initialize the calendar...
-            events ={!! json_encode($events) !!};
+            events = {!! json_encode($events) !!};
             $('#calendar').fullCalendar({
                 // put your options and callbacks here
                 events: events,
                 eventRender: function (eventObj, $el) {
+
                     $el.popover({
                         title: eventObj.title,
                         content: eventObj.description,
                         trigger: 'hover',
                         placement: 'top',
-                        html:true,
+                        html: true,
                         container: 'body'
                     });
                 },
-
+                timeZone: 'UTC',
                 header: {
                     left: 'prev,next today ',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                locale: 'pt_BR',
+                locale: 'pt-br',
                 businessHours: {
                     // days of week. an array of zero-based day of week integers (0=Sunday)
                     dow: [1, 2, 3, 4, 5], // Monday - Thursday

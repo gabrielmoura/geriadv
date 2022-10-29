@@ -6,6 +6,7 @@ use EndyJasmi\Cuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Calendar
@@ -192,7 +193,7 @@ class Calendar extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->pid = Cuid::slug();
+            $model->pid = Str::ulid();
         });
     }
 }

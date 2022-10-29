@@ -89,7 +89,8 @@ return [
             'event_helper' => '',
             'lawyer' => 'Advogado',
             'address' => 'Endereço',
-            'address_helper' => ''
+            'address_helper' => '',
+            'description'=>'Descrição',
         ],
     ],
 ];

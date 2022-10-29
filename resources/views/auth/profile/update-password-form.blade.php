@@ -9,7 +9,7 @@
                         @method('PUT')
                         <div class="form-group row">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('global.current_password') }}</label>
                             <div class="col-md-6">
                                 <input id="current_password" type="password"
                                        class="form-control @error('current_password') is-invalid @enderror"
@@ -21,7 +21,7 @@
 
                         <div class="form-group row">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('global.new_password') }}</label>
                             <div class="col-md-6">
                                 <input id="password" type="password"
                                        class="form-control @error('password') is-invalid @enderror" name="password"
@@ -33,7 +33,7 @@
 
                         <div class="form-group row">
                             <label for="password-confirm"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('global.confirm_password') }}</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"
                                        name="password_confirmation" required autocomplete="new-password">

@@ -12,21 +12,21 @@
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <x-form-input name="cpf" title="CPF" class="optional col-md-3" inputClass="cpf"
-                                      placeholder="só numeros" :value="$employee->cpf??''"></x-form-input>
-                        <x-form-input name="name" title="Nome" :value="$employee['name']??''" class="col-md-2"
-                                      required></x-form-input>
-                        <x-form-input name="last_name" title="Sobrenome" :value="$employee->last_name??''"
+                        <x-form.input name="cpf" title="CPF" class="optional col-md-3" inputClass="cpf"
+                                      placeholder="só numeros" :value="$employee->cpf??''"></x-form.input>
+                        <x-form.input name="name" title="Nome" :value="$employee['name']??''" class="col-md-2"
+                                      required></x-form.input>
+                        <x-form.input name="last_name" title="Sobrenome" :value="$employee->last_name??''"
                                       class="col-md-4"
-                                      required></x-form-input>
+                                      required></x-form.input>
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
-                        <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
-                        <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"
-                                     :value="$employee->birth_date??''"></x-form-date>
-                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail" inputClass="email"
-                                      :value="$employee->email??''"></x-form-input>
-                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"
-                                      :value="$employee->tel0??''"></x-form-input>
+                        <x-form.select :selects="$selects" name="sex" title="Sexo"></x-form.select>
+                        <x-form.date class="col-md-3" name="birth_date" title="Data de Nascimento"
+                                     :value="$employee->birth_date??''"></x-form.date>
+                        <x-form.input type="email" class="col-md-5 email" name="email" title="E-mail" inputClass="email"
+                                      :value="$employee->email??''"></x-form.input>
+                        <x-form.input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"
+                                      :value="$employee->tel0??''"></x-form.input>
 
                     </div>
                 </fieldset>
@@ -37,10 +37,10 @@
                         <div class="row">
 
 
-                            <x-form-input name="password" title="Password" type="password"
-                                          class="col-md-2"></x-form-input>
-                            <x-form-input type="password" name="password_confirmation"
-                                          title="Password again"></x-form-input>
+                            <x-form.input name="password" title="Password" type="password"
+                                          class="col-md-2"></x-form.input>
+                            <x-form.input type="password" name="password_confirmation"
+                                          title="Password again"></x-form.input>
                         </div>
                     </fieldset>
                 @endif
@@ -50,9 +50,9 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
+                        <x-form.input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
                                       value="{{$employee->cep??old('cep')}}"
-                                      inputClass="cep"></x-form-input>
+                                      inputClass="cep"></x-form.input>
 
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
                                 class="control-label string optional"

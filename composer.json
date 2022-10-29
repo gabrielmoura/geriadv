@@ -40,7 +40,8 @@
         "spiral/roadrunner": "v2.0",
         "tightenco/ziggy": "^1.4",
         "webmasterdro/paghiper-php-sdk": "^3.0",
-        "yajra/laravel-datatables-buttons": "^4.13",
+        "yajra/laravel-datatables-buttons": "^9.0",
+        "yajra/laravel-datatables-html": "^9.0",
         "yoeunes/toastr": "^1.2"
     },
     "require-dev": {

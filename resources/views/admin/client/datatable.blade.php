@@ -15,7 +15,7 @@
                 <div class="form-group row">
                     <div class="col-7">
 
-                        <x-form-input name="name" value="{{$request->name??''}}" title="Nome"></x-form-input>
+                        <x-form.input name="name" value="{{$request->name??''}}" title="Nome"></x-form.input>
                     </div>
                     <div class="col-2">
                         <label for="sexo">Sexo</label>
@@ -26,8 +26,8 @@
                         </select>
                     </div>
                     <div class="col-3">
-                        <x-form-input name="recommendation" value="{{$request->recommendation??''}}"
-                                      title="Recomendação"></x-form-input>
+                        <x-form.input name="recommendation" value="{{$request->recommendation??''}}"
+                                      title="Recomendação"></x-form.input>
                     </div>
                 </div>
 

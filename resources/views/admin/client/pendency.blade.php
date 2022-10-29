@@ -12,7 +12,7 @@
 
                     @if((is_null($pendency))?true:!$pendency->pendency->get('pendency')[$name['name']])
                         @php($count=+1)
-                        <x-form-file :name="$name['name']" :title="$name['title']"></x-form-file>
+                        <x-form.file :name="$name['name']" :title="$name['title']"></x-form.file>
                     @endif
                 @endforeach
                 @if($count>0)

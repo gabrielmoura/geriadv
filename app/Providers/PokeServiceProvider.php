@@ -22,7 +22,7 @@ class PokeServiceProvider extends ServiceProvider
     /**
      *
      */
-    public const VIEWS = __DIR__ . '/../resources/views/layouts';
+    public const VIEWS = __DIR__ . '/../../resources/views/layouts';
 
 
     /**

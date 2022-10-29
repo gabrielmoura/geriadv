@@ -19,7 +19,7 @@
                 {!! Form::open(['route'=>['admin.calendar.index'],'method'=>'GET']) !!}
                 <div class="form-group row">
                     <div class="col-3">
-                        <x-form-date name="date" value="{{$request->date??''}}" title="Data"></x-form-date>
+                        <x-form.date name="date" value="{{$request->date??''}}" title="Data"></x-form.date>
                     </div>
                     <div class="col-3">
                         @php($selects=[['name'=>'Nenhum','value'=>null],
@@ -36,15 +36,15 @@
  ['name'=>   'Novembro','value'=>11],
   ['name'=>  'Dezembro','value'=>12],
 ])
-                        <x-form-select name="month" title="Mês" :selects="$selects"></x-form-select>
+                        <x-form.select name="month" title="Mês" :selects="$selects"></x-form.select>
                     </div>
                     <div class="col-3">
-                        <x-form-input name="address" value="{{$request->address??''}}"
-                                      title="Endereço"></x-form-input>
+                        <x-form.input name="address" value="{{$request->address??''}}"
+                                      title="Endereço"></x-form.input>
                     </div>
                     <div class="col-3">
-                        <x-form-input name="lawyer" value="{{$request->lawyer??''}}"
-                                      title="Advogado"></x-form-input>
+                        <x-form.input name="lawyer" value="{{$request->lawyer??''}}"
+                                      title="Advogado"></x-form.input>
                     </div>
                 </div>
 

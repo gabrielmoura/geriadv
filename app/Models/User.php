@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
@@ -12,6 +13,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Shetabit\Visitor\Traits\Visitor;
+
 /**
  * App\Models\User
  *
@@ -144,5 +146,20 @@ class User extends Authenticatable
         return LogOptions::defaults()->useLogName(session()->get('company.name') ?? 'system')->logFillable();
         //->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
+    }
+
+    protected static $forCache = 60 * 60;
+
+    protected static function booted()
+    {
+        static::deleted(function ($user) {
+            Cache::forget("user.{$user->id}");
+        });
+        static::updated(function ($user) {
+            Cache::put("user.{$user->id}", $user, self::$forCache);
+        });
+        static::created(function ($user) {
+            Cache::add("user.{$user->id}", $user, self::$forCache);
+        });
     }
 }

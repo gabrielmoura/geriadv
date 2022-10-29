@@ -11,7 +11,7 @@
                     <input type="hidden" name="slug" value="{{$client->slug}}">
                     @if((is_null($client->pendency))?true:!$client->pendency->{$name})
                         @php($count=+1)
-                        <x-form-file name="{{ $name }}"></x-form-file>
+                        <x-form.file name="{{ $name }}"></x-form.file>
                     @endif
                 @endforeach
                 @if($count>0)

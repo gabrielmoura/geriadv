@@ -16,7 +16,7 @@
                             {{ __('cruds.event.fields.id') }}
                         </th>
                         <td>
-                            {{ $event->id }}
+                            {{ $event->pid }}
                         </td>
                     </tr>
                     <tr>
@@ -74,6 +74,14 @@
                         </th>
                         <td>
                             {{ $event->lawyer()->first()->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ __('cruds.event.fields.description') }}
+                        </th>
+                        <td>
+                            {!! $event->description ?? '' !!}
                         </td>
                     </tr>
                     </tbody>

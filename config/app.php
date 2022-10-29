@@ -199,7 +199,6 @@ return [
 
         Yoeunes\Toastr\ToastrServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
-        App\Providers\OtherStorageServiceProvider::class,
 
         //  Poke
         \App\Providers\PokeServiceProvider::class,

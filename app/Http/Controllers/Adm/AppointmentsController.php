@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
-//use Acaronlex\LaravelCalendar\Calendar;
-use Acaronlex\LaravelCalendar\Facades\Calendar;
+use Dhonions\LaravelCalendar\Facades\Calendar;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Calendar\MassDestroyCalendarRequest;
 use App\Http\Requests\Calendar\StoreCalendarRequest;
@@ -21,7 +20,7 @@ use Yajra\DataTables\Html\Builder;
  * Class AgendamentoController
  * @package App\Http\Controllers\Adm
  */
-class AgendamentoController extends Controller
+class AppointmentsController extends Controller
 {
     use CompanySessionTraits;
 
@@ -34,6 +33,7 @@ class AgendamentoController extends Controller
      * @var string
      */
     public $formatDateTime = 'd/m/Y H:i:s';
+    public $cFormatDateTime='Y-m-d H:i:s';
     /**
      * @var \string[][]
      */
@@ -79,7 +79,7 @@ class AgendamentoController extends Controller
         }
 
 
-        if ($request->has('month')&& !is_null($request->month)) {
+        if ($request->has('month') && !is_null($request->month)) {
             //Busca agendamentos por Mês
             $events = $events->whereMonth('start_time', '=', $request->month);
         }
@@ -118,7 +118,7 @@ class AgendamentoController extends Controller
         if ($request->ajax()) {
             return Datatables::of($events)
                 ->addColumn('action', function (Model $events) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.calendar.show', $events->id) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Ver"><i class="fa fa-eye"></i></a>|<a href="' . route('admin.calendar.edit', $events->id) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a></div>';
+                    return '<div class="table-data-feature"><a href="' . route('admin.calendar.show', $events->pid) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Ver"><i class="fa fa-eye"></i></a>|<a href="' . route('admin.calendar.edit', $events->pid) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a></div>';
                 })
                 ->addColumn('recurrence', function (Model $events) {
                     return \App\Models\Calendar::RECURRENCE_RADIO[$events->recurrence] ?? '';
@@ -140,7 +140,6 @@ class AgendamentoController extends Controller
         }
 
         $html = $this->htmlBuilder
-            ->addColumn(['data' => 'id', 'name' => 'id', 'title' => 'ID'])
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nome'])
             ->addColumn(['data' => 'start_time', 'name' => 'start_time', 'title' => 'Hora de início'])
             ->addColumn(['data' => 'end_time', 'name' => 'end_time', 'title' => 'Hora de Fim'])
@@ -180,15 +179,17 @@ class AgendamentoController extends Controller
                 if (!$crudFieldValue) {
                     continue;
                 }
-                $lawyer = '<br>' . $model->lawyer->name ?? '';
+                $lawyer = 'Advogado: <b>' . $model->lawyer->name . '</b><br/><br/>' ?? '';
+                $description = $model->description ?? '';
+                $end_time = ($model->{$source['end_field']} !== null) ? $model->{$source['end_field']}->format('c') : null;
                 $events[] = [
                     'title' => trim($source['prefix'] . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
-                    'start' => $crudFieldValue->format($this->formatDateTime),
+                    'start' => $crudFieldValue->format('c'),
                     //'end' => $model->{$source['end_field']},
-                    'end' => $model->{$source['end_field']}->format($this->formatDateTime),
-                    'description' => $model->description . $lawyer ?? '',
-                    'url' => route($source['route'], $model->id),
+                    'end' => $end_time,
+                    'description' => $lawyer . $description ?? '',
+                    'url' => route($source['route'], $model->pid) ?? '',
                 ];
             }
         }
@@ -244,9 +245,7 @@ class AgendamentoController extends Controller
 
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
+
     public function create()
     {
         //abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -270,7 +269,7 @@ class AgendamentoController extends Controller
 
         $data = $request->all();
         $data['start_time'] = Carbon::createFromFormat($this->formatDateTime, $request->start_time);
-        $data['end_time'] = Carbon::createFromFormat($this->formatDateTime, $request->end_time);
+        $data['end_time'] = ($request->end_time !== null) ? Carbon::createFromFormat($this->formatDateTime, $request->end_time) : null;
         $data['company_id'] = $this->getCompanyId();
         $data['lawyer_id'] = numberClear($request->lawyer_id);
 
@@ -285,31 +284,30 @@ class AgendamentoController extends Controller
      * @param Model $schedule
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Model $schedule)
+    public function edit($schedule)
     {
         // abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $lawyer = [];
-        $event = $schedule;
-        $event->load('calendar')->loadCount('calendars');
+        $event = Model::wherePid($schedule)
+            ->first()
+            ->load('calendar')
+            ->loadCount('calendars')
+            ->first();
 
 
         return view('admin.calendar.edit', compact('event', 'lawyer'));
     }
 
-    /**
-     * @param UpdateCalendarRequest $request
-     * @param Model $event
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function update(UpdateCalendarRequest $request, Model $event)
+    public function update(UpdateCalendarRequest $request, $event)
     {
         $data = $request->all();
-        $data['start_time'] = Carbon::createFromFormat($this->formatDateTime, $request->start_time);
-        $data['end_time'] = Carbon::createFromFormat($this->formatDateTime, $request->end_time);
+        $data['start_time'] = Carbon::createFromFormat($this->formatDateTime, $request->start_time);;
+        $data['end_time'] = ($request->end_time !== null) ? Carbon::createFromFormat($this->formatDateTime, $request->end_time) : null;
         $data['company_id'] = $this->getCompanyId();
         $data['lawyer_id'] = numberClear($request->lawyer_id);
+
+        $event = Model::wherePid($event)
+            ->first();
         if ($event->update($data)) {
             toastr()->success('Salvo com sucesso.');
         }
@@ -317,16 +315,15 @@ class AgendamentoController extends Controller
         return redirect()->route('admin.calendar.systemCalendar');
     }
 
-    /**
-     * @param Model $schedule
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function show(Model $schedule)
+
+    public function show($schedule)
     {
         //       abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $event = $schedule;
-        $event->load('calendar')->loadCount('calendars');
-
+        $event = Model::wherePid($schedule)
+            ->first()
+            ->load('calendar')
+            ->loadCount('calendars')
+            ->first();
 
         return view('admin.calendar.show', compact('event'));
     }

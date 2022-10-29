@@ -12,21 +12,21 @@
                 <fieldset class="col-md-12">
                     <legend>Dados Principais</legend>
                     <div class="row">
-                        <x-form-input name="cpf" title="CPF" class="optional col-md-3" inputClass="cpf"
-                                      placeholder="só numeros" :value="$lawyer->cpf??''"></x-form-input>
-                        <x-form-input name="name" title="Nome" :value="$lawyer['name']??''" class="col-md-2"
-                                      required></x-form-input>
-                        <x-form-input name="last_name" title="Sobrenome" :value="$lawyer->last_name??''"
+                        <x-form.input name="cpf" title="CPF" class="optional col-md-3" inputClass="cpf"
+                                      placeholder="só numeros" :value="$lawyer->cpf??''"></x-form.input>
+                        <x-form.input name="name" title="Nome" :value="$lawyer['name']??''" class="col-md-2"
+                                      required></x-form.input>
+                        <x-form.input name="last_name" title="Sobrenome" :value="$lawyer->last_name??''"
                                       class="col-md-4"
-                                      required></x-form-input>
+                                      required></x-form.input>
                         @php($selects=[['value'=>'m','name'=>'Masculino'],['value'=>'f','name'=>'Feminino']])
-                        <x-form-select :selects="$selects" name="sex" title="Sexo"></x-form-select>
-                        <x-form-date class="col-md-3" name="birth_date" title="Data de Nascimento"
-                                     :value="$lawyer->birth_date??''"></x-form-date>
-                        <x-form-input type="email" class="col-md-5 email" name="email" title="E-mail" inputClass="email"
-                                      :value="$lawyer->email??''"></x-form-input>
-                        <x-form-input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"
-                                      :value="$lawyer->tel0??''"></x-form-input>
+                        <x-form.select :selects="$selects" name="sex" title="Sexo"></x-form.select>
+                        <x-form.date class="col-md-3" name="birth_date" title="Data de Nascimento"
+                                     :value="$lawyer->birth_date??''"></x-form.date>
+                        <x-form.input type="email" class="col-md-5 email" name="email" title="E-mail" inputClass="email"
+                                      :value="$lawyer->email??''"></x-form.input>
+                        <x-form.input class="col-md-3" title="Telefone" name="tel0" inputClass="tel"
+                                      :value="$lawyer->tel0??''"></x-form.input>
 
 
                     </div>
@@ -37,8 +37,8 @@
                         <legend>Dados Especiais</legend>
                         <div class="row">
 
-                            <x-form-input title="OAB" name="oab" class="col-md-2"
-                                          :value="$lawyer->oab??''"></x-form-input>
+                            <x-form.input title="OAB" name="oab" class="col-md-2"
+                                          :value="$lawyer->oab??''"></x-form.input>
                         </div>
                     </fieldset>
 
@@ -48,9 +48,9 @@
                     <!-- <legend>Endereço <a href="javascript:void(0)" class="fieldset-handler">mostrar</a></legend> -->
                     <div class="row">
                         <!-- <div class="fieldset-container fieldset-handler-target"> -->
-                        <x-form-input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
+                        <x-form.input class="col-md-3 " title="Cep" placeholder="Digite o CEP" name="cep"
                                       value="{{$lawyer->cep??old('cep')}}"
-                                      inputClass="cep"></x-form-input>
+                                      inputClass="cep"></x-form.input>
 
                         <div class="form-group string optional pessoa_logradouro col-md-7"><label
                                 class="control-label string optional"

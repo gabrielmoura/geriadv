@@ -15,7 +15,7 @@ class UpdateCalendarRequest extends FormRequest
      */
     public function authorize()
     {
-       // abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -32,9 +32,6 @@ class UpdateCalendarRequest extends FormRequest
                 'required',
             ],
             'start_time' => [
-                'required',
-            ],
-            'end_time' => [
                 'required',
             ],
             'recurrence' => [

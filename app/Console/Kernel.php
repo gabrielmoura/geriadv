@@ -70,7 +70,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('auth:clear-resets')->hourly();
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
-        $schedule->command('horizon:purge')->daily();
+//        $schedule->command('horizon:purge')->daily();
 
         //  Remove arquivos acessados(atime) a mais de 1h, de h em h
         $schedule->job(DeleteTemporaryFileJob::class)->hourly();

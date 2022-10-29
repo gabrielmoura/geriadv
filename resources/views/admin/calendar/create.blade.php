@@ -23,7 +23,7 @@
                         {{ __('cruds.event.fields.name_helper') }}
                     </p>
                 </div>
-                <x-form-tinymce name="description" title="Descrição"></x-form-tinymce>
+                <x-form.tinymce name="description" title="Descrição"></x-form.tinymce>
                 <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
                     <label for="start_time">{{ __('cruds.event.fields.start_time') }}*</label>
                     <input type="text" id="start_time" name="start_time" class="form-control date-time "
@@ -40,7 +40,7 @@
                 <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
                     <label for="end_time">{{ __('cruds.event.fields.end_time') }}*</label>
                     <input type="text" id="end_time" name="end_time" class="form-control date-time  "
-                           value="{{ old('end_time', isset($event) ? $event->end_time : '') }}" required>
+                           value="{{ old('end_time', isset($event) ? $event->end_time : '') }}" >
                     @if($errors->has('end_time'))
                         <em class="invalid-feedback">
                             {{ $errors->first('end_time') }}
@@ -81,7 +81,7 @@
                     </p>
                 </div>
 
-                <x-form-select name="lawyer_id" :title="__('cruds.event.fields.lawyer')" :selects="$lawyer??[]"></x-form-select>
+                <x-form.select name="lawyer_id" :title="__('cruds.event.fields.lawyer')" :selects="$lawyer??[]"></x-form.select>
 
                 <div>
                     <input class="btn btn-success" type="submit" value="{{ __('global.save') }}">

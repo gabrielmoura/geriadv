@@ -10,17 +10,17 @@
         @include('auth.profile.update-password-form')
     @endif
 
-    @hasanyrole('admin|manager')
     @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
+    @hasanyrole('admin|manager')
         @include('auth.profile.two-factor-authentication-form')
-    @endif
     @endhasanyrole
+    @endif
 
-    @hasanyrole('admin|manager|employee')
     @if (config('fortify.features.logoutOtherBrowserSessions'))
+    @hasanyrole('admin|manager|employee')
         @include('auth.logout-other-session')
-    @endif
     @endhasanyrole
+    @endif
     <!--
     <div class="container pt-4">
         <div class="row justify-content-center">
