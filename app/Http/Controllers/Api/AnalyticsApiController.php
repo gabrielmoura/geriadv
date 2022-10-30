@@ -39,17 +39,18 @@ class AnalyticsApiController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function company($id)
+    public function company($id, Request $request)
     {
+        $pid = ($request->user()->hasRole('admin')) ? $id : $request->user()->company()->id;
         $this->carbon = now();
         return $this->try(
             $this->cached(
                 $this->refreshMonth(
-                    Clients::where('company_id', $id)->with(['benefit', 'status', 'recommendation']),
-                    Calendar::where('company_id', $id)->whereMonth('created_at', '=', $this->carbon->month()),
-                    Benefits::where('company_id', $id)->get()
+                    Clients::where('company_id', $pid)->with(['benefit', 'status', 'recommendation']),
+                    Calendar::where('company_id', $pid)->whereMonth('created_at', '=', $this->carbon->month()),
+                    Benefits::where('company_id', $pid)->get()
                 )
-                , $id)
+                , $pid)
         );
     }
 
@@ -92,8 +93,8 @@ class AnalyticsApiController extends Controller
             $statusM['benefits'] = [];
 
             foreach ($allBenefit as $all) {
-                $statusM['benefits'] = [$all['name'] => $all->clients()->whereMonth('created_at', '=', $month)
-                    ->count()];
+                $statusM['benefits'] = [$all['name'] => $all->clients()->whereMonth('created_at', $month)
+                    ->get()->count()];
             }
 
             // Conta Indicação

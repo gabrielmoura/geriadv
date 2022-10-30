@@ -307,7 +307,8 @@ class ClientController extends Controller
         ]);
 
         $client = DB::transaction(function () use ($request) {
-            $recommendation = (!is_null($request->recommendation)) ? Recommendation::create(['name' => $request->recommendation]) : null;
+
+            $recommendation = (!is_null($request->recommendation)) ? Recommendation::firstOrCreate(['company_id'=>$this->getCompanyId(),'name'=>$request->recommendation]) : null;
             $clientData = [
                 /**
                  * Dados Pessoais
@@ -338,9 +339,9 @@ class ClientController extends Controller
 
             $clientData['company_id'] = $this->getCompanyId();
 
-            if ($recommendation != null) {
+//            if ($recommendation != null) {
                 $clientData['recommendation_id'] = $recommendation->id;
-            }
+//            }
             if ($request->has('benefit') && isset($request->benefit)) {
                 $clientData['benefit_id'] = $request->benefit;
             }
@@ -372,7 +373,7 @@ class ClientController extends Controller
      */
     public function edit($slug)
     {
-        $client = Clients::whereSlug($slug)->first();
+        $client = Clients::wherePid($slug)->first();
         if ($client->company_id != $this->getCompanyId()) {
             return abort(403,'Nenhum Resultado Encontrado');
         }
@@ -400,7 +401,7 @@ class ClientController extends Controller
 
 
         $client = DB::transaction(function () use ($data, $slug) {
-            $client = Clients::whereSlug($slug)->first();
+            $client = Clients::wherePid($slug)->first();
             if ($client->company_id != $this->getCompanyId()) {
                 return abort(403);
             }
@@ -415,7 +416,7 @@ class ClientController extends Controller
      */
     public function destroy($slug)
     {
-        $client = Clients::whereSlug($slug);
+        $client = Clients::wherePid($slug);
         if ($client->delete()) {
             toastr()->success('Cliente: ' . $client->name . ' removido com sucesso');
             return redirect()->route('admin.clients.index');

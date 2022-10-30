@@ -16,6 +16,10 @@ class CreateRecommendationsTable extends Migration
         Schema::create('recommendations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Empresa')->index();
+            $table->foreign('company_id')->references('id')->on('companies');
+
             $table->unsignedBigInteger('user_id')->nullable()->comment('Usuário')->index();
             $table->foreign('user_id')->references('id')->on('users');
 
