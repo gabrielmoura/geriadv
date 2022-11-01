@@ -18,7 +18,7 @@ class VerifyBanned
      */
     public function handle(Request $request, Closure $next)
     {
-        if ((bool)$this->hasBanned()) return abort(403, 'Banido');
+        abort_if((bool)$this->hasBanned(), 403, __('error.Unauthorized'));
         return $next($request);
     }
 

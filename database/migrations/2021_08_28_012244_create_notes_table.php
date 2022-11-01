@@ -20,6 +20,9 @@ class CreateNotesTable extends Migration
             $table->unsignedBigInteger('client_id')->nullable()->comment('Client');
             $table->foreign('client_id')->references('id')->on('clients');
 
+            $table->unsignedBigInteger('employee_id')->nullable()->comment('Employee');
+            $table->foreign('employee_id')->references('id')->on('employees');
+
             $table->longText('body');
         });
     }

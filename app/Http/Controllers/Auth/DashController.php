@@ -14,6 +14,7 @@ use App\Traits\CompanySessionTraits;
 class DashController extends Controller
 {
     use CompanySessionTraits;
+
     /**
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -24,9 +25,9 @@ class DashController extends Controller
 
         $this->populateSession();
 
-        if($this->hasRole('admin')){
+        if ($this->hasRole('admin')) {
             return redirect()->route('admin.index');
-        }else{
+        } else {
             return redirect()->route('admin.index');
         }
     }

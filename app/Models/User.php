@@ -13,6 +13,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Shetabit\Visitor\Traits\Visitor;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * App\Models\User
@@ -82,6 +83,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -109,11 +111,14 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return string
+     * Accessor avatar
+     * @return Attribute
      */
-    public function avatar()
+    protected function avatar(): Attribute
     {
-        return $this->avatar ?? "https://ui-avatars.com/api/?rounded=true&name=" . $this->name;
+        return Attribute::make(
+            get: fn($value) => $value ?? "https://ui-avatars.com/api/?rounded=true&name=" . $this->name,
+        );
     }
 
     /**

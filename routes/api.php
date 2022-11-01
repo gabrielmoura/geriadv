@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function () {
                 if (!$user->hasPermissionTo('use_api')) return response(null, 401);
 //
                 if ($user->hasRole('admin')) {
-                    $ability = ['admin', 'clients', 'lawyer', 'employer', 'companies', 'edit-company', 'analytics'];
+                    $ability = ['admin', 'clients', 'lawyer', 'employer', 'companies', 'edit-company', 'analytics', 'users'];
                 } else {
                     $ability = ['analytics'];
                 }
@@ -76,17 +76,11 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('/admin')->group(function () {
             //  Autoriza usuário[email,id] a solicitar token
-            Route::middleware(['ability:admin'])->post('permissionTo', function (Request $request) {
-                try {
-                    $permission = Permission::where('name', 'use_api')->get();
-                    $user = User::where('id', $request->user_id)
-                        ->orWhere('email', $request->email)
-                        ->first();
-                    return $user->syncPermissions($permission);
-                } catch (Exception $e) {
-                    return abort($e->getCode(), $e->getMessage());
-                }
+            Route::middleware(['ability:admin'])->group(function () {
+                Route::post('permissionTo', [UserApiController::class, 'permissionTo']);
+                Route::post('/userAdmin', [UserApiController::class, 'storeAdmin']);
             });
+
 
             Route::middleware(['ability:clients'])->group(function () {
                 Route::get('/clients', [ClientApiController::class, 'index']);
@@ -96,6 +90,8 @@ Route::prefix('v1')->group(function () {
             Route::middleware(['ability:users'])->group(function () {
                 Route::get('/users', [UserApiController::class, 'index']);
                 Route::get('/user/{id}', [UserApiController::class, 'show']);
+                Route::post('/userAdmin', [UserApiController::class, 'storeAdmin']);
+                Route::patch('/user/{id}', [UserApiController::class, 'update']);
             });
 
             Route::middleware(['ability:users,lawyer'])->group(function () {
@@ -106,12 +102,17 @@ Route::prefix('v1')->group(function () {
             Route::middleware(['ability:users,employer'])->group(function () {
                 Route::get('/employers', [EmployerApiController::class, 'index']);
                 Route::get('/employer/{id}', [EmployerApiController::class, 'show']);
+                Route::post('/employer', [EmployerApiController::class, 'store']);
+                Route::post('/employer/ban', [EmployerApiController::class, 'ban']);
+                Route::post('/employer/unban', [EmployerApiController::class, 'unBan']);
+                Route::patch('/employer/{id}', [EmployerApiController::class, 'update']);
             });
 
             Route::middleware(['ability:companies'])->group(function () {
                 Route::get('/companies', [CompanyApiController::class, 'index']);
                 Route::post('/company', [CompanyApiController::class, 'show']);
-
+                Route::post('/company', [CompanyApiController::class, 'store']);
+                Route::patch('/company/{id}', [CompanyApiController::class, 'update']);
             });
             Route::middleware(['abilities:companies,edit-company'])->group(function () {
                 Route::post('/company/ban', [CompanyApiController::class, 'ban']);

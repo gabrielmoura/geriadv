@@ -25,6 +25,8 @@ class CreateEmployeesTable extends Migration
             $table->unsignedBigInteger('company_id')->comment('Empresa')->index();
             $table->foreign('company_id')->references('id')->on('companies');
 
+            $table->boolean('banned')->nullable()->default(false)->comment('Banido');
+
              /**
              * Dados Pessoais
              */

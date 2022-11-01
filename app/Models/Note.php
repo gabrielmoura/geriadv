@@ -32,7 +32,7 @@ class Note extends Model
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable = ['client_id', 'body'];
+    protected $fillable = ['client_id', 'body','employee_id'];
     protected $dates = ['created_at', 'updated_at'];
 
     public function getActivitylogOptions(): LogOptions

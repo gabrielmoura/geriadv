@@ -20,7 +20,11 @@ trait CompanySessionTraits
         } else {
             if (config('panel.forceCache')) {
                 $userAuth = Auth::user();
-                if (!$userAuth->hasRole('admin') && !session()->has('company.id')) session(['company.id' => $userAuth->employee()->first()->company()->first()->id]);
+                if (!$userAuth->hasRole('admin') && !session()->has('company.id')) {
+                    $employee = $userAuth->employee()->first();
+                    session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
+                    session(['company.id' => $employee->company()->first()->id]);
+                }
             } else {
                 return session()->get('company.id');
             }
@@ -120,7 +124,9 @@ trait CompanySessionTraits
                 $this->setData(['id', 'name', 'logo', 'banned'], $x);
             }
         } else {
-            $company = $userAuth->employee()->first()->company()->first();
+            $employee = $userAuth->employee()->first();
+            $company = $employee->company()->first();
+            session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
             if (!$userAuth->hasRole('admin')) {
                 $this->setData(['id', 'name', 'logo', 'banned'], $company);
             }
@@ -140,7 +146,7 @@ trait CompanySessionTraits
      */
     public function hasBanned()
     {
-        return session()->get('company.banned');
+        return session()->get('company.banned') || session()->get('employee.banned');
     }
 
     /**

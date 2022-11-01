@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\CompanyApiRequest;
 
 class CompanyApiController extends Controller
 {
@@ -78,5 +80,62 @@ class CompanyApiController extends Controller
     public function unBan(Request $request)
     {
         return $this->banToggle($request, false);
+    }
+
+    /**
+     * Cadastra Empresas
+     * @param Request $request
+     * @return Company|\Illuminate\Database\Eloquent\Model|never
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'cnpj',
+            'cep',
+            'address',
+            'number' => 'integer',
+            'complement',
+            'district',
+            'city',
+            'state',
+            'email' => 'email',
+            'tel0'
+        ]);
+        $data = $request->only(['name', 'cnpj', 'cep', 'address', 'number', 'complement', 'district', 'city', 'state', 'email', 'tel0', 'logo']);
+        try {
+            return Company::create($data);
+        } catch (\Throwable $throwable) {
+            return abort($throwable->getCode(), $throwable->getMessage());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $company = Company::where('id', $id)
+                ->update($request->only([
+                    'name',
+                    'cnpj',
+                    'cep',
+                    'address',
+                    'number',
+                    'complement',
+                    'district',
+                    'city',
+                    'state',
+                    'email',
+                    'tel0',
+                    'logo'
+                ]));
+
+            if ($company) {
+                return response()->json('ok');
+            } else {
+                throw new \Exception('Error ao salvar', 400);
+            }
+        } catch (\Throwable $throwable) {
+            return abort(400, $throwable->getMessage());
+        }
     }
 }
