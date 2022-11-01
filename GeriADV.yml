@@ -1,0 +1,1883 @@
+openapi: 3.0.0
+info:
+  title: GeriADV
+  version: 1.0.1
+servers:
+  - url: http://localhost/api/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Admin
+    description: '# Administrative API'
+  - name: Admin > Company
+    description: '# API for company control'
+  - name: Admin > Employee
+    description: '# API for employee control'
+  - name: Admin > User
+  - name: Client
+paths:
+  /admin/company/ban:
+    post:
+      tags:
+        - Admin > Company
+      summary: Ban Company
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: E-mail
+                  example: sales@ltda.com
+                id:
+                  type: integer
+                  description: ID
+                  example: '1'
+                pid:
+                  type: string
+                  description: Public ID
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 03:38:43 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X80bb52de2f5989038bf938074a4cef68
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667101123-1318-1407386850
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=126.75404548645; desc="Application", db; dur=24.33;
+                  desc="Database", timeline-event-0; dur=91.683864593506;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: OK
+        '404':
+          description: Not Found
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 03:38:03 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X18ecdfc69e0f36b61a64489bd597d6ff
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667101083-1386-1373192668
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=130.28216362; desc="Application", db; dur=24.69;
+                  desc="Database", timeline-event-0; dur=96.186876296997;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: Não encontrado
+        '422':
+          description: Unprocessable Content
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:17:23 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xdc39bc910a2626fd16cce55e22c5cfc3
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: O campo email deve ser um endereço de e-mail válido.
+                errors:
+                  email:
+                    - O campo email deve ser um endereço de e-mail válido.
+  /admin/company/unban:
+    post:
+      tags:
+        - Admin > Company
+      summary: UnBan Company
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: E-mail
+                  example: sales@ltda.com
+                id:
+                  type: integer
+                  description: ID
+                  example: '1'
+                pid:
+                  type: string
+                  description: Public ID
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:15:30 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xbc46902da4bf2cbf359101c754b23aff
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example: OK
+        '404':
+          description: Not Found
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:15:49 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '57'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X3fa7c03daa458f4e8253a7dd5a6acf0a
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Não encontrado
+        '422':
+          description: Unprocessable Content
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:16:21 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '56'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xe9be0d76139b662bd475e6b6537f89d6
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: O campo id deve ser um número inteiro.
+                errors:
+                  id:
+                    - O campo id deve ser um número inteiro.
+  /admin/company:
+    post:
+      tags:
+        - Admin > Company
+      summary: Get Company
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: E-mail
+                  example: sales@ltda.com
+                id:
+                  type: integer
+                  description: ID
+                  example: '1'
+                pid:
+                  type: string
+                  description: Public ID
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:19:41 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '56'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X060219ba4c844057737449c930e7e272
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 1
+                pid: 01GGGYY37HGY2E1F2F6BSB6VNR
+                created_at: '2022-10-29T04:10:25.000000Z'
+                updated_at: '2022-10-30T03:12:04.000000Z'
+                deleted_at: null
+                email: null
+                tel0: null
+                name: Big Tech
+                cnpj: null
+                cep: null
+                address: null
+                number: null
+                complement: null
+                district: null
+                city: null
+                state: null
+                config:
+                  weekend: false
+                  opening: '07:00'
+                  closing: '18:00'
+                  docs:
+                    - name: cras
+                      title: CRAS
+                    - name: cpf
+                      title: CPF
+                    - name: rg
+                      title: RG
+                    - name: birth_certificate
+                      title: Certidão de Nascimento
+                    - name: proof_of_address
+                      title: Comprovante de Residência
+                logo: null
+                banned: true
+  /admin/company/2:
+    patch:
+      tags:
+        - Admin > Company
+      summary: Update Company
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: Company Name
+                  example: Gambiarras Ltda
+                cnpj:
+                  type: string
+                cep:
+                  type: string
+                  description: Zip Code
+                address:
+                  type: string
+                number:
+                  type: string
+                complement:
+                  type: string
+                district:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                email:
+                  type: string
+                tel0:
+                  type: string
+                logo:
+                  type: string
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Nov 2022 00:25:29 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X4f83293755cdeec89b4501911be8669d
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667262329-0364-944993281
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=290.78793525696; desc="Application", db; dur=165.82;
+                  desc="Database", timeline-event-0; dur=255.40089607239;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: ok
+  /admin/employer:
+    post:
+      tags:
+        - Admin > Employee
+      summary: Create Employee
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                company_id:
+                  type: integer
+                  example: '1'
+                pid:
+                  type: string
+                email:
+                  type: string
+                  example: sales3@ltda.com
+                password:
+                  type: string
+                  example: sales123456
+                name:
+                  type: string
+                  example: JJ
+                last_name:
+                  type: string
+                  example: Junior
+                cpf:
+                  type: string
+                rg:
+                  type: string
+                tel0:
+                  type: string
+                tel1:
+                  type: string
+                sex:
+                  type: string
+                birth_date:
+                  type: string
+                cep:
+                  type: string
+                address:
+                  type: string
+                number:
+                  type: string
+                complement:
+                  type: string
+                district:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '201':
+          description: Created
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Mon, 31 Oct 2022 21:36:11 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xfb92f0de17525cf99b100057c4b19d98
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667252171-4745-483355004
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=206.60400390625; desc="Application", db; dur=45.66;
+                  desc="Database", timeline-event-0; dur=167.68503189087;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                name: JJ
+                last_name: Junior
+                email: sales3@ltda.com
+                company_id: 2
+                user_id: 8
+                pid: 01GGQZJCVJ11PJ0W68QJAP7GKW
+                updated_at: '2022-10-31T21:36:11.000000Z'
+                created_at: '2022-10-31T21:36:11.000000Z'
+                id: 5
+  /admin/employer/4:
+    patch:
+      tags:
+        - Admin > Employee
+      summary: Update Employee
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                last_name:
+                  type: string
+                  example: Modificado
+                cpf:
+                  type: string
+                rg:
+                  type: string
+                email:
+                  type: string
+                tel0:
+                  type: string
+                tel1:
+                  type: string
+                sex:
+                  type: string
+                birth_date:
+                  type: string
+                cep:
+                  type: string
+                address:
+                  type: string
+                number:
+                  type: string
+                complement:
+                  type: string
+                district:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Mon, 31 Oct 2022 20:17:29 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X2eee1b0ac8e195b197c398f50f2f5ef2
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667247449-7302-1450622278
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=146.84581756592; desc="Application", db; dur=26.25;
+                  desc="Database", timeline-event-0; dur=107.6021194458;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: ok
+  /admin/employer/ban:
+    post:
+      tags:
+        - Admin > Employee
+      summary: Ban Employee
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                id:
+                  type: integer
+                  description: ID
+                  example: '1'
+                pid:
+                  type: string
+                  description: Public ID
+                  example: 01GGRCH0KCGG3KH4RQWZMH0MKD
+                email:
+                  type: string
+                  description: E-Mail
+                  example: sales3@ltda.com
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Nov 2022 01:47:39 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xc917c407090f71c95e82aebd5e8b1921
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667267259-8042-1512156295
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=157.870054245; desc="Application", db; dur=33.49;
+                  desc="Database", timeline-event-0; dur=122.53212928772;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: OK
+  /admin/employer/unban:
+    post:
+      tags:
+        - Admin > Employee
+      summary: UnBan Employee
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                id:
+                  type: integer
+                  description: ID
+                  example: '1'
+                pid:
+                  type: string
+                  description: Public ID
+                  example: 01GGRCH0KCGG3KH4RQWZMH0MKD
+                email:
+                  type: string
+                  description: E-Mail
+                  example: sales3@ltda.com
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Tue, 01 Nov 2022 01:48:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '57'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xe6a5276b1d204cb6800440fcd5e555c1
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667267280-3821-1541046370
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=182.55996704102; desc="Application", db; dur=34.1;
+                  desc="Database", timeline-event-0; dur=130.66411018372;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: OK
+  /admin/permissionTo:
+    post:
+      tags:
+        - Admin > User
+      summary: Allow user to use Api
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: admin@example.com
+                id:
+                  type: integer
+                  example: '8'
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/userAdmin:
+    post:
+      tags:
+        - Admin > User
+      summary: Create Admin User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  description: E-mail
+                  example: admin@example.com
+                password:
+                  type: integer
+                  description: Password
+                  example: '12345678'
+                name:
+                  type: string
+                  description: Username
+                  example: admini
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/user/2:
+    patch:
+      tags:
+        - Admin > User
+      summary: Update User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: Username
+                email:
+                  type: string
+                  description: E-mail
+                password:
+                  type: string
+                  description: User Password
+                  example: newPass123
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Mon, 31 Oct 2022 20:48:21 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X4d879843cbf58412553e98b09ee7ef47
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667249301-1177-1557494611
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=138.14687728882; desc="Application", db; dur=24.55;
+                  desc="Database", timeline-event-0; dur=100.63099861145;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: ok
+  /analytics:
+    get:
+      tags:
+        - Client
+      summary: All Analytics
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /analytic/1:
+    get:
+      tags:
+        - Client
+      summary: Get Analytic by Company
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /authorization:
+    post:
+      tags:
+        - default
+      summary: Authorization
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: E-mail
+                  example: admin@example.com
+                password:
+                  type: string
+                  description: Password
+                  example: admin
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 02:50:25 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X796346c7515b55bab986ce8ee1bda15b
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667098225-5297-311969518
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=143.9380645752; desc="Application", db; dur=20.91;
+                  desc="Database", timeline-event-0; dur=107.23519325256;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                token: 4|I4jtDXkD8lYawZpWO9jxlpVLvw9n9n8NCijLSE6I
+        '401':
+          description: Unauthorized
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 02:59:44 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X6b4242ef51319959f84555543cb344d6
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667098784-2922-1731278075
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=333.05597305298; desc="Application", db; dur=21.78;
+                  desc="Database", timeline-event-0; dur=297.9941368103;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: Não autorizado
+        '422':
+          description: Unprocessable Content
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 03:00:28 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X3a146eb19fd06db02d9eb271e7e15dee
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667098828-8208-1415288930
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=68.637132644653; desc="Application",
+                  timeline-event-0; dur=28.61499786377; desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: O campo senha deve ter pelo menos 5 caracteres.
+                errors:
+                  password:
+                    - O campo senha deve ter pelo menos 5 caracteres.
+  /auth/revoke:
+    post:
+      tags:
+        - default
+      summary: Revoke Current Token
+      requestBody:
+        content: {}
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:30:57 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X5584a5c8ce58cea936818a8edd901c90
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667104257-6657-1416825472
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=143.51415634155; desc="Application", db; dur=24.78;
+                  desc="Database", timeline-event-0; dur=103.7290096283;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: ok
+  /auth/warning:
+    post:
+      tags:
+        - default
+      summary: Revoke All Token
+      requestBody:
+        content: {}
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 04:32:14 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: X7ff4ef1627bfb6a2715476d85c619836
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667104334-3688-1019867532
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=148.07796478271; desc="Application", db; dur=27.8;
+                  desc="Database", timeline-event-0; dur=114.33792114258;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example: ok
+  /me:
+    get:
+      tags:
+        - default
+      summary: Me
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 02:51:17 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667098277-5470-189733302
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=155.69496154785; desc="Application", db; dur=24.1;
+                  desc="Database", timeline-event-0; dur=117.34890937805;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 1
+                name: GAdmin
+                email: admin@example.com
+                email_verified_at: '2022-10-29T03:46:41.000000Z'
+                avatar: null
+                created_at: '2022-10-29T03:46:41.000000Z'
+                updated_at: '2022-10-29T03:46:41.000000Z'
+                two_factor_secret: null
+                two_factor_recovery_codes: null
+                roles:
+                  - id: 1
+                    name: admin
+                    guard_name: web
+                    created_at: '2022-10-29T03:46:41.000000Z'
+                    updated_at: '2022-10-29T03:46:41.000000Z'
+                    pivot:
+                      model_id: 1
+                      role_id: 1
+                      model_type: App\Models\User
+                    permissions:
+                      - id: 2
+                        name: edit_status
+                        guard_name: web
+                        description: Adiciona e Remove Status dos Clientes
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 2
+                      - id: 4
+                        name: edit_pendency
+                        guard_name: web
+                        description: Adiciona e Remove Pendencias
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 4
+                      - id: 5
+                        name: audit_user
+                        guard_name: web
+                        description: Audita Usuários
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 5
+                      - id: 6
+                        name: view_analytic
+                        guard_name: web
+                        description: Quantidades de Vendas e Valores
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 6
+                      - id: 7
+                        name: edit_user
+                        guard_name: web
+                        description: Adicionar e Remover usuários
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 7
+                      - id: 8
+                        name: edit_company
+                        guard_name: web
+                        description: Adicionar e Remover Empresas
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 8
+                      - id: 9
+                        name: edit_employee
+                        guard_name: web
+                        description: Adicionar e Remover Funcionários
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 9
+                      - id: 11
+                        name: send_notification
+                        guard_name: web
+                        description: Enviar Notificações
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 11
+                      - id: 12
+                        name: view_notification
+                        guard_name: web
+                        description: Ver Notificações
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 12
+                      - id: 15
+                        name: send_file
+                        guard_name: web
+                        description: Enviar Arquivos
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 15
+                      - id: 16
+                        name: edit_file
+                        guard_name: web
+                        description: Enviar Emails
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 16
+                      - id: 17
+                        name: use_api
+                        guard_name: web
+                        description: Usar API
+                        created_at: '2022-10-29T03:46:41.000000Z'
+                        updated_at: '2022-10-29T03:46:41.000000Z'
+                        pivot:
+                          role_id: 1
+                          permission_id: 17
+                permissions: []
+                tokens:
+                  - id: 4
+                    tokenable_type: App\Models\User
+                    tokenable_id: 1
+                    name: Token Api
+                    abilities:
+                      - admin
+                      - clients
+                      - lawyer
+                      - employer
+                      - companies
+                      - edit-company
+                      - analytics
+                    last_used_at: '2022-10-30T02:51:17.000000Z'
+                    created_at: '2022-10-30T02:50:25.000000Z'
+                    updated_at: '2022-10-30T02:51:17.000000Z'
+        '401':
+          description: Unauthorized
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost
+            Date:
+              schema:
+                type: string
+                example: Sun, 30 Oct 2022 02:54:24 GMT
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.9
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            phpdebugbar-id:
+              schema:
+                type: string
+                example: Xb2d428073daa4f12d75739bdef0ae4f3
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            X-Clockwork-Id:
+              schema:
+                type: string
+                example: 1667098464-3059-1942719956
+            X-Clockwork-Version:
+              schema:
+                type: string
+                example: 5.1.10
+            Server-Timing:
+              schema:
+                type: string
+                example: >-
+                  app; dur=108.95299911499; desc="Application", db; dur=15.8;
+                  desc="Database", timeline-event-0; dur=69.377899169922;
+                  desc="Controller"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Unauthenticated.
