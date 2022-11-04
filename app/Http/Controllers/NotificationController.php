@@ -48,18 +48,34 @@ class NotificationController extends Controller
     {
         $form = ['route' => ['admin.notifications.sent'], 'method' => 'post'];
         // Carrega usuários de uma mesma empresa, para notificação.
+
         $to = [];
-        //$to[] = ['name' => 'Administrador', 'value' => 1];
         if ($this->hasRole('admin')) {
-            foreach (User::all() as $item) {
-                $to[] = ['name' => $item->name, 'value' => $item->id];
-            };
+            $to = $this->generateList(User::with(['employee', 'company', 'roles'])->get());
         } else {
             foreach ($this->getCompany()->users as $item) {
                 $to[] = ['name' => $item->user->name, 'value' => $item->user->id];
             };
         }
         return view('profile.createNotification', compact('form', 'to'));
+    }
+
+
+    /**
+     * @param $users
+     * @return array
+     */
+    private function generateList($users)
+    {
+        $extends = '';
+        $to = [];
+        foreach ($users as $item) {
+            if (isset($item->employee)) {
+                $extends = ' :' . $item->roles->first()->name . ' @' . $item->employee->company->name;
+            }
+            $to[] = ['name' => $item->name . $extends, 'value' => $item->id];
+        };
+        return $to;
     }
 
     /**

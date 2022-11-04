@@ -109,6 +109,9 @@ class Employee extends Model
         'state',];
     protected $table = 'employees';
     protected $dates = ['created_at', 'updated_at'];
+    protected $with=[
+        'company'
+    ];
 
 
     /*

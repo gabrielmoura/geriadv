@@ -161,7 +161,7 @@ class ClientController extends Controller
             return Datatables::of($client)
                 ->addIndexColumn()
                 ->addColumn('action', function ($client) {
-                    return $this->dataAction('admin.clients', $client->slug);
+                    return $this->dataAction('admin.clients', $client->pid);
                 })
                 ->addColumn('fullname', function ($client) {
                     return $client->fullname;
@@ -246,7 +246,7 @@ class ClientController extends Controller
      */
     public function show($slug)
     {
-        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'media'])->whereSlug($slug)
+        $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'media'])->wherePid($slug)
             ->where('company_id', $this->getCompanyId())
             ->first();
         $pendency = $client->pendency;
@@ -289,7 +289,7 @@ class ClientController extends Controller
             , 'rg' => ''
             , 'cpf' => 'required|cpf_cnpj|unique:clients'
             , 'sex' => 'required'
-            , 'birth_date' => 'required|date'
+            , 'birth_date' => 'required'
 
             /**
              * Dados do Endereço
@@ -318,7 +318,7 @@ class ClientController extends Controller
                 , 'tel0' => numberClear($request['tel0'])
                 , 'cpf' => numberClear($request['cpf'])
                 , 'sex' => $request['sex']
-                , 'birth_date' => Carbon::make($request['birth_date'])
+                , 'birth_date' => Carbon::createFromFormat('d/m/Y',$request['birth_date'])
 
                 /**
                  * Dados do Endereço

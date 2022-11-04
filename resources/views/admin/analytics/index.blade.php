@@ -39,7 +39,7 @@
                                 <div class="peer">
                                     <span
                                         class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">
-                                        {{$status['requirement_count']}}</span>
+                                        {{$status['status_count']['requirement']}}</span>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="peer">
                                     <span
-                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{$status['deferred_count']}}</span>
+                                        class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{$status['status_count']['deferred']}}</span>
                                 </div>
                             </div>
                         </div>

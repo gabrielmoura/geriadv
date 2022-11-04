@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->softDeletes();
             //$table->unsignedBigInteger('user_id');
             //$table->foreign('user_id')->references('id')->on('users');
-            $table->string('slug')->index();
+            $table->ulid('pid')->comment('Public ID')->index();
 
             $table->unsignedBigInteger('recommendation_id')->nullable()->comment('Recomendações');
             $table->foreign('recommendation_id')->references('id')->on('recommendations');
