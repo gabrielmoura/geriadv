@@ -15,22 +15,15 @@ trait CompanySessionTraits
      */
     public function getCompanyId()
     {
-        if (session()->has('company.id')) {
-            return session()->get('company.id');
-        } else {
-            if (config('panel.forceCache')) {
-                $userAuth = Auth::user();
-                if (!$userAuth->hasRole('admin') && !session()->has('company.id')) {
-                    $employee = $userAuth->employee()->first();
-                    session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
-                    session(['company.id' => $employee->company()->first()->id]);
-                }
-            } else {
-                return session()->get('company.id');
+        if (!session()->has('company.id')) {
+            $userAuth = Auth::user();
+            if (!$userAuth->hasRole('admin') && !session()->has('company.id')) {
+                $employee = $userAuth->employee()->first();
+                session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
+                session(['company.id' => $employee->company()->first()->id]);
             }
-
         }
-
+        return session()->get('company.id');
     }
 
     /**
@@ -72,6 +65,7 @@ trait CompanySessionTraits
             return session()->get('company');
         } else {
             if (config('panel.forceCache')) {
+
                 $x = cache()->remember('company:' . $this->getCompanyId(), 60 * 60 * 12, function () {
                     return Company::find($this->getCompanyId());
                 });
@@ -113,23 +107,25 @@ trait CompanySessionTraits
      */
     public function populateSession()
     {
-        // Insere dados da empresa na sessão caso não seja admin.
-        $userAuth = Auth::user();
+        try {
+            // Insere dados da empresa na sessão caso não seja admin.
+            $userAuth = Auth::user();
+            if (!$userAuth->hasRole('admin')) {
+                if (config('panel.forceCache')) {
+                    $x = cache()->remember('company:' . $this->getCompanyId(), 60 * 60 * 12, function () {
+                        return Company::find($this->getCompanyId());
+                    });
+                    $this->setData(['id', 'name', 'logo', 'banned'], $x);
 
-        if (config('panel.forceCache')) {
-            $x = cache()->remember('company:' . $this->getCompanyId(), 60 * 60 * 12, function () {
-                return Company::find($this->getCompanyId());
-            });
-            if (!$userAuth->hasRole('admin')) {
-                $this->setData(['id', 'name', 'logo', 'banned'], $x);
+                } else {
+                    $employee = $userAuth->employee()->first();
+                    $company = $employee->company()->first();
+                    session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
+                    $this->setData(['id', 'name', 'logo', 'banned'], $company);
+                }
             }
-        } else {
-            $employee = $userAuth->employee()->first();
-            $company = $employee->company()->first();
-            session(['employee.id' => $employee->id, 'employee.banned' => $employee->banned]);
-            if (!$userAuth->hasRole('admin')) {
-                $this->setData(['id', 'name', 'logo', 'banned'], $company);
-            }
+        } catch (\Throwable $throwable) {
+
         }
 
     }

@@ -36,7 +36,7 @@ class CreateClientViewsTable extends Migration
     notes.body AS note,
     recommendations.name AS recommendation,
     clients.tel1,
-    clients.slug,
+    clients.pid,
     pendencies.pendency,
     companies.name AS company_name,
     companies.id AS company_id,

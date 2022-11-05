@@ -47,15 +47,13 @@ class AnalyticsApi
         $this->appointments = Calendar::whereMonth('created_at', '=', $now->month);
         $this->benefits = Benefits::with(['clients']);
 
-        $this->getClient = $this->clients
-            ->whereMonth('created_at', '=', $this->now->month)->get();
-
         if ($company_id !== 0) {
             $this->clients->where('company_id', $company_id);
             $this->appointments->where('company_id', $company_id);
             $this->benefits->where('company_id', $company_id);
         }
-
+        $this->getClient = $this->clients
+            ->whereMonth('created_at', '=', $this->now->month)->get();
     }
 
 
