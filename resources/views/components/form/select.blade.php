@@ -3,7 +3,7 @@
         {{$title??strtoupper($name)}}</label>
     <select class="form-control select optional" name="{{$name}}" id="{{ucwords($name)}}">
         @foreach($selects as $select)
-            <option value="{{$select->value}}">{{$select->name}}</option>
+            <option value="{{$select->value}}" @selected(old($name, $selected) == $select->value)>{{$select->name}}</option>
         @endforeach
     </select>
 </div>

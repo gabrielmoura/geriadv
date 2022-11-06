@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\DataTables\AppointmentDataTable;
 use Dhonions\LaravelCalendar\Facades\Calendar;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Calendar\MassDestroyCalendarRequest;
@@ -33,7 +34,7 @@ class AppointmentsController extends Controller
      * @var string
      */
     public $formatDateTime = 'd/m/Y H:i:s';
-    public $cFormatDateTime='Y-m-d H:i:s';
+    public $cFormatDateTime = 'Y-m-d H:i:s';
     /**
      * @var \string[][]
      */
@@ -48,111 +49,15 @@ class AppointmentsController extends Controller
             'route' => 'admin.calendar.show',
         ],
     ];
-    /**
-     * @var Builder
-     */
-    protected $htmlBuilder;
 
     /**
-     * AgendamentoController constructor.
-     * @param Builder $htmlBuilder
-     */
-    public function __construct(Builder $htmlBuilder)
-    {
-        $this->htmlBuilder = $htmlBuilder;
-    }
-
-    /**
+     * @param AppointmentDataTable $dataTable
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return mixed
      */
-    public function index(Request $request)
+    public function index(AppointmentDataTable $dataTable, Request $request)
     {
-        // abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        if ($this->hasRole('admin')) {
-            $events = Model::withCount('calendars');
-        } else {
-            $events = Model::withCount('calendars')->with('lawyer')->whereCompanyId($this->getCompanyId());
-        }
-
-
-        if ($request->has('month') && !is_null($request->month)) {
-            //Busca agendamentos por Mês
-            $events = $events->whereMonth('start_time', '=', $request->month);
-        }
-        if ($request->has('date') && !is_null($request->date)) {
-            //Busca agendamentos por data
-            $events = $events->where('start_time', 'LIKE', Carbon::createFromFormat($this->formatDate, $request->date));
-        }
-        if ($request->has('address') && !is_null($request->address)) {
-            $events = $events->where('address', 'LIKE', '%' . $request->address . '%');
-        }
-
-        if ($request->has('lawyer') && !is_null($request->lawyer)) {
-            $events = $events->whereHas('lawyer', function ($query) use ($request) {
-                return $query->where('name', 'like', $request->lawyer);
-            });
-
-        }
-
-
-        if (config('panel.datatable')) {
-            return $this->datatable($request, $events);
-        } else {
-            $events = $events->get();
-            return view('admin.calendar.index', compact('events', 'request'));
-        }
-    }
-
-    /**
-     * @param $request
-     * @param $events
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @throws \Exception
-     */
-    public function datatable($request, $events)
-    {
-        if ($request->ajax()) {
-            return Datatables::of($events)
-                ->addColumn('action', function (Model $events) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.calendar.show', $events->pid) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Ver"><i class="fa fa-eye"></i></a>|<a href="' . route('admin.calendar.edit', $events->pid) . '" class="item" data-toggle="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a></div>';
-                })
-                ->addColumn('recurrence', function (Model $events) {
-                    return \App\Models\Calendar::RECURRENCE_RADIO[$events->recurrence] ?? '';
-                })
-                ->addColumn('start_time', function (Model $events) {
-                    return Carbon::parse($events->start_time)->format($this->formatDateTime) ?? '';
-                })
-                ->addColumn('end_time', function (Model $events) {
-                    return Carbon::parse($events->end_time)->format($this->formatDateTime) ?? '';
-                })
-                ->addColumn('lawyer', function (Model $events) {
-                    return $events->lawyer->name ?? '';
-                })
-                ->filterColumn('start_time', function ($query, $keyword) {
-                    return $query->where('start_time', Carbon::parse($keyword)) ?? '';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        $html = $this->htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nome'])
-            ->addColumn(['data' => 'start_time', 'name' => 'start_time', 'title' => 'Hora de início'])
-            ->addColumn(['data' => 'end_time', 'name' => 'end_time', 'title' => 'Hora de Fim'])
-            ->addColumn(['data' => 'recurrence', 'name' => 'recurrence', 'title' => 'Recorrência'])
-            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereço'])
-            ->addColumn(['data' => 'lawyer', 'name' => 'lawyer', 'title' => 'Advogado'])
-            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true)
-            ->serverSide(true)
-            ->searching(false)
-            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
-            ->minifiedAjax();
-        return view('admin.calendar.datatable', compact('html', 'request'));
+        return $dataTable->render('admin.calendar.datatable', compact('request'));
     }
 
     /**

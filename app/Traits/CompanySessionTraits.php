@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Auth;
 trait CompanySessionTraits
 {
 
+
     /**
-     * @return mixed
+     * @return int
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function getCompanyId()
+    public function getCompanyId():int
     {
         if (!session()->has('company.id')) {
             $userAuth = Auth::user();

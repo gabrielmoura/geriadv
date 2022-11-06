@@ -22,7 +22,9 @@
                         <x-form.date name="date" value="{{$request->date??''}}" title="Data"></x-form.date>
                     </div>
                     <div class="col-3">
-                        @php($selects=[['name'=>'Nenhum','value'=>null],
+
+                        <x-form.select name="month" title="Mês" :selects="[
+    ['name'=>'Nenhum','value'=>null],
  ['name'=>'Janeiro','value'=>1],
   ['name'=>  'Fevereiro','value'=>2],
   ['name'=>  'Março','value'=>3],
@@ -35,8 +37,7 @@
   ['name'=>  'Outubro','value'=>10],
  ['name'=>   'Novembro','value'=>11],
   ['name'=>  'Dezembro','value'=>12],
-])
-                        <x-form.select name="month" title="Mês" :selects="$selects"></x-form.select>
+]" selected="{{$request->month}}"></x-form.select>
                     </div>
                     <div class="col-3">
                         <x-form.input name="address" value="{{$request->address??''}}"
@@ -54,8 +55,9 @@
         </div>
     </div>
 
-    {!! $html->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
+    {!! $dataTable->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
 @endsection
 @push('js')
-    {!! $html->scripts() !!}
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
 @endpush

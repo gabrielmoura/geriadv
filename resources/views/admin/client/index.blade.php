@@ -39,7 +39,7 @@
                     <td>{{$client->email}}</td>
                     <td>{{$client->tel}}</td>
                     <td>{{$client->address}}</td>
-                    <td>{{$client->birth_date}}</td>
+                    <td>{{$client->birth_date->format('d/m/Y')}}</td>
                     <td>{{$client->doc}}</td>
                     <td><a href="{{route('admin.clients.show',['client'=>$client->slug])}}"><i
                                 class="fa fa-eye"></i></a>

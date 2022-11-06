@@ -35,15 +35,15 @@
                     <div class="col-4">
                         <label class="control-label select optional" for="status">
                             Status</label>
-                        @php($selects=[
+                        {!! Form::select('status',[
+    null=>'Indefinido',
     'deferred'=>'Deferido',
     'rejected'=>'Indeferido',
     'analysis'=>'Analise',
     'called_off'=>'Cancelado',
     'deceased'=>'Falecido',
     'cancellation'=>'Solicitou Cancelamento',
-    null=>'Indefinido'])
-                        {!! Form::select('status',$selects,$request->status??null,['class'=>'form-control']) !!}
+    ],$request->status??null,['class'=>'form-control']) !!}
                     </div>
                     <div class="col-4">
                         <label for="cidade_id">Cidade</label>
@@ -64,10 +64,9 @@
         </div>
     </div>
 
-    {!! $html->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
+    {!! $dataTable->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
 @endsection
 @push('js')
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
-    <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-    {!! $html->scripts() !!}
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
 @endpush

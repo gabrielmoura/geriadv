@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\DataTables\EmployeeDataTable;
 use App\Http\Controllers\Controller;
 use App\Mail\Company\WelcomeCompanyMail;
 use App\Models\Employee;
@@ -11,85 +12,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
 
 class EmployeeController extends Controller
 {
     use CompanySessionTraits;
 
     /**
-     * @var Builder
-     */
-    protected $htmlBuilder;
-
-    /**
-     * EmployeeController constructor.
-     * @param Builder $htmlBuilder
-     */
-    public function __construct(Builder $htmlBuilder)
-    {
-        $this->htmlBuilder = $htmlBuilder;
-
-    }
-
-    /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @throws \Exception
+     * @param EmployeeDataTable $dataTable
+     * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $request, EmployeeDataTable $dataTable)
     {
-        //Apenas o gerente deve acessar
-        $employees = Employee::where('company_id', $this->getCompanyId());
-//        $employees = DB::table('employees')->where('company_id','=',$this->getCompanyId());
-
-
-        if (config('panel.datatable')) {
-            return $this->datatable($request, $employees);
-        } else {
-            return $this->datatable($request, $employees);
-            //$employees = $employees->get();
-            //return view('admin.employee.index', compact('clients'));
-        }
+        return $dataTable->render('admin.employee.index', compact('request'));
     }
 
-    /**
-     * @param $request
-     * @param $employees
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @throws \Exception
-     */
-    protected function datatable($request, $employees)
-    {
-        if ($request->ajax()) {
-            return Datatables::of($employees)
-                ->addColumn('action', function (Employee $employee) {
-                    return '<div class="table-data-feature"><a href="' . route('admin.employee.show', ['employee' => $employee->pid]) . '"><i
-                                class="fa fa-eye"></i></a>|<a
-                            href="' . route('admin.employee.edit', ['employee' => $employee->pid]) . '"><i
-                                class="fa fa-edit"></i></a></div>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        $html = $this->htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Name'])
-            ->addColumn(['data' => 'sex', 'name' => 'sex', 'title' => 'Sexo'])
-            ->addColumn(['data' => 'email', 'name' => 'email', 'title' => 'Email'])
-            ->addColumn(['data' => 'tel0', 'name' => 'tel0', 'title' => 'Telefone'])
-            ->addColumn(['data' => 'address', 'name' => 'address', 'title' => 'Endereços'])
-            ->addColumn(['data' => 'birth_date', 'name' => 'birth_date', 'title' => 'Data de Nascimento'])
-            ->addColumn(['data' => 'cpf', 'name' => 'cpf', 'title' => 'CPF'])
-            ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Ação'])
-            ->responsive(true)
-            ->serverSide(true)
-            ->language('//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json')
-            ->minifiedAjax();
-
-
-        return view('admin.employee.index', compact('html'));
-    }
 
     public function create()
     {
@@ -105,7 +42,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::where('pid',$id)->first();
+        $employee = Employee::where('pid', $id)->first();
         return view('admin.employee.show', compact('employee'));
     }
 
@@ -130,7 +67,7 @@ class EmployeeController extends Controller
                 , 'cpf' => numberClear($request->cpf)
                 , 'tel0' => numberClear($request->tel0)
             ]);
-            return [$employee,$user];
+            return [$employee, $user];
         });
 
         if ($transaction[0]) {
@@ -144,7 +81,7 @@ class EmployeeController extends Controller
     {
 
         $data = $request->all();
-        $employee = Employee::where('pid',$request->id)->first();
+        $employee = Employee::where('pid', $request->id)->first();
         if ($request->has('cep')) {
             $data['cep'] = numberClear($request->cep);
         }
@@ -176,7 +113,7 @@ class EmployeeController extends Controller
     {
         $form = ['route' => ['admin.employee.update', $id], 'method' => 'put'];
 
-        $employee = Employee::where('pid',$id)->first();
+        $employee = Employee::where('pid', $id)->first();
         return view('admin.employee.form', compact('form', 'employee'));
     }
 

@@ -8,6 +8,7 @@ class Select extends Component
 {
     public $name;
     public $title;
+    public $selected;
     public array $selects;
 
     /**
@@ -15,11 +16,12 @@ class Select extends Component
      * @param $name
      * @param $selects
      */
-    public function __construct($name, $selects, $title = null)
+    public function __construct($name, $selects, $title = null, $selected = null)
     {
         $this->name = $name;
         $this->title = $title;
         $this->selects = arrayToObject($selects);
+        $this->selected = $selected;
     }
 
     /**

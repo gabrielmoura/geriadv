@@ -19,30 +19,14 @@ class BenefitsController extends Controller
 {
     use CompanySessionTraits;
 
-    protected $htmlBuilder;
-
-    public function __construct(Builder $htmlBuilder)
-    {
-        $this->htmlBuilder = $htmlBuilder;
-
-    }
-
-
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param BenefitDataTable $dataTable
+     * @return mixed
      */
-    public function index(Request $request,BenefitDataTable $html)
+    public function index(Request $request, BenefitDataTable $dataTable)
     {
-        return $html->render('admin.benefits.index');
-
-//        $benefits = Benefits::where('company_id', $this->getCompanyId());
-//        if (config('panel.datatable')) {
-//            return $this->datatable($request, $benefits);
-//        } else {
-//            return $this->datatable($request, $benefits);
-//            //$benefits = $benefits->get();
-//        }
+        return $dataTable->render('admin.benefits.index', compact('request'));
     }
 
 

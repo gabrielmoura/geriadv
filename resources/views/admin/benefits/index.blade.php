@@ -6,5 +6,6 @@
     {!! $dataTable->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
 @endsection
 @push('js')
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {!! $dataTable->scripts() !!}
 @endpush

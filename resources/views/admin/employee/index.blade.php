@@ -3,8 +3,9 @@
 @section('page-header') Funcionários @endsection
 @section('content')
     <a href="{{signedRoute('admin.employee.create')}}" class="btn btn-success">Registrar Funcionário</a>
-    {!! $html->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
+    {!! $dataTable->table(['class'=>'table table-striped table-bordered display nowrap']) !!}
 @endsection
 @push('js')
-    {!! $html->scripts() !!}
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
 @endpush

@@ -71,7 +71,8 @@ class AnalyticsApi
                 ->newEntryCount()
                 ->appointmetCount()
                 ->amoutCount()
-                ->statusCount();
+                ->statusCount()
+                ->sexCount();
         } finally {
             return $this;
         }
@@ -111,7 +112,7 @@ class AnalyticsApi
                              'cancellation', //Cancelamento
                              'deceased', //Falecido
                              'requirement'//Exigência
-                         ] as $item){
+                         ] as $item) {
                     $status->put($item, $client->status()->whereStatus($item)->count());
                 }
             }
@@ -225,6 +226,53 @@ class AnalyticsApi
                 }
             }
             $this->out->put('recommendations', $countName ?? []);
+        } catch (\Throwable $throwable) {
+        } finally {
+            return $this;
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    public function lawyerCount()
+    {
+        try {
+            $countName = collect();
+            foreach ($this->getClient as $client) {
+                if (isset($client->lawyer)) {
+                    $name = $client->lawyer->first()->name ?? '';
+                    if ($countName->has($name)) {
+                        $countName[$name] += 1;
+                    } else {
+                        $countName[$name] = 1;
+                    }
+                }
+            }
+            $this->out->put('lawyers', $countName ?? []);
+        } catch (\Throwable $throwable) {
+        } finally {
+            return $this;
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    public function sexCount()
+    {
+        try {
+            $countName = collect(['male' => 0, 'female' => 0, 'unknown' => 0]);
+            foreach ($this->getClient as $client) {
+                if ($client->sex == 'm') {
+                    $countName['male'] += 1;
+                } elseif ($client->sex == 'f') {
+                    $countName['female'] += 1;
+                } else {
+                    $countName['unknown'] += 1;
+                }
+            }
+            $this->out->put('sex', $countName ?? []);
         } catch (\Throwable $throwable) {
         } finally {
             return $this;
