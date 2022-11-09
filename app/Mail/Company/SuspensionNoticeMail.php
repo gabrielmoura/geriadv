@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Client;
+namespace App\Mail\Company;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,13 +11,12 @@ class SuspensionNoticeMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $title, $body;
+    public $data;
 
 
-    public function __construct($body, $title = null)
+    public function __construct($data)
     {
-        $this->title = config('app.name', $title);
-        $this->body = $body;
+        $this->data = $data;
 
 
     }
@@ -25,9 +24,9 @@ class SuspensionNoticeMail extends Mailable implements ShouldQueue
 
     public function build()
     {
-        $body = $this->body;
-        $title = $this->title;
-        return $this->subject($this->title)
+        $body = $this->data['body'];
+        $title = $this->data['title'];
+        return $this->subject($title)
             ->view('mail.company.suspensionNotice', compact('body', 'title'));
 
     }

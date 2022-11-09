@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 
+use Illuminate\Support\Facades\Auth;
+use Opcodes\LogViewer\Facades\LogViewer;
 use App\Actions\Payment\{Payment, PaymentFacade, PaymentInterface};
 use Illuminate\Support\Facades\DB;
 use App\Models\Calendar;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class,);
         }
+
     }
 
     /**
@@ -88,7 +91,6 @@ class AppServiceProvider extends ServiceProvider
 ////        Blade::component('bootstrap-modal', \App\View\Components\Bootstrap\Modal::class);
 
         Calendar::observe(CalendarRecurrenceObserver::class);
-
 
     }
 

@@ -26,5 +26,5 @@ Pré-compile o código do seu aplicativo:
 ```bash
 php artisan opcache:compile {--force}
 ```
-Nota: opcache.dups_fix deve estar habilitado, ou use o --force sinalizador. Se você encontrar erros "Não é possível redeclarar a classe", habilite opcache.dups_fixou adicione o caminho da classe à lista de exclusão.
+Nota: opcache.dups_fix deve estar habilitado, ou use o --force sinalizador. Se você encontrar erros "Não é possível redeclarar a classe", habilite opcache.dups_fix ou adicione o caminho da classe à lista de exclusão.
 

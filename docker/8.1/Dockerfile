@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-LABEL maintainer="Taylor Otwell"
+LABEL maintainer="Gabriel Moura"
 
 ARG WWWGROUP
 ARG NODE_VERSION=16
@@ -9,7 +9,7 @@ ARG POSTGRES_VERSION=14
 WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=UTC
+ENV TZ="America/Sao_Paulo"
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -29,7 +29,7 @@ RUN apt-get update \
        php8.1-imap php8.1-mysql php8.1-mbstring \
        php8.1-xml php8.1-zip php8.1-bcmath php8.1-soap \
        php8.1-intl php8.1-readline \
-       php8.1-ldap \
+       php8.1-ldap php8.1-opcache php8.1-apcu \
        php8.1-msgpack php8.1-igbinary php8.1-redis php8.1-swoole \
        php8.1-memcached php8.1-pcov php8.1-xdebug \
     && php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
@@ -55,6 +55,8 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY horizon.conf /etc/supervisor/conf.d/horizon.conf
+COPY schedule.conf /etc/supervisor/conf.d/schedule.conf
 COPY php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 

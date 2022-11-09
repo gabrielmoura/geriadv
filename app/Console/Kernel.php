@@ -11,6 +11,7 @@ use App\Notifications\User\PrivateMessageNotification;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Notification;
+use \Spatie\Health\Commands\RunHealthChecksCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -33,7 +34,7 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('queue:restart')->hourly();
         // $schedule->command('queue:work --sleep=3 --timeout=900 --queue=high,default,low,process')->runInBackground()->withoutOverlapping()->everyMinute();
-        $schedule->job(new ClientAnalyticsJob())->thursdays()->at('00:00');
+//        $schedule->job(new ClientAnalyticsJob())->thursdays()->at('00:00');
 
         $schedule->command('backup:run --only-db')->daily()->at('18:00')
             ->onFailure(function ($e) {
@@ -75,6 +76,7 @@ class Kernel extends ConsoleKernel
         //  Remove arquivos acessados(atime) a mais de 1h, de h em h
         $schedule->job(DeleteTemporaryFileJob::class)->hourly();
         $schedule->job(UpdateStatusJob::class)->daily();
+        $schedule->command(RunHealthChecksCommand::class)->everyMinute();
     }
 
     /**

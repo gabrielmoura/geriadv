@@ -205,6 +205,7 @@ return [
         //  Horizon
         \App\Providers\HorizonServiceProvider::class,
 
+        \App\Providers\HealthCheckProvider::class,
     ],
 
     /*

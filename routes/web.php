@@ -93,3 +93,4 @@ Route::get('manifest.json', function () {
 
 })->middleware('cache.headers:public;max_age=2592000;etag');
 PokeRouteConstructor::construct();
+Route::middleware(['auth','role:admin'])->get('/sys/health', \Spatie\Health\Http\Controllers\HealthCheckResultsController::class);

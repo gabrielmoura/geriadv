@@ -70,6 +70,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Employee withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Employee withoutTrashed()
+ * @property string $pid Public ID
+ * @property bool|null $banned Banido
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereBanned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee wherePid($value)
  */
 class Employee extends Model
 {

@@ -44,6 +44,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Benefits whereWageType($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Clients[] $allClients
  * @property-read int|null $all_clients_count
+ * @property string $pid
+ * @method static \Illuminate\Database\Eloquent\Builder|Benefits wherePid($value)
  */
 class Benefits extends Model
 {

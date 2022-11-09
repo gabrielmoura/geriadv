@@ -14803,40 +14803,6 @@
             /**
      * 
      *
-     * @method static \Illuminate\Contracts\Filesystem\Filesystem assertExists(string|array $path, string|null $content = null)
-     * @method static \Illuminate\Contracts\Filesystem\Filesystem assertDirectoryEmpty(string $path)
-     * @method static \Illuminate\Contracts\Filesystem\Filesystem assertMissing(string|array $path)
-     * @method static \Symfony\Component\HttpFoundation\StreamedResponse download(string $path, string|null $name = null, array|null $headers = [])
-     * @method static \Symfony\Component\HttpFoundation\StreamedResponse response(string $path, string|null $name = null, array|null $headers = [], string|null $disposition = 'inline')
-     * @method static array allDirectories(string|null $directory = null)
-     * @method static array allFiles(string|null $directory = null)
-     * @method static array directories(string|null $directory = null, bool $recursive = false)
-     * @method static array files(string|null $directory = null, bool $recursive = false)
-     * @method static bool append(string $path, string $data)
-     * @method static bool copy(string $from, string $to)
-     * @method static bool delete(string|array $paths)
-     * @method static bool deleteDirectory(string $directory)
-     * @method static bool exists(string $path)
-     * @method static bool makeDirectory(string $path)
-     * @method static bool missing(string $path)
-     * @method static bool move(string $from, string $to)
-     * @method static bool prepend(string $path, string $data)
-     * @method static bool put(string $path, \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents, mixed $options = [])
-     * @method static bool setVisibility(string $path, string $visibility)
-     * @method static bool writeStream(string $path, resource $resource, array $options = [])
-     * @method static int lastModified(string $path)
-     * @method static int size(string $path)
-     * @method static resource|null readStream(string $path)
-     * @method static string get(string $path)
-     * @method static string getVisibility(string $path)
-     * @method static string path(string $path)
-     * @method static string temporaryUrl(string $path, \DateTimeInterface $expiration, array $options = [])
-     * @method static string url(string $path)
-     * @method static string|false mimeType(string $path)
-     * @method static string|false putFile(string $path, \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file, mixed $options = [])
-     * @method static string|false putFileAs(string $path, \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file, string $name, mixed $options = [])
-     * @method static void macro(string $name, object|callable $macro)
-     * @method static void buildTemporaryUrlsUsing(\Closure $callback)
      * @see \Illuminate\Filesystem\FilesystemManager
      */ 
         class Storage {
@@ -14844,7 +14810,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function drive($name = null)
@@ -14856,7 +14822,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function disk($name = null)
@@ -14867,7 +14833,7 @@
                     /**
          * Get a default cloud filesystem instance.
          *
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function cloud()
@@ -14879,7 +14845,7 @@
          * Build an on-demand disk.
          *
          * @param string|array $config
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function build($config)
@@ -14891,7 +14857,7 @@
          * Create an instance of the local driver.
          *
          * @param array $config
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createLocalDriver($config)
@@ -14903,7 +14869,7 @@
          * Create an instance of the ftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createFtpDriver($config)
@@ -14915,7 +14881,7 @@
          * Create an instance of the sftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createSftpDriver($config)
@@ -14939,7 +14905,7 @@
          * Create a scoped driver.
          *
          * @param array $config
-         * @return \Illuminate\Contracts\Filesystem\Filesystem 
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
         public static function createScopedDriver($config)
@@ -15030,6 +14996,627 @@
         {
                         /** @var \Illuminate\Filesystem\FilesystemManager $instance */
                         return $instance->setApplication($app);
+        }
+                    /**
+         * Assert that the given file or directory exists.
+         *
+         * @param string|array $path
+         * @param string|null $content
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function assertExists($path, $content = null)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->assertExists($path, $content);
+        }
+                    /**
+         * Assert that the given file or directory does not exist.
+         *
+         * @param string|array $path
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function assertMissing($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->assertMissing($path);
+        }
+                    /**
+         * Assert that the given directory is empty.
+         *
+         * @param string $path
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function assertDirectoryEmpty($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->assertDirectoryEmpty($path);
+        }
+                    /**
+         * Determine if a file or directory exists.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function exists($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->exists($path);
+        }
+                    /**
+         * Determine if a file or directory is missing.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function missing($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->missing($path);
+        }
+                    /**
+         * Determine if a file exists.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function fileExists($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->fileExists($path);
+        }
+                    /**
+         * Determine if a file is missing.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function fileMissing($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->fileMissing($path);
+        }
+                    /**
+         * Determine if a directory exists.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function directoryExists($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->directoryExists($path);
+        }
+                    /**
+         * Determine if a directory is missing.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function directoryMissing($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->directoryMissing($path);
+        }
+                    /**
+         * Get the full path for the file at the given "short" path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function path($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->path($path);
+        }
+                    /**
+         * Get the contents of a file.
+         *
+         * @param string $path
+         * @return string|null 
+         * @static 
+         */ 
+        public static function get($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->get($path);
+        }
+                    /**
+         * Create a streamed response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function response($path, $name = null, $headers = [], $disposition = 'inline')
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->response($path, $name, $headers, $disposition);
+        }
+                    /**
+         * Create a streamed download response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function download($path, $name = null, $headers = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->download($path, $name, $headers);
+        }
+                    /**
+         * Write the contents of a file.
+         *
+         * @param string $path
+         * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents
+         * @param mixed $options
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function put($path, $contents, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->put($path, $contents, $options);
+        }
+                    /**
+         * Store the uploaded file on the disk.
+         *
+         * @param string $path
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file
+         * @param mixed $options
+         * @return string|false 
+         * @static 
+         */ 
+        public static function putFile($path, $file, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->putFile($path, $file, $options);
+        }
+                    /**
+         * Store the uploaded file on the disk with a given name.
+         *
+         * @param string $path
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file
+         * @param string $name
+         * @param mixed $options
+         * @return string|false 
+         * @static 
+         */ 
+        public static function putFileAs($path, $file, $name, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->putFileAs($path, $file, $name, $options);
+        }
+                    /**
+         * Get the visibility for the given path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function getVisibility($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->getVisibility($path);
+        }
+                    /**
+         * Set the visibility for the given path.
+         *
+         * @param string $path
+         * @param string $visibility
+         * @return bool 
+         * @static 
+         */ 
+        public static function setVisibility($path, $visibility)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->setVisibility($path, $visibility);
+        }
+                    /**
+         * Prepend to a file.
+         *
+         * @param string $path
+         * @param string $data
+         * @param string $separator
+         * @return bool 
+         * @static 
+         */ 
+        public static function prepend($path, $data, $separator = '
+')
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->prepend($path, $data, $separator);
+        }
+                    /**
+         * Append to a file.
+         *
+         * @param string $path
+         * @param string $data
+         * @param string $separator
+         * @return bool 
+         * @static 
+         */ 
+        public static function append($path, $data, $separator = '
+')
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->append($path, $data, $separator);
+        }
+                    /**
+         * Delete the file at a given path.
+         *
+         * @param string|array $paths
+         * @return bool 
+         * @static 
+         */ 
+        public static function delete($paths)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->delete($paths);
+        }
+                    /**
+         * Copy a file to a new location.
+         *
+         * @param string $from
+         * @param string $to
+         * @return bool 
+         * @static 
+         */ 
+        public static function copy($from, $to)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->copy($from, $to);
+        }
+                    /**
+         * Move a file to a new location.
+         *
+         * @param string $from
+         * @param string $to
+         * @return bool 
+         * @static 
+         */ 
+        public static function move($from, $to)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->move($from, $to);
+        }
+                    /**
+         * Get the file size of a given file.
+         *
+         * @param string $path
+         * @return int 
+         * @static 
+         */ 
+        public static function size($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->size($path);
+        }
+                    /**
+         * Get the checksum for a file.
+         *
+         * @return string|false 
+         * @throws UnableToProvideChecksum
+         * @static 
+         */ 
+        public static function checksum($path, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->checksum($path, $options);
+        }
+                    /**
+         * Get the mime-type of a given file.
+         *
+         * @param string $path
+         * @return string|false 
+         * @static 
+         */ 
+        public static function mimeType($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->mimeType($path);
+        }
+                    /**
+         * Get the file's last modification time.
+         *
+         * @param string $path
+         * @return int 
+         * @static 
+         */ 
+        public static function lastModified($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->lastModified($path);
+        }
+                    /**
+         * Get a resource to read the file.
+         *
+         * @param string $path
+         * @return resource|null The path resource or null on failure.
+         * @static 
+         */ 
+        public static function readStream($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->readStream($path);
+        }
+                    /**
+         * Write a new file using a stream.
+         *
+         * @param string $path
+         * @param resource $resource
+         * @param array $options
+         * @return bool 
+         * @static 
+         */ 
+        public static function writeStream($path, $resource, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->writeStream($path, $resource, $options);
+        }
+                    /**
+         * Get the URL for the file at the given path.
+         *
+         * @param string $path
+         * @return string 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function url($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->url($path);
+        }
+                    /**
+         * Determine if temporary URLs can be generated.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function providesTemporaryUrls()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->providesTemporaryUrls();
+        }
+                    /**
+         * Get a temporary URL for the file at the given path.
+         *
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return string 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function temporaryUrl($path, $expiration, $options = [])
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->temporaryUrl($path, $expiration, $options);
+        }
+                    /**
+         * Get an array of all files in a directory.
+         *
+         * @param string|null $directory
+         * @param bool $recursive
+         * @return array 
+         * @static 
+         */ 
+        public static function files($directory = null, $recursive = false)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->files($directory, $recursive);
+        }
+                    /**
+         * Get all of the files from the given directory (recursive).
+         *
+         * @param string|null $directory
+         * @return array 
+         * @static 
+         */ 
+        public static function allFiles($directory = null)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->allFiles($directory);
+        }
+                    /**
+         * Get all of the directories within a given directory.
+         *
+         * @param string|null $directory
+         * @param bool $recursive
+         * @return array 
+         * @static 
+         */ 
+        public static function directories($directory = null, $recursive = false)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->directories($directory, $recursive);
+        }
+                    /**
+         * Get all the directories within a given directory (recursive).
+         *
+         * @param string|null $directory
+         * @return array 
+         * @static 
+         */ 
+        public static function allDirectories($directory = null)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->allDirectories($directory);
+        }
+                    /**
+         * Create a directory.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */ 
+        public static function makeDirectory($path)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->makeDirectory($path);
+        }
+                    /**
+         * Recursively delete a directory.
+         *
+         * @param string $directory
+         * @return bool 
+         * @static 
+         */ 
+        public static function deleteDirectory($directory)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->deleteDirectory($directory);
+        }
+                    /**
+         * Get the Flysystem driver.
+         *
+         * @return \League\Flysystem\FilesystemOperator 
+         * @static 
+         */ 
+        public static function getDriver()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->getDriver();
+        }
+                    /**
+         * Get the Flysystem adapter.
+         *
+         * @return \League\Flysystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function getAdapter()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->getAdapter();
+        }
+                    /**
+         * Get the configuration values.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getConfig()
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->getConfig();
+        }
+                    /**
+         * Define a custom temporary URL builder callback.
+         *
+         * @param \Closure $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function buildTemporaryUrlsUsing($callback)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        $instance->buildTemporaryUrlsUsing($callback);
+        }
+                    /**
+         * Apply the callback if the given "value" is (or resolves to) truthy.
+         *
+         * @template TWhenParameter
+         * @template TWhenReturnType
+         * @param \Illuminate\Filesystem\(\Closure($this):  TWhenParameter)|TWhenParameter|null $value
+         * @param \Illuminate\Filesystem\(callable($this,  TWhenParameter): TWhenReturnType)|null  $callback
+         * @param \Illuminate\Filesystem\(callable($this,  TWhenParameter): TWhenReturnType)|null  $default
+         * @return $this|\Illuminate\Filesystem\TWhenReturnType 
+         * @static 
+         */ 
+        public static function when($value = null, $callback = null, $default = null)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->when($value, $callback, $default);
+        }
+                    /**
+         * Apply the callback if the given "value" is (or resolves to) falsy.
+         *
+         * @template TUnlessParameter
+         * @template TUnlessReturnType
+         * @param \Illuminate\Filesystem\(\Closure($this):  TUnlessParameter)|TUnlessParameter|null  $value
+         * @param \Illuminate\Filesystem\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $callback
+         * @param \Illuminate\Filesystem\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $default
+         * @return $this|\Illuminate\Filesystem\TUnlessReturnType 
+         * @static 
+         */ 
+        public static function unless($value = null, $callback = null, $default = null)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->unless($value, $callback, $default);
+        }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::flushMacros();
+        }
+                    /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */ 
+        public static function macroCall($method, $parameters)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->macroCall($method, $parameters);
         }
          
     }
@@ -17075,8 +17662,8 @@
          * 
          * Alias of make for backward compatibility.
          *
-         * @param mixed $source
-         * @return mixed 
+         * @param object $source
+         * @return \Yajra\DataTables\DataTableAbstract 
          * @throws \Exception
          * @static 
          */ 
@@ -17087,9 +17674,9 @@
                     /**
          * Make a DataTable instance from source.
          *
-         * @param mixed $source
-         * @return mixed 
-         * @throws \Exception
+         * @param object $source
+         * @return \Yajra\DataTables\DataTableAbstract 
+         * @throws \Yajra\DataTables\Exceptions\Exception
          * @static 
          */ 
         public static function make($source)
@@ -17119,23 +17706,10 @@
                         return $instance->getConfig();
         }
                     /**
-         * 
-         *
-         * @deprecated Please use query() instead, this method will be removed in a next version.
-         * @param $builder
-         * @return \Yajra\DataTables\QueryDataTable 
-         * @static 
-         */ 
-        public static function queryBuilder($builder)
-        {
-                        /** @var \Yajra\DataTables\DataTables $instance */
-                        return $instance->queryBuilder($builder);
-        }
-                    /**
          * DataTables using Query.
          *
-         * @param \Illuminate\Database\Query\Builder|mixed $builder
-         * @return \Yajra\DataTables\QueryDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Contracts\Database\Query\Builder $builder
+         * @return \Yajra\DataTables\QueryDataTable 
          * @static 
          */ 
         public static function query($builder)
@@ -17146,8 +17720,8 @@
                     /**
          * DataTables using Eloquent Builder.
          *
-         * @param \Illuminate\Database\Eloquent\Builder|mixed $builder
-         * @return \Yajra\DataTables\EloquentDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Contracts\Database\Eloquent\Builder $builder
+         * @return \Yajra\DataTables\EloquentDataTable 
          * @static 
          */ 
         public static function eloquent($builder)
@@ -17158,8 +17732,8 @@
                     /**
          * DataTables using Collection.
          *
-         * @param \Illuminate\Support\Collection|array $collection
-         * @return \Yajra\DataTables\CollectionDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Support\Collection<array-key,  array>|array  $collection
+         * @return \Yajra\DataTables\CollectionDataTable 
          * @static 
          */ 
         public static function collection($collection)
@@ -17170,7 +17744,7 @@
                     /**
          * DataTables using Collection.
          *
-         * @param \Illuminate\Http\Resources\Json\AnonymousResourceCollection|array $collection
+         * @param \Illuminate\Http\Resources\Json\AnonymousResourceCollection<array-key,  array>|array  $resource
          * @return \Yajra\DataTables\ApiResourceDataTable|\Yajra\DataTables\DataTableAbstract 
          * @static 
          */ 
@@ -17183,7 +17757,7 @@
          * Get html builder instance.
          *
          * @return \Yajra\DataTables\Html\Builder 
-         * @throws \Exception
+         * @throws \Yajra\DataTables\Exceptions\Exception
          * @static 
          */ 
         public static function getHtmlBuilder()
@@ -17251,8 +17825,8 @@
          * 
          * Alias of make for backward compatibility.
          *
-         * @param mixed $source
-         * @return mixed 
+         * @param object $source
+         * @return \Yajra\DataTables\DataTableAbstract 
          * @throws \Exception
          * @static 
          */ 
@@ -17263,9 +17837,9 @@
                     /**
          * Make a DataTable instance from source.
          *
-         * @param mixed $source
-         * @return mixed 
-         * @throws \Exception
+         * @param object $source
+         * @return \Yajra\DataTables\DataTableAbstract 
+         * @throws \Yajra\DataTables\Exceptions\Exception
          * @static 
          */ 
         public static function make($source)
@@ -17295,23 +17869,10 @@
                         return $instance->getConfig();
         }
                     /**
-         * 
-         *
-         * @deprecated Please use query() instead, this method will be removed in a next version.
-         * @param $builder
-         * @return \Yajra\DataTables\QueryDataTable 
-         * @static 
-         */ 
-        public static function queryBuilder($builder)
-        {
-                        /** @var \Yajra\DataTables\DataTables $instance */
-                        return $instance->queryBuilder($builder);
-        }
-                    /**
          * DataTables using Query.
          *
-         * @param \Illuminate\Database\Query\Builder|mixed $builder
-         * @return \Yajra\DataTables\QueryDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Contracts\Database\Query\Builder $builder
+         * @return \Yajra\DataTables\QueryDataTable 
          * @static 
          */ 
         public static function query($builder)
@@ -17322,8 +17883,8 @@
                     /**
          * DataTables using Eloquent Builder.
          *
-         * @param \Illuminate\Database\Eloquent\Builder|mixed $builder
-         * @return \Yajra\DataTables\EloquentDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Contracts\Database\Eloquent\Builder $builder
+         * @return \Yajra\DataTables\EloquentDataTable 
          * @static 
          */ 
         public static function eloquent($builder)
@@ -17334,8 +17895,8 @@
                     /**
          * DataTables using Collection.
          *
-         * @param \Illuminate\Support\Collection|array $collection
-         * @return \Yajra\DataTables\CollectionDataTable|\Yajra\DataTables\DataTableAbstract 
+         * @param \Illuminate\Support\Collection<array-key,  array>|array  $collection
+         * @return \Yajra\DataTables\CollectionDataTable 
          * @static 
          */ 
         public static function collection($collection)
@@ -17346,7 +17907,7 @@
                     /**
          * DataTables using Collection.
          *
-         * @param \Illuminate\Http\Resources\Json\AnonymousResourceCollection|array $collection
+         * @param \Illuminate\Http\Resources\Json\AnonymousResourceCollection<array-key,  array>|array  $resource
          * @return \Yajra\DataTables\ApiResourceDataTable|\Yajra\DataTables\DataTableAbstract 
          * @static 
          */ 
@@ -17359,7 +17920,7 @@
          * Get html builder instance.
          *
          * @return \Yajra\DataTables\Html\Builder 
-         * @throws \Exception
+         * @throws \Yajra\DataTables\Exceptions\Exception
          * @static 
          */ 
         public static function getHtmlBuilder()
@@ -19810,6 +20371,720 @@
      
 }
 
+    namespace Livewire { 
+            /**
+     * 
+     *
+     * @see \Livewire\LivewireManager
+     */ 
+        class Livewire {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function component($alias, $viewClass = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->component($alias, $viewClass);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAlias($class, $default = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getAlias($class, $default);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getComponentAliases()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getComponentAliases();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getClass($alias)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getClass($alias);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getInstance($component, $id)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getInstance($component, $id);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function mount($name, $params = [])
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->mount($name, $params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function dummyMount($id, $tagName)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->dummyMount($id, $tagName);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function test($name, $params = [])
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->test($name, $params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function visit($browser, $class, $queryString = '')
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->visit($browser, $class, $queryString);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function actingAs($user, $driver = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->actingAs($user, $driver);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function addPersistentMiddleware($middleware)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->addPersistentMiddleware($middleware);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setPersistentMiddleware($middleware)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setPersistentMiddleware($middleware);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPersistentMiddleware()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getPersistentMiddleware();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function styles($options = [])
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->styles($options);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function scripts($options = [])
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->scripts($options);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isLivewireRequest()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isLivewireRequest();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isDefinitelyLivewireRequest()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isDefinitelyLivewireRequest();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isProbablyLivewireRequest()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isProbablyLivewireRequest();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalUrl()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalUrl();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalPath()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalPath();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function originalMethod()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->originalMethod();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRootElementTagName($dom)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getRootElementTagName($dom);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function dispatch($event, ...$params)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->dispatch($event, ...$params);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function listen($event, $callback)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->listen($event, $callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isOnVapor()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isOnVapor();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isRunningServerless()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->isRunningServerless();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function withQueryParams($queryParams)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->withQueryParams($queryParams);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function disableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->disableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function enableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->enableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function shouldDisableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->shouldDisableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function flushState()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->flushState();
+        }
+         
+    }
+     
+}
+
+    namespace Opcodes\LogViewer\Facades { 
+            /**
+     * 
+     *
+     * @see \Opcodes\LogViewer\LogViewerService
+     */ 
+        class LogViewer {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function basePathForLogs()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->basePathForLogs();
+        }
+                    /**
+         * 
+         *
+         * @return \Opcodes\LogViewer\LogFileCollection|\Opcodes\LogViewer\LogFile[] 
+         * @static 
+         */ 
+        public static function getFiles()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFiles();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getFilesGroupedByFolder()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFilesGroupedByFolder();
+        }
+                    /**
+         * Find the file with the given identifier or file name.
+         *
+         * @param string|null $fileIdentifier
+         * @return \Opcodes\LogViewer\LogFile|null 
+         * @static 
+         */ 
+        public static function getFile($fileIdentifier)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFile($fileIdentifier);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getFolder($folderIdentifier)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFolder($folderIdentifier);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function clearFileCache()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->clearFileCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteDomain()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteDomain();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRoutePrefix()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRoutePrefix();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteMiddleware()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteMiddleware();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function auth($callback = null)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->auth($callback);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function lazyScanChunkSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->lazyScanChunkSize();
+        }
+                    /**
+         * Get the maximum number of bytes of the log that we should display.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function maxLogSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->maxLogSize();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setMaxLogSize($bytes)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->setMaxLogSize($bytes);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function laravelRegexPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->laravelRegexPattern();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function logMatchPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->logMatchPattern();
+        }
+                    /**
+         * Get the current version of the Log Viewer
+         *
+         * @static 
+         */ 
+        public static function version()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->version();
+        }
+         
+    }
+     
+}
+
+    namespace Scoutapm\Laravel\Facades { 
+            /**
+     * 
+     *
+     * @see \Scoutapm\ScoutApmAgent
+     */ 
+        class ScoutApm {
+                    /**
+         * The only required arguments are the {@see Config}, and a {@see LoggerInterface} implementation.
+         *
+         * @example $agent = Agent::fromConfig(
+         *       Config::fromArray([]), // Uses default configuration, which can be overridden with environment variables
+         *       $logger // PSR-3 compatible logger, e.g. Monolog, or most framework loggers
+         *     );
+         * 
+         * If any of the other parameters are not provided, default configuration is used, which should be fine for most
+         * usual cases. Default implementations are as follows:
+         * 
+         *  - $cache - {@see DevNullCache} - i.e. no caching
+         *  - $connector - {@see SocketConnector} - supports both UNIX sockets and TCP sockets
+         *  - $extensionCapabilities - {@see PotentiallyAvailableExtensionCapabilities} or {@see DoNotInvokeAnyExtensionCapabilities} depending on configuration
+         *  - $locateFileOrFolder - {@see LocateFileOrFolderUsingFilesystem}
+         *  - $errorHandling - {@see ScoutErrorHandling} or {@see NoErrorHandling} depending on configuration
+         * @static 
+         */ 
+        public static function fromConfig($config, $logger, $cache = null, $connector = null, $extensionCapabilities = null, $locateFileOrFolder = null, $errorHandling = null)
+        {
+                        return \Scoutapm\Agent::fromConfig($config, $logger, $cache, $connector, $extensionCapabilities, $locateFileOrFolder, $errorHandling);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function connect()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->connect();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function enabled()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->enabled();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function startSpan($operation, $overrideTimestamp = null, $leafSpan = false)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->startSpan($operation, $overrideTimestamp, $leafSpan);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function stopSpan()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->stopSpan();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function instrument($type, $name, $block)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->instrument($type, $name, $block);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function webTransaction($name, $block)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->webTransaction($name, $block);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function backgroundTransaction($name, $block)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->backgroundTransaction($name, $block);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function addContext($tag, $value)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->addContext($tag, $value);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function tagRequest($tag, $value)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->tagRequest($tag, $value);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function ignored($path)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->ignored($path);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function ignore()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->ignore();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function shouldInstrument($functionality)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->shouldInstrument($functionality);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function changeRequestUri($newRequestUri)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->changeRequestUri($newRequestUri);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function recordThrowable($throwable)
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->recordThrowable($throwable);
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function send()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->send();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @static 
+         */ 
+        public static function startNewRequest()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->startNewRequest();
+        }
+                    /**
+         * {@inheritDoc}
+         *
+         * @internal 
+         * @deprecated 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+                        /** @var \Scoutapm\Agent $instance */
+                        return $instance->getRequest();
+        }
+         
+    }
+     
+}
+
     namespace Shetabit\Visitor\Facade { 
             /**
      * Class viewer
@@ -20013,6 +21288,81 @@
         {
                         /** @var \Shetabit\Visitor\Visitor $instance */
                         return $instance->isOnline($visitor, $seconds);
+        }
+         
+    }
+     
+}
+
+    namespace Spatie\Health\Facades { 
+            /**
+     * 
+     *
+     * @see \Spatie\Health\Health
+     */ 
+        class Health {
+                    /**
+         * 
+         *
+         * @param \Spatie\Health\array<int,  Check>  $checks
+         * @static 
+         */ 
+        public static function checks($checks)
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->checks($checks);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function clearChecks()
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->clearChecks();
+        }
+                    /**
+         * 
+         *
+         * @return \Spatie\Health\Collection<int, Check>
+         * @static 
+         */ 
+        public static function registeredChecks()
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->registeredChecks();
+        }
+                    /**
+         * 
+         *
+         * @return \Spatie\Health\Collection<int, ResultStore>
+         * @static 
+         */ 
+        public static function resultStores()
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->resultStores();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function inlineStylesheet($stylesheet)
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->inlineStylesheet($stylesheet);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function assets()
+        {
+                        /** @var \Spatie\Health\Health $instance */
+                        return $instance->assets();
         }
          
     }
@@ -20768,6 +22118,155 @@
         public static function permission($permissions = [])
         {
                         return \Illuminate\Routing\Route::permission($permissions);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Testing { 
+            /**
+     * 
+     *
+     * @mixin \Illuminate\Http\Response
+     */ 
+        class TestResponse {
+                    /**
+         * 
+         *
+         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
+         * @param mixed $component
+         * @static 
+         */ 
+        public static function assertSeeLivewire($component)
+        {
+                        return \Illuminate\Testing\TestResponse::assertSeeLivewire($component);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
+         * @param mixed $component
+         * @static 
+         */ 
+        public static function assertDontSeeLivewire($component)
+        {
+                        return \Illuminate\Testing\TestResponse::assertDontSeeLivewire($component);
+        }
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class TestView {
+                    /**
+         * 
+         *
+         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
+         * @param mixed $component
+         * @static 
+         */ 
+        public static function assertSeeLivewire($component)
+        {
+                        return \Illuminate\Testing\TestView::assertSeeLivewire($component);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\LivewireServiceProvider::registerTestMacros()
+         * @param mixed $component
+         * @static 
+         */ 
+        public static function assertDontSeeLivewire($component)
+        {
+                        return \Illuminate\Testing\TestView::assertDontSeeLivewire($component);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\View { 
+            /**
+     * 
+     *
+     */ 
+        class ComponentAttributeBag {
+                    /**
+         * 
+         *
+         * @see \Livewire\LivewireServiceProvider::registerViewMacros()
+         * @param mixed $name
+         * @static 
+         */ 
+        public static function wire($name)
+        {
+                        return \Illuminate\View\ComponentAttributeBag::wire($name);
+        }
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class View {
+                    /**
+         * 
+         *
+         * @see \Livewire\Macros\ViewMacros::extends()
+         * @param mixed $view
+         * @param mixed $params
+         * @static 
+         */ 
+        public static function extends($view, $params = [])
+        {
+                        return \Illuminate\View\View::extends($view, $params);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Macros\ViewMacros::layout()
+         * @param mixed $view
+         * @param mixed $params
+         * @static 
+         */ 
+        public static function layout($view, $params = [])
+        {
+                        return \Illuminate\View\View::layout($view, $params);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Macros\ViewMacros::layoutData()
+         * @param mixed $data
+         * @static 
+         */ 
+        public static function layoutData($data = [])
+        {
+                        return \Illuminate\View\View::layoutData($data);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Macros\ViewMacros::section()
+         * @param mixed $section
+         * @static 
+         */ 
+        public static function section($section)
+        {
+                        return \Illuminate\View\View::section($section);
+        }
+                    /**
+         * 
+         *
+         * @see \Livewire\Macros\ViewMacros::slot()
+         * @param mixed $slot
+         * @static 
+         */ 
+        public static function slot($slot)
+        {
+                        return \Illuminate\View\View::slot($slot);
         }
          
     }
@@ -24551,7 +26050,11 @@ namespace  {
             class Horizon extends \Laravel\Horizon\Horizon {}
             class Octane extends \Laravel\Octane\Facades\Octane {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+            class Livewire extends \Livewire\Livewire {}
+            class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
+            class ScoutApm extends \Scoutapm\Laravel\Facades\ScoutApm {}
             class Visitor extends \Shetabit\Visitor\Facade\Visitor {}
+            class Health extends \Spatie\Health\Facades\Health {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
             class Signal extends \Spatie\SignalAwareCommand\Facades\Signal {}
             class DataTables extends \Yajra\DataTables\Facades\DataTables {}

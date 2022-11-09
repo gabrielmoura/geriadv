@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'path' => env('HORIZON_PATH', 'horizon'),
+    'path' => env('HORIZON_PATH', 'sys/horizon'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_horizon:'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
     ),
 
     /*
@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware' => ['web', 'auth', 'role:admin'],
 
     /*
     |--------------------------------------------------------------------------
@@ -163,9 +163,8 @@ return [
     | queued jobs and will be provisioned by Horizon during deployment.
     |
     */
-
     'defaults' => [
-        'supervisor-1' => [
+        'supervisor-d1' => [
             'connection' => 'redis',
             'queue' => ['default'],
             'balance' => 'auto',
@@ -174,23 +173,64 @@ return [
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 1,
-            'timeout' => 60*60*60,
+            'timeout' => 60 * 60 * 60,
             'nice' => 0,
         ],
+        'supervisor-h1' => [
+            'connection' => 'redis',
+            'queue' => ['high'],
+            'balance' => 'auto',
+            'maxProcesses' => 1,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 128,
+            'tries' => 1,
+            'timeout' => 60 * 60 * 60,
+            'nice' => 0,
+        ],
+        'supervisor-l1' => [
+            'connection' => 'redis',
+            'queue' => ['low'],
+            'balance' => 'auto',
+            'maxProcesses' => 1,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 128,
+            'tries' => 1,
+            'timeout' => 60 * 60 * 60,
+            'nice' => 0,
+        ],
+
     ],
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'supervisor-d1' => [
+                'maxProcesses' => 5,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'supervisor-h1' => [
                 'maxProcesses' => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'supervisor-l1' => [
+                'maxProcesses' => 1,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'supervisor-d1' => [
+                'maxProcesses' => 2,
+            ],
+            'supervisor-h1' => [
                 'maxProcesses' => 3,
+            ],
+            'supervisor-l1' => [
+                'maxProcesses' => 1,
             ],
         ],
     ],

@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name Nome
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereUserId($value)
+ * @property int|null $company_id Empresa
+ * @method static \Illuminate\Database\Eloquent\Builder|Recommendation whereCompanyId($value)
  */
 class Recommendation extends Model
 {

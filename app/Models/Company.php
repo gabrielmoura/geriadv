@@ -73,6 +73,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $calendars_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lawyer[] $lawyers
  * @property-read int|null $lawyers_count
+ * @property string $pid Public ID
+ * @method static \Illuminate\Database\Eloquent\Builder|Company wherePid($value)
  */
 class Company extends Model implements HasMedia
 {

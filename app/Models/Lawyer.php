@@ -51,6 +51,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @mixin \Eloquent
  * @property int $company_id Empresa
  * @method static \Illuminate\Database\Eloquent\Builder|Lawyer whereCompanyId($value)
+ * @property string $pid Public ID
+ * @method static \Illuminate\Database\Eloquent\Builder|Lawyer wherePid($value)
  */
 class Lawyer extends Model
 {

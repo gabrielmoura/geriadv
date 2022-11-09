@@ -26,6 +26,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereUpdatedAt($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
+ * @property int|null $employee_id Employee
+ * @method static \Illuminate\Database\Eloquent\Builder|Note whereEmployeeId($value)
  */
 class Note extends Model
 {

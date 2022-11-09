@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::middleware(['role:admin'])->get('/health',\Spatie\Health\Http\Controllers\HealthCheckJsonResultsController::class);
         Route::middleware(['ability:analytics'])->group(function () {
             Route::get('/analytics', [AnalyticsApiController::class, 'index']);
             Route::get('/analytic/{id}', [AnalyticsApiController::class, 'company']);

@@ -12,13 +12,95 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Shetabit\Visitor\Traits\Visitable;
-use App\Actions\Payment\PaymentTrait;
 use Illuminate\Database\Eloquent\Prunable;
 use Laravel\Scout\Searchable;
 
+/**
+ * App\Models\Clients
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string $pid Public ID
+ * @property int|null $recommendation_id Recomendações
+ * @property int|null $pendency_id Pendencias
+ * @property int|null $benefit_id Benefícios
+ * @property int|null $company_id Empresa
+ * @property string|null $name
+ * @property string|null $last_name
+ * @property mixed $cpf
+ * @property mixed|null $rg
+ * @property string|null $email
+ * @property string|null $tel0 telefone
+ * @property string|null $tel1
+ * @property string|null $sex Sexo
+ * @property string|null $birth_date Data de nascimento
+ * @property int|null $cep
+ * @property string|null $address Endereço
+ * @property int $number Numero
+ * @property string|null $complement Complemento
+ * @property string $district Bairro
+ * @property string $city Cidade
+ * @property string $state Estado
+ * @property \Illuminate\Support\Collection|null $properties Propriedades
+ * @property \Illuminate\Support\Collection $payment Pagamento
+ * @property int|null $lawyer_id Advogado
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Benefits|null $benefit
+ * @property-read string $full_name
+ * @property-read bool $paid
+ * @property-read int $parcel
+ * @property-read float $parcel_value
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\Note|null $note
+ * @property-read \App\Models\Pendencies|null $pendency
+ * @property-read \App\Models\Recommendation|null $recommendation
+ * @property-read \App\Models\ClientStatus|null $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Shetabit\Visitor\Models\Visit[] $visitLogs
+ * @property-read int|null $visit_logs_count
+ * @method static \Database\Factories\ClientsFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Clients onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereBenefitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereComplement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCpf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereDistrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereLawyerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePayment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePendencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients wherePid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereProperties($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereRecommendationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereRg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel0($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereTel1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Clients whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Clients withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Clients withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Clients extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, PaymentTrait;
+    use HasFactory, InteractsWithMedia;
     use SoftDeletes, LogsActivity, Visitable, Prunable;
     use Searchable;
 

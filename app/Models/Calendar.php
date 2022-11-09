@@ -52,6 +52,8 @@ use Illuminate\Support\Str;
  * @property-read \App\Models\Lawyer|null $lawyer
  * @method static \Illuminate\Database\Eloquent\Builder|Calendar whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Calendar whereLawyerId($value)
+ * @property string $pid Public ID
+ * @method static \Illuminate\Database\Eloquent\Builder|Calendar wherePid($value)
  */
 class Calendar extends Model
 {
