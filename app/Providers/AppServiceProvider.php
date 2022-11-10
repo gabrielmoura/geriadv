@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 
-use Illuminate\Support\Facades\Auth;
-use Opcodes\LogViewer\Facades\LogViewer;
 use App\Actions\Payment\{Payment, PaymentFacade, PaymentInterface};
 use Illuminate\Support\Facades\DB;
 use App\Models\Calendar;
@@ -68,12 +66,12 @@ class AppServiceProvider extends ServiceProvider
             Log::error('Job failed: ' . $event->job->resolveName() . '(' . $event->exception->getMessage() . ')');
         });
         Queue::before(function (JobProcessing $event) {
-            Log::info('Job ready: ' . $event->job->resolveName());
-            Log::info('Job startet: ' . $event->job->resolveName());
+            Log::debug('Job ready: ' . $event->job->resolveName());
+            Log::debug('Job startet: ' . $event->job->resolveName());
         });
 
         Queue::after(function (JobProcessed $event) {
-            Log::notice('Job done: ' . $event->job->resolveName());
+            Log::debug('Job done: ' . $event->job->resolveName());
         });
 
         Queue::looping(function () {

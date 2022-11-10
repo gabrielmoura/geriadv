@@ -45,7 +45,8 @@
         "webmasterdro/paghiper-php-sdk": "^3.0",
         "yajra/laravel-datatables-buttons": "^9.0",
         "yajra/laravel-datatables-html": "^9.0",
-        "yoeunes/toastr": "^1.2"
+        "yoeunes/toastr": "^1.2",
+        "laravel/sail": "^1.16"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -53,7 +54,6 @@
         "beyondcode/laravel-query-detector": "^1.6",
         "fakerphp/faker": "^1.9.1",
         "laravel/homestead": "^13.0",
-        "laravel/sail": "^1.16",
         "laravel/telescope": "^4.6",
         "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.2",
