@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @section('title', 'Empresas')
-@section('page-header') Empresa @endsection
+@section('page-header')
+    Empresa
+@endsection
 @section('content')
-
-
 
     <div class="container-fluid">
         <h3 class="text-dark mb-4">{{$company->name}}</h3>
@@ -228,12 +228,12 @@
 @push('js')
     <script type="text/javascript">
         let ban = function (companyID) {
-            axios.post('{{route('ajax.ban')}}', {company: companyID})
+            axios.post('{{route('ajax.company.ban')}}', {company: companyID})
                 .then(function (response) {
                     document.location.reload(true);
                 });
         }, unban = function (companyID) {
-            axios.post('{{route('ajax.unban')}}', {company: companyID})
+            axios.post('{{route('ajax.company.unban')}}', {company: companyID})
                 .then(function (response) {
                     document.location.reload(true);
                 });

@@ -43,7 +43,7 @@ class ClientController extends Controller
     {
         $client = Clients::with(['pendency', 'benefit', 'recommendation', 'status', 'media'])->wherePid($slug)
             ->where('company_id', $this->getCompanyId())
-            ->first();
+            ->firstOrFail();
         $pendency = $client->pendency;
         return view('admin.client.show', compact('client', 'pendency'));
     }
@@ -139,7 +139,7 @@ class ClientController extends Controller
      */
     public function edit($slug)
     {
-        $client = Clients::wherePid($slug)->first();
+        $client = Clients::wherePid($slug)->firstOrFail();
         if ($client->company_id != $this->getCompanyId()) {
             return abort(403, 'Nenhum Resultado Encontrado');
         }
@@ -167,7 +167,7 @@ class ClientController extends Controller
 
 
         $client = DB::transaction(function () use ($data, $slug) {
-            $client = Clients::wherePid($slug)->first();
+            $client = Clients::wherePid($slug)->firstOrFail();
             if ($client->company_id != $this->getCompanyId()) {
                 return abort(403);
             }
@@ -182,7 +182,7 @@ class ClientController extends Controller
      */
     public function destroy($slug)
     {
-        $client = Clients::wherePid($slug);
+        $client = Clients::wherePid($slug)->firstOrFail();
         if ($client->delete()) {
             toastr()->success('Cliente: ' . $client->name . ' removido com sucesso');
             return redirect()->route('admin.clients.index');

@@ -38,7 +38,7 @@ class ClientDataTable extends DataTable
                 return (!!$data->benefit) ? __($data->benefit->name) : null;
             })
             ->addColumn('status', function ($data) {
-                return (!!$data->status) ? __('view.' . $data->status->status) : null;
+                return $this->benefitStatus($data);
             })
             ->addColumn('lastupdate', function ($data) {
                 return (!!$data->status) ? date_format($data->status->created_at, 'd/m/Y h:i') : null;
@@ -56,7 +56,7 @@ class ClientDataTable extends DataTable
             ->filterColumn('benefit', function ($query, $keyword) {
                 return $query->where('benefit.name', 'LIKE', ["%{$keyword}%"]);
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->smart(true) // Pesquisa inteligente em tempo de execução
 //            ->addColumn('action', 'clientdatatable.action')
             ->setRowId('id');
@@ -83,6 +83,19 @@ class ClientDataTable extends DataTable
 
     }
 
+    private function benefitStatus($data)
+    {
+        if (!!$data->status) {
+            $case = $data->status->status;
+            if ($case == 'deferred') {
+                return '<span class="badge badge-success">' . __('view.' . $case) . '</span>';
+            } else {
+                return '<span class="badge badge-warning">' . __('view.' . $case) . '</span>';
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Get query source of dataTable.
@@ -100,7 +113,7 @@ class ClientDataTable extends DataTable
         }
 
         if ($request->has('month') && !is_null($request->month)) {
-             $clients->whereMonth('created_at', $request->month);
+            $clients->whereMonth('created_at', $request->month);
         }
         if ($request->has('sex') && !is_null($request->sex)) {
             $clients->whereSex($request->sex);
@@ -112,15 +125,15 @@ class ClientDataTable extends DataTable
             $clients->whereState($request->state);
         }
         if ($request->has('district') && !is_null($request->district)) {
-             $clients->whereDistrict($request->district);
+            $clients->whereDistrict($request->district);
         }
         if ($request->has('status') && !is_null($request->status)) {
-             $clients->whereHas('status', function ($query) use ($request) {
+            $clients->whereHas('status', function ($query) use ($request) {
                 $query->where('status', 'like', $request->status);
             });
         }
         if ($request->has('recommendation') && !is_null($request->recommendation)) {
-          $clients->whereHas('recommendation', function ($query) use ($request) {
+            $clients->whereHas('recommendation', function ($query) use ($request) {
                 $query->where('name', 'like', $request->recommendation);
             });
         }
@@ -172,7 +185,7 @@ class ClientDataTable extends DataTable
             Column::make('birth_date', 'birth_date')->title('Data de Nascimento'),
             Column::make('cpf', 'cpf')->title('CPF'),
             Column::make('benefit', 'benefit.name')->title('Beneficio'),
-            Column::make('status', 'status.status')->title('Status'),
+            Column::make('status', 'status.status')->title('Status')->orderable(false),
             Column::make('lastupdate', 'status.created_at')->title('Ultima Modificação')->searchable(false),
             Column::computed('action')
                 ->exportable(false)

@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Controllers\Adm\EmployeeController;
 use App\Mail\Client\GenericMail;
 use App\Models\Benefits;
 use App\Models\Clients;
 use App\Models\ClientStatus;
 use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Note;
 use App\Models\UserOrder;
+use App\Traits\CompanySessionTraits;
 use Cagartner\CorreiosConsulta\Facade as Correios;
 use Canducci\ZipCode\Facades\ZipCode;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -26,7 +30,7 @@ use Illuminate\Support\Facades\Route;
  */
 class AjaxController extends Controller
 {
-
+    use CompanySessionTraits;
 
     /**
      * Retorna Todas as Rotas
@@ -271,7 +275,7 @@ class AjaxController extends Controller
     {
         $this->middleware('role:admin');
 
-        $company = Company::find($request->company);
+        $company = Company::findOrFail($request->company);
         $company->banned = true;
 
         if ($company->save()) {
@@ -292,7 +296,7 @@ class AjaxController extends Controller
     {
         $this->middleware('role:admin');
 
-        $company = Company::find($request->company);
+        $company = Company::findOrFail($request->company);
         $company->banned = false;
         if ($company->save()) {
             toastr()->success('Desbanido com sucesso.');
@@ -300,6 +304,54 @@ class AjaxController extends Controller
             return response()->json([], 200);
         }
         return response()->json([], 422);
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|never
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function banEmployee(Request $request)
+    {
+        $this->middleware('role:manager');
+
+        $employee = Employee::where('company_id', $this->getCompanyId())
+            ->where('pid', $request->pid)
+            ->firstOrFail();
+        $employee->banned = true;
+
+        if ($employee->save()) {
+            toastr()->success('Ativado com sucesso.');
+            cache()->forget('user:' . $employee->user()->first()->id);
+            return response()->json('ok');
+        }
+        return abort(422);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|never
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function unBanEmployee(Request $request)
+    {
+        $this->middleware('role:manager');
+
+        $employee = Employee::where('company_id', $this->getCompanyId())
+            ->where('pid', $request->pid)
+            ->firstOrFail();
+        $employee->banned = false;
+        if ($employee->save()) {
+            toastr()->success('Desativado com sucesso.');
+            cache()->forget('user:' . $employee->user()->first()->id);
+            return response()->json('ok');
+        }
+        return abort(422);
 
     }
 }

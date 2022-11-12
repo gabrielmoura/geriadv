@@ -24,8 +24,19 @@ class EmployeeDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', fn($eployee) => $this->action($eployee))
+            ->addColumn('status', fn($employee) => $this->status($employee))
+            ->addColumn('action', fn($employee) => $this->action($employee))
+            ->rawColumns(['status', 'action'])
             ->setRowId('id');
+    }
+
+    /**
+     * @param Employee $employee
+     * @return string
+     */
+    private function status(Employee $employee)
+    {
+        return ($employee->banned) ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-secondary">Inativo</span>';
     }
 
     /**
@@ -89,6 +100,11 @@ class EmployeeDataTable extends DataTable
             Column::make('address', 'address')->title('Endereços'),
             Column::make('birth_date', 'birth_date')->title('Data de Nascimento'),
             Column::make('cpf', 'cpf')->title('CPF')->searchable(false),
+            Column::computed('status')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')->title('Status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
