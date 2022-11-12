@@ -13,6 +13,7 @@
                 <th>Endereço</th>
                 <th>Email</th>
                 <th>Telefone</th>
+                <th>Status</th>
                 <th>Ação</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                 <th>Endereço</th>
                 <th>Email</th>
                 <th>Telefone</th>
+                <th>Status</th>
                 <th>Ação</th>
             </tr>
             </tfoot>
@@ -36,6 +38,7 @@
                     <td>{{$company->address}}</td>
                     <td>{{$company->email}}</td>
                     <td class="tel">{{$company->tel0}}</td>
+                    <td>{!! ($company->banned)?'<span class="badge badge-secondary">Inativo</span>':'<span class="badge badge-success">Ativo</span>' !!}</td>
                     <td><a href="{{route('admin.company.show',['company'=>$company->id])}}">
                             <i class="fa fa-eye"></i>
                         </a>|<a href="{{route('admin.company.edit',['company'=>$company->id])}}">

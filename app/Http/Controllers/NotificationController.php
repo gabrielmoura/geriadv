@@ -10,6 +10,7 @@ use App\Notifications\User\PrivateMessageNotification;
 use App\Traits\CompanySessionTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
 use NotificationChannels\WebPush\PushSubscription;
 
@@ -51,12 +52,15 @@ class NotificationController extends Controller
 
         $to = [];
         if ($this->hasRole('admin')) {
-            $to = $this->generateList(User::with(['employee', 'company', 'roles'])->get());
+            $to = Cache::remember('notification:toAdmin', 60 * 60 * 24, function () {
+                return $this->generateList(User::with(['employee', 'company', 'roles'])->get());
+            });
         } else {
             foreach ($this->getCompany()->users as $item) {
                 $to[] = ['name' => $item->user->name, 'value' => $item->user->id];
             };
         }
+
         return view('profile.createNotification', compact('form', 'to'));
     }
 
